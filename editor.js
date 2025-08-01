@@ -215,7 +215,7 @@ $(() => {
 				return;
 			}
 
-			let rolls = history.join('<br>');
+			let rolls = '<ul class="history"><li>' + history.join('</li><li>') + '</li></ul>';
 			popup('Dice History', rolls);
 		});
 
@@ -614,6 +614,7 @@ $(() => {
 		if (reroll) {
 			addStrain(1);
 			$tray.find('#dieSlot:has([data-rolled="6"])').addClass('keep').prependTo('#popup #dice');
+			$dice = $('#popup .die');
 			let pushes = parseInt($tray.data('pushes') || 0) + 1;
 			$tray.data('pushes', pushes);
 		}
@@ -667,27 +668,30 @@ $(() => {
 					}
 					$die.addClass('rolled').attr('data-rolled', face);
 
+					console.log('editor.js; line:671; d, $dice.length:', d, $dice.length);
 					if (d == $dice.length - 1) {
-						if ($tray.hasClass('halos')) {
-							let pushes = parseInt($tray.data('pushes') || 0) + 1;
-							$('#popup #roll').html('push #' + pushes).data('push', true);
-						}
 						$('#roll').removeAttr('disabled');
-
+						let time = new Date().toLocaleTimeString();
 						let title = $('#popupTitle').html();
 						let roll = '';
 
-						if ($tray.hasClass('total')) {
+						if ($tray.hasClass('halos')) {
+							let pushes = parseInt($tray.data('pushes') || 0) + 1;
+							$('#popup #roll').html('push #' + pushes).data('push', true);
+
+							if (pushes > 0) {
+								title += ' #' + pushes;
+							}
+							roll += `${$dice.length}d6; Success: ${successes}; Strain: ${failures};`;
+						} else {
 							if (start > 0) {
 								roll = `${start} + ${$dice.length}d6 (${total}) = ${result}`;
 							} else {
 								roll += `${$dice.length}d6 = ${result}`;
 							}
-						} else {
-							roll += `${$dice.length}d6; Success: ${successes}; Strain: ${failures};`;
 						}
 
-						history.push(`${title}: ${roll}`);
+						history.unshift(`${time} ${title}: ${roll}`);
 					}
 				}, timer);
 			}
