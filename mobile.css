@@ -1,0 +1,32 @@
+@media screen and (max-width: 600px) {
+	h1 {
+		min-height: 150px;
+	}
+	
+	section {
+		grid-template-columns: auto;
+	}
+
+	fieldset.random {
+		display: flex;
+	}
+
+	.bio {
+		flex-direction: column;
+		text-align: center;
+	}
+
+	#show_skills {
+		display: grid;
+		grid-template-columns: repeat(6, 1fr);
+	}
+
+	.buttons {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+	}
+
+	.buttons > * {
+		width: auto !important;
+	}
+}

@@ -1,0 +1,2038 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"tex",
+				"text-transform"
+			],
+			[
+				"text",
+				"text-decoration"
+			],
+			[
+				"class",
+				"className"
+			],
+			[
+				"padidng",
+				"padding-bottom"
+			],
+			[
+				"border",
+				"border-radius"
+			],
+			[
+				"inlin",
+				"inline-block"
+			],
+			[
+				"rep",
+				"replaceWith()"
+			],
+			[
+				"append",
+				"appendTo()"
+			],
+			[
+				"list-",
+				"list-style-type"
+			],
+			[
+				"quer",
+				"querySelectorAll()"
+			],
+			[
+				"slic",
+				"slick-track"
+			],
+			[
+				"slick-",
+				"slick-slide"
+			],
+			[
+				"po",
+				"position"
+			],
+			[
+				"trans",
+				"transform"
+			],
+			[
+				"auto",
+				"autocomplete"
+			],
+			[
+				"max",
+				"max_width"
+			],
+			[
+				"inl",
+				"inline-block"
+			],
+			[
+				"first-",
+				"first-of-type::"
+			],
+			[
+				"c-grey",
+				"c-grey-dark"
+			],
+			[
+				"quote__",
+				"quote__logo"
+			],
+			[
+				"c-",
+				"c-tertiary"
+			],
+			[
+				"ce",
+				"$ce3e3e3\tcolour_lightest"
+			],
+			[
+				"quali",
+				"qualifying"
+			],
+			[
+				"getVi",
+				"getVirtualProperty()"
+			],
+			[
+				"prop",
+				"property"
+			],
+			[
+				"get",
+				"getName()"
+			],
+			[
+				"c",
+				"c-beige"
+			],
+			[
+				"a",
+				"addEventListener"
+			],
+			[
+				"getE",
+				"getElementById"
+			],
+			[
+				"errr",
+				"error_log"
+			],
+			[
+				"c-gr",
+				"c-grey-darkest"
+			],
+			[
+				"response",
+				"responseArray"
+			],
+			[
+				"in",
+				"invokeArgs"
+			],
+			[
+				"err",
+				"error_log"
+			],
+			[
+				"getId",
+				"getOrderId() ."
+			],
+			[
+				"getProd",
+				"getProducts"
+			],
+			[
+				"spa",
+				"space-between"
+			],
+			[
+				"accou",
+				"account-orders__view-order"
+			],
+			[
+				"Con",
+				"Content_Sitemap"
+			],
+			[
+				"log",
+				"login"
+			],
+			[
+				"Store",
+				"Store_Settings"
+			],
+			[
+				"rem",
+				"remove()"
+			],
+			[
+				"s",
+				"querySelectorAll()"
+			],
+			[
+				"back",
+				"background"
+			],
+			[
+				"algol",
+				"algoliaId"
+			],
+			[
+				"count",
+				"countryCode"
+			],
+			[
+				"getPr",
+				"getProduct()"
+			],
+			[
+				"over",
+				"overrideResource"
+			],
+			[
+				"D3R_M",
+				"D3R_Model"
+			],
+			[
+				"co",
+				"contains()"
+			],
+			[
+				"Core",
+				"Core_AdminUser"
+			],
+			[
+				"fiel",
+				"fields"
+			],
+			[
+				"hidd",
+				"hiddenFiltersQs"
+			],
+			[
+				"hidden",
+				"hiddenQs"
+			],
+			[
+				"getFi",
+				"getFilterQs()"
+			],
+			[
+				"hidde",
+				"hiddenParams"
+			],
+			[
+				"vi",
+				"visualFilter"
+			],
+			[
+				"v",
+				"visualFilter"
+			],
+			[
+				"Ali",
+				"AlgoliaMeta[]"
+			],
+			[
+				"pr",
+				"product"
+			],
+			[
+				"pers",
+				"personalisation"
+			],
+			[
+				"header",
+				"headerSet"
+			],
+			[
+				"badge",
+				"badgeHtml"
+			],
+			[
+				"per",
+				"persoPrice"
+			],
+			[
+				"getPerson",
+				"getPersonalisationPrice()"
+			],
+			[
+				"getPerso",
+				"getPersonalisationPrice()"
+			],
+			[
+				"prod",
+				"product_group"
+			],
+			[
+				"Products",
+				"Products_Pricing"
+			],
+			[
+				"trigger",
+				"triggerProducts"
+			],
+			[
+				"par",
+				"parent_offer"
+			],
+			[
+				"cust",
+				"customers"
+			],
+			[
+				"D",
+				"D3R_Db_Select()"
+			],
+			[
+				"appl",
+				"isApplicable"
+			],
+			[
+				"p",
+				"product"
+			],
+			[
+				"Prod",
+				"Products_Stockitem"
+			],
+			[
+				"getStart",
+				"getStartField"
+			],
+			[
+				"col",
+				"column ."
+			],
+			[
+				"con",
+				"contentClasses"
+			],
+			[
+				"margin",
+				"margin-bottom"
+			],
+			[
+				"Gi",
+				"GiftBoxLine"
+			],
+			[
+				"fly",
+				"flyout-basket"
+			],
+			[
+				"strp",
+				"strpos"
+			],
+			[
+				"remove",
+				"removeClass()"
+			],
+			[
+				"time",
+				"timeframe"
+			],
+			[
+				"first",
+				"first-of-type"
+			],
+			[
+				"getuid",
+				"getmyuid"
+			],
+			[
+				"d",
+				"duplicated"
+			],
+			[
+				"includId",
+				"includeIdInImport"
+			],
+			[
+				"of",
+				"offer"
+			],
+			[
+				"ero",
+				"error_log"
+			],
+			[
+				"array_fi",
+				"array_filter"
+			],
+			[
+				"D3",
+				"D3R_Model"
+			],
+			[
+				"bad",
+				"badges"
+			],
+			[
+				"ove",
+				"overrides"
+			],
+			[
+				"jse",
+				"json_decode"
+			],
+			[
+				"label",
+				"labelOverrides"
+			],
+			[
+				"de",
+				"delete"
+			],
+			[
+				"related",
+				"related_sku"
+			],
+			[
+				"depe",
+				"dependent"
+			],
+			[
+				"array_ke",
+				"array_keys"
+			],
+			[
+				"text-",
+				"text-align"
+			],
+			[
+				"b",
+				"base_url"
+			],
+			[
+				"json_",
+				"json_encode"
+			],
+			[
+				"update",
+				"updateEmarsysDetails"
+			],
+			[
+				"Products_",
+				"Products_Product"
+			],
+			[
+				"curren",
+				"currencies"
+			],
+			[
+				"o",
+				"options"
+			],
+			[
+				"customer_ema",
+				"customer_email_optin"
+			],
+			[
+				"customer_em",
+				"customer_email"
+			],
+			[
+				"array_un",
+				"array_unique"
+			],
+			[
+				"grid-te",
+				"grid-template-columns"
+			],
+			[
+				"Cate",
+				"Categories_Category::"
+			],
+			[
+				"D3R_Mode",
+				"D3R_Model_Collection"
+			],
+			[
+				"li",
+				"listing"
+			],
+			[
+				"aspe",
+				"aspect_ratio"
+			],
+			[
+				"c-grey-li",
+				"c-grey-light"
+			],
+			[
+				"c-gre",
+				"c-grey-mid"
+			],
+			[
+				"c-b",
+				"c-black"
+			],
+			[
+				"visual-sele",
+				"visual-selector"
+			],
+			[
+				"find",
+				"findFirstById()"
+			],
+			[
+				"data",
+				"dataset."
+			],
+			[
+				"curre",
+				"current_offers"
+			],
+			[
+				"getEle",
+				"getElementById()"
+			],
+			[
+				"mod",
+				"modifier"
+			],
+			[
+				"q",
+				"querySelector()"
+			],
+			[
+				"blo",
+				"block"
+			],
+			[
+				"clos",
+				"closest()"
+			],
+			[
+				"66",
+				"$c666666\tcolour_dark"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "editor.js",
+			"settings":
+			{
+				"buffer_size": 5931,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 273.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"js",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"scss",
+				"Set Syntax: SCSS"
+			],
+			[
+				"synt",
+				"Set Syntax: Sass"
+			],
+			[
+				"disabl",
+				"Package Control: Disable Package"
+			],
+			[
+				"enable ",
+				"Package Control: Enable Package"
+			],
+			[
+				"install p",
+				"Package Control: Install Package"
+			],
+			[
+				"remove pac",
+				"Package Control: Remove Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"instal ",
+				"Package Control: Install Package"
+			],
+			[
+				"twig",
+				"Set Syntax: Nunjucks (Twig)"
+			],
+			[
+				"json",
+				"Indent JSON"
+			],
+			[
+				"java",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"html",
+				"HTMLBeautify"
+			],
+			[
+				"select m",
+				"Bookmarks: Select All"
+			],
+			[
+				"convert",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"php",
+				"Set Syntax: PHP"
+			],
+			[
+				"sass",
+				"Set Syntax: Sass"
+			],
+			[
+				"xml",
+				"Indent XML"
+			],
+			[
+				"space",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"sql",
+				"SQL Beautifier: Format Current SQL File"
+			],
+			[
+				"syncscroll",
+				"SyncScroll: Toggle Current View Scroll Sync"
+			],
+			[
+				"packa",
+				"Package Control: Install Package"
+			],
+			[
+				"jav",
+				"Javascript Beautify"
+			],
+			[
+				"JSON",
+				"Indent JSON"
+			],
+			[
+				"spaces",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"switchwi",
+				"GotoWindow: Switch Window"
+			],
+			[
+				"jas",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"deco",
+				"URL Decode"
+			],
+			[
+				"jsn",
+				"Indent JSON"
+			],
+			[
+				"useP",
+				"Set Syntax: ClojureScript"
+			],
+			[
+				"jso",
+				"Indent JSON"
+			],
+			[
+				"synta",
+				"Set Syntax: CSS"
+			],
+			[
+				"match",
+				"Jump to Matching Bracket"
+			],
+			[
+				"comm",
+				"Toggle Comment"
+			],
+			[
+				"auth",
+				"Snippet: author"
+			],
+			[
+				"au",
+				"Snippet: author"
+			],
+			[
+				"jsa",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"switch win",
+				"GotoWindow: Switch Window"
+			],
+			[
+				"autho",
+				"Snippet: author"
+			],
+			[
+				"ja",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"aut",
+				"Snippet: author"
+			],
+			[
+				"author",
+				"Snippet: author"
+			],
+			[
+				"a",
+				"Snippet: author"
+			],
+			[
+				"tabs",
+				"Indentation: Convert to Tabs"
+			],
+			[
+				"conver",
+				"Indentation: Convert to Tabs"
+			],
+			[
+				"css",
+				"Set Syntax: CSS"
+			],
+			[
+				"sort",
+				"Sort Tabs: Menu"
+			],
+			[
+				"spac",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"htm",
+				"Set Syntax: HTML"
+			],
+			[
+				"j",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"doc",
+				"Snippet: Start Docblock"
+			],
+			[
+				"log",
+				"Snippet: log-line"
+			],
+			[
+				"logl",
+				"Snippet: log-line"
+			],
+			[
+				"docb",
+				"Snippet: Start Docblock"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"syntax",
+				"Set Syntax: C#"
+			],
+			[
+				"viewer",
+				"PackageResourceViewer: Edit Package Resource"
+			],
+			[
+				"PackageResourceViewer",
+				"PackageResourceViewer: Edit Package Resource"
+			],
+			[
+				"athor",
+				"Snippet: author"
+			],
+			[
+				"ht",
+				"HTMLBeautify"
+			],
+			[
+				"forma",
+				"Format CSS: Expanded"
+			],
+			[
+				"rein",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"reind",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"list",
+				"Package Control: List Packages"
+			],
+			[
+				"aurt",
+				"Snippet: author"
+			],
+			[
+				"blatt",
+				"Snippet: log-blatt"
+			],
+			[
+				"db",
+				"Build: New Build System"
+			],
+			[
+				"add",
+				"Add DocBlock"
+			],
+			[
+				"tab",
+				"Indentation: Convert to Tabs"
+			],
+			[
+				"num",
+				"Text Pastry: Range (numeric)"
+			],
+			[
+				"adfd",
+				"Project: Add Folder"
+			],
+			[
+				"",
+				"Add DocBlock"
+			],
+			[
+				"lorem",
+				"Snippet: Lorem ipsum"
+			],
+			[
+				"ad",
+				"Add DocBlock"
+			],
+			[
+				"textpast",
+				"Text Pastry: Menu"
+			],
+			[
+				"pastry",
+				"Text Pastry: Range (numeric)"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"color",
+				"Color Scheme Editor: Edit current color scheme"
+			],
+			[
+				"theme",
+				"UI: Select Color Scheme"
+			],
+			[
+				"javasc",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"setsynpl",
+				"Set Syntax: Plain Text"
+			],
+			[
+				"spa",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"inde",
+				"Indent XML"
+			],
+			[
+				"x",
+				"Indent XML"
+			],
+			[
+				"aspaces",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"table",
+				"TabsToTable"
+			],
+			[
+				"swap",
+				"Swap Selections"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"docblock",
+				"DocBlockr: Decorate line comment"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"indent",
+				"Indent XML"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ins",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 522.0
+	},
+	"console":
+	{
+		"height": 471.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '5b468e895e861582c8ac080daaae7722' + 'a0787a887fb19723f006ed5b020ffdf6'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/jasonshallcross/Library/CloudStorage/Dropbox/Dev/Streetwise"
+	],
+	"file_history":
+	[
+		"/Users/jasonshallcross/Library/CloudStorage/Dropbox/Dev/Streetwise/streetwise.sublime-project",
+		"/Users/jasonshallcross/Downloads/sites3.csv",
+		"/Users/jasonshallcross/EnvSwitcher/changelog.txt",
+		"/Users/jasonshallcross/EnvSwitcher/Extension/manifest.json",
+		"/Users/jasonshallcross/EnvSwitcher/Extension/html/options.html",
+		"/Users/jasonshallcross/Library/CloudStorage/Dropbox/Dev/Streetwise/index.html",
+		"/Users/jasonshallcross/Library/CloudStorage/Dropbox/Dev/Streetwise/editor.js",
+		"/Users/jasonshallcross/Library/CloudStorage/Dropbox/Dev/Streetwise/streetwise.css",
+		"/Users/jasonshallcross/EnvSwitcher/Extension/js/popup.js",
+		"/Users/jasonshallcross/EnvSwitcher/Extension/js/options.js",
+		"/Users/jasonshallcross/Downloads/Jason-Shallcross.json",
+		"/Users/jasonshallcross/EnvSwitcher/js/popup.js",
+		"/Users/jasonshallcross/EnvSwitcher/html/options.html",
+		"/Users/jasonshallcross/Documents/envswitcher.sublime-project",
+		"/Users/jasonshallcross/EnvSwitcher/html/popup.html",
+		"/Users/jasonshallcross/EnvSwitcher/css/options.css",
+		"/Users/jasonshallcross/EnvSwitcher/css/popup.css",
+		"/Users/jasonshallcross/EnvSwitcher/manifest.json",
+		"/Users/jasonshallcross/EnvSwitcher/js/options.js",
+		"/Users/jasonshallcross/EnvSwitcher 2/changelog.txt",
+		"/Users/jasonshallcross/EnvSwitcher/README.md",
+		"/Users/jasonshallcross/Downloads/sites2.csv",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/modules/Products/views/show.twig",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/modules/Products/models/Products_Product.php",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/resources/javascript/recommend.js",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/config/app.php",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/config/cron",
+		"/Users/jasonshallcross/Library/CloudStorage/Dropbox/Documents/snippets.txt",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/modules/Products/models/Products_Customised.php",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/resources/sass/components/_fields.scss",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/modules/Products/views/partials/editGiftwrap.html",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/modules/Products/views/partials/editPersonalisation.html",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/resources/javascript/plugins/personalisation.js",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/modules/Products/views/partials/editEmbroidery.html",
+		"/Users/jasonshallcross/Library/CloudStorage/Dropbox/Documents/holidays.txt",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/resources/javascript/plugins/input-pattern.js",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/config/cron.staging",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/scripts/scheduled/reindexAlgolia.php",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/resources/javascript/global.js",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/releases/20230112161328/resources/javascript/plugins/input-pattern.js",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/releases/20230112161328/resources/javascript/textarea-pattern.js",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/modules/Products/ProductsController.php",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/resources/javascript/plugins/popup.js",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/resources/javascript/quantity-control.js",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/releases/20230112161328/modules/Products/views/partials/editPersonalisation.html",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/releases/20230112161328/modules/Products/views/partials/editGiftwrap.html",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/releases/20230112161328/modules/Products/views/partials/addSuccessful.html",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/releases/20230112161328/modules/Products/views/partials/visual-selector.twig",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/releases/20230112161328/modules/Products/views/partials/personalisation-preview.html",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/releases/20230112161328/modules/Products/views/partials/personalisation-preview-style.html",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/releases/20230112161328/modules/Products/views/partials/editEmbroidery.html",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/releases/20230112161328/modules/Products/views/partials/personalisation-preview-styles.html",
+		"/Users/jasonshallcross/Library/CloudStorage/Dropbox/Dev/EnvSwitcher/Switcher/js/popup.js",
+		"/Users/jasonshallcross/shares/clients/benton/benton/releases/20250130110705/config/cron",
+		"/Users/jasonshallcross/shares/clients/astro/astro/releases/20201221105439/src/Tasks/Migrated/DependencyProvider.php",
+		"/Users/jasonshallcross/shares/clients/astro/astro/releases/20201221105439/config/cron-service",
+		"/Users/jasonshallcross/shares/clients/astro/astro/releases/20201221105439/src/Tasks/Migrated/Scripts/Cron/ProductActivationNotification.php",
+		"/Users/jasonshallcross/shares/clients/astro/astro/releases/20201221105439/config/cron-web",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/composer.json",
+		"/Users/jasonshallcross/shares/clients/twickenham/twickenham/releases/20230412080650/config/cron",
+		"/Users/jasonshallcross/shares/clients/twickenham/twickenham/releases/20230412080650/src/Tasks/Migrated/Scripts/Scheduled/SendNotesReminders.php",
+		"/Users/jasonshallcross/shares/clients/twickenham/twickenham/releases/20230412080650/src/Tasks/Migrated/Scripts/Wrm/Scheduled/DailyTourList.php",
+		"/Users/jasonshallcross/shares/clients/twickenham/twickenham/releases/20230412080650/src/Tasks/Migrated/Scripts/Scheduled/CreateWrmAvailability.php",
+		"/Users/jasonshallcross/shares/clients/twickenham/twickenham/releases/20230412080650/config/cron.php",
+		"/Users/jasonshallcross/shares/clients/andrewmartin/andrewmartin/releases/20210519145740/src/Tasks/Migrated/DependencyProvider.php",
+		"/Users/jasonshallcross/shares/clients/vaughan/vaughan/releases/20250203115312/src/Tasks/Migrated/DependencyProvider.php",
+		"/Users/jasonshallcross/shares/clients/amcari/amcari/releases/20241114140741/config/cron",
+		"/Users/jasonshallcross/shares/clients/computersforcharities/computersforcharities/releases/20250128140418/config/cron",
+		"/Users/jasonshallcross/shares/clients/hideaways/hideaways/releases/20230515110829/config/cron",
+		"/Users/jasonshallcross/shares/clients/vaughan/vaughan/releases/20250203115312/config/cron",
+		"/Users/jasonshallcross/shares/clients/andrewmartin/andrewmartin/releases/20210519145740/config/cron",
+		"/Users/jasonshallcross/shares/clients/andrewmartin/andrewmartin/releases/20210519145740/src/Tasks/Migrated/Scripts/Mertex/GetOrdersByDate.php",
+		"/Users/jasonshallcross/shares/clients/computersforcharities/computersforcharities/releases/20250128140418/src/Tasks/Migrated/Scripts/CleanContacts.php",
+		"/Users/jasonshallcross/shares/clients/hideaways/hideaways/releases/20230515110829/lib/Tasks/Migrated/Scripts/Cron/SuitepadCheckouts.php",
+		"/Users/jasonshallcross/shares/clients/hideaways/hideaways/releases/20230515110829/lib/Tasks/Migrated/Scripts/Cron/ExpirePoints.php",
+		"/Users/jasonshallcross/shares/clients/amcari/amcari/releases/20241114140741/src/Tasks/Migrated/DependencyProvider.php",
+		"/Users/jasonshallcross/shares/clients/hideaways/hideaways/releases/20230515110829/config/cron.villa",
+		"/Users/jasonshallcross/shares/clients/hideaways/hideaways/releases/20230515110829/config/cron.classic",
+		"/Users/jasonshallcross/shares/clients/hideaways/hideaways/releases/20230515110829/config/cron.city",
+		"/Users/jasonshallcross/shares/clients/hideaways/hideaways/releases/20230515110829/config/cron.chalet",
+		"/Users/jasonshallcross/shares/clients/computersforcharities/computersforcharities/releases/20250128140418/src/Tasks/Migrated/DependencyProvider.php",
+		"/Users/jasonshallcross/shares/clients/hideaways/hideaways/releases/20230515110829/lib/Tasks/Migrated/Scripts/Cron/SendAvailabilityCsv.php",
+		"/Users/jasonshallcross/shares/clients/hideaways/hideaways/releases/20230515110829/lib/Tasks/Migrated/Scripts/Cron/SendPointsToExpireNextMonth.php",
+		"/Users/jasonshallcross/shares/clients/hideaways/hideaways/releases/20230515110829/lib/Tasks/Migrated/Scripts/Cron/PopulateFutureExpiry.php",
+		"/Users/jasonshallcross/shares/clients/hideaways/hideaways/releases/20230515110829/lib/Tasks/Migrated/Scripts/Cron/SuitepadCheckins.php",
+		"/Users/jasonshallcross/shares/clients/amcari/amcari/releases/20241114140741/config/cron.staging",
+		"/Users/jasonshallcross/shares/clients/capricebookings/capricebookings/releases/20250121113049/config/cron",
+		"/Users/jasonshallcross/shares/clients/broadwick/broadwick/releases/20250114160451/config/cron",
+		"/Users/jasonshallcross/shares/clients/broadwick/broadwick/releases/20250114160451/config/cron.staging",
+		"/Users/jasonshallcross/shares/clients/capricebookings/capricebookings/releases/20250121113049/config/cron.staging",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/views/partials/notice-home.html",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/src/Notices/Model/Notice.php",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/vendor/d3r/time-machine/src/Model/ScheduledTrait.php",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/src/Notices/Model/NoticeTrait.php",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/src/Home/Model/Page.php",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/src/Home/Controller.php",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/src/Home/Model/Page.xml",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/src/Home/views/index.twig",
+		"/Users/jasonshallcross/shares/clients/broadwick/broadwick/releases/20250114160451/tasks_migration.json",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/releases/20230112161328/node_modules/slick-carousel/slick/slick.js",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/resources/javascript/plugins/carousel.js",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/resources/sass/components/_filterable-dimension-carousel.scss",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/resources/sass/components/_slick.scss",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/resources/javascript/components/carousel.js",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/src/Model/Field/Text.php",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/src/Ecom/Controller/views/layouts/checkout.twig",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/vendor/d3r/core/library/d3r_core/D3R/Model.php",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/modules/Store/views/Store_Lineitem/basket.html",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/modules/Store/views/basketPreview.html",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/views/partials/product-detail.twig",
+		"/Users/jasonshallcross/Library/Application Support/Sublime Text 3/Packages/User/snippets/js/log_line.sublime-snippet",
+		"/Users/jasonshallcross/Library/Application Support/Sublime Text 3/Packages/User/renumber.py",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/src/Filterable/templates/carousel/FormTemplate.twig",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/package-lock.json",
+		"/Users/jasonshallcross/Library/Application Support/Sublime Text 3/Packages/User/snippets/js/log_var.sublime-snippet",
+		"/Users/jasonshallcross/Library/Application Support/Sublime Text 3/Packages/User/snippets/js/log_dir.sublime-snippet",
+		"/Users/jasonshallcross/Library/Application Support/Sublime Text 3/Packages/User/snippets/js/each.sublime-snippet",
+		"/Users/jasonshallcross/Library/Application Support/Sublime Text 3/Packages/User/snippets/js/ajax.sublime-snippet",
+		"/Users/jasonshallcross/Library/Application Support/Sublime Text 3/Packages/User/snippets/js/console.log.sublime-snippet",
+		"/Users/jasonshallcross/Library/Application Support/Sublime Text 3/Packages/User/snippets/js/document.ready.sublime-snippet",
+		"/Users/jasonshallcross/Library/Application Support/Sublime Text 3/Packages/User/snippets/js/onclick.sublime-snippet",
+		"/Users/jasonshallcross/Library/Application Support/Sublime Text 3/Packages/User/snippets/js/log_message.sublime-snippet",
+		"/Users/jasonshallcross/Library/Application Support/Sublime Text 3/Packages/User/snippets/js/console.debug.sublime-snippet",
+		"/Users/jasonshallcross/Library/Application Support/Sublime Text 3/Packages/User/snippets/js/console.dir.sublime-snippet",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/resources/sass/basket/components/_basket-item.scss",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/modules/Store/views/basket.html",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/src/Blocks/Rule/Template/quotes.twig",
+		"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/resources/sass/components/_quote.scss"
+	],
+	"find":
+	{
+		"height": 29.0
+	},
+	"find_in_files":
+	{
+		"height": 122.0,
+		"where_history":
+		[
+			"",
+			"*.scss",
+			"",
+			"*.js",
+			"",
+			"*.scss",
+			"",
+			"*.scss",
+			"*.xml",
+			"*.scss",
+			"",
+			"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/vendor/d3r/core/library/d3r_core/D3R/Model/Field,<project filters>",
+			"",
+			"*.php",
+			"*.xml",
+			"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/vendor/d3r/core/library/d3r_core/D3R/Model/Field,<project filters>",
+			"*.scss",
+			"",
+			"*.scss",
+			"*.js",
+			"*.scss",
+			"*.js",
+			"*.scss",
+			"*.js",
+			"",
+			"*.xml",
+			"",
+			"*.scss",
+			"",
+			"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/src/Blocks,<project filters>",
+			"",
+			"*.xml",
+			"",
+			"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/modules/Offers,<project filters>",
+			"",
+			"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/vendor/d3r/core/library/d3r_core/D3R/Model/Field,<project filters>",
+			"",
+			"*.js",
+			"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/vendor/d3r/core/library/d3r_core/D3R/Model/Field,<project filters>",
+			"",
+			"*.xml",
+			"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/vendor/d3r/core/library/d3r_core/D3R/Model/Field,<project filters>",
+			"",
+			"*.xml",
+			"",
+			"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/scripts/one-offs,<project filters>",
+			"",
+			"*.php",
+			"*.xml",
+			"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/src/Ecom,<project filters>",
+			"",
+			"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/resources,<project filters>",
+			"*.js",
+			"*.xml",
+			"",
+			"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/src,<project filters>",
+			"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/src/Ecom,<project filters>",
+			"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/vendor/d3r/payment, *.twig",
+			"",
+			"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/resources,<project filters>",
+			"",
+			"*.scss",
+			"*.php",
+			"",
+			"\\",
+			"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/scripts/nav,<project filters>",
+			"",
+			"*.scs",
+			"*.scss",
+			"*.twig",
+			"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/vendor/d3r/customer-account,<project filters>",
+			"",
+			"*.json",
+			"*.scss",
+			"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/vendor/d3r,<project filters>",
+			"*.scss",
+			"",
+			"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/vendor/d3r/customer-account/resources/sass/account,<project filters>",
+			"",
+			"*.php",
+			"*.xml",
+			"",
+			"*.js",
+			"*.php",
+			"*.scss",
+			"",
+			"*.xml",
+			"",
+			"*.scss",
+			"*.js",
+			"",
+			"*.xml",
+			"",
+			"*.php",
+			"*.pho",
+			"*.twig",
+			"",
+			"*.xml",
+			"",
+			"*.xml",
+			"",
+			"*.xml",
+			"",
+			"*.js",
+			"*.xml",
+			"",
+			"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/vendor,<project filters>",
+			"",
+			"*.scss",
+			"",
+			"*.php",
+			"",
+			"*.scss",
+			"",
+			"*.scss",
+			"",
+			"*.scss",
+			"",
+			"/Users/jasonshallcross/shares/clients/aspinal/aspinal/app/modules/Offers,<project filters>",
+			"",
+			"*.js",
+			"*.html",
+			"*.twig",
+			"*.html",
+			"*.js",
+			"",
+			"*.js",
+			"*.twig"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"console",
+			"#slots",
+			"delete",
+			"save",
+			"deleteC",
+			"slots",
+			"reader",
+			"td ",
+			"aria",
+			":hover",
+			"max-",
+			"border",
+			"body",
+			"reset",
+			"<a",
+			"black",
+			"button",
+			"submi",
+			"attr(",
+			"attr",
+			"options",
+			"sites.",
+			"import ",
+			"#sites",
+			"\"undefined\"",
+			"sites",
+			"foreach",
+			"stora",
+			"local",
+			"project fil",
+			"chev",
+			"icon",
+			"<li",
+			"link",
+			"vertical",
+			"d3r_debug",
+			"svg",
+			"chev",
+			"algolia",
+			"algo",
+			"getMinimumArea",
+			"field-error",
+			"$",
+			"isvalid",
+			"field",
+			"pattern",
+			"submitbu",
+			"sumitbu",
+			"may only contain",
+			"validc",
+			"save",
+			"textarea",
+			".js-pdp-extra",
+			"$('document').on",
+			"QuantityControl",
+			"9a6",
+			"border",
+			"hr",
+			"9a6",
+			"sync",
+			"redirect",
+			"sync",
+			"projects",
+			"adyen-checkout__",
+			"adyen-checkout__payment-method__additional-info",
+			"checkout__payment-method__name_wrapper",
+			"givex",
+			"/vendor/d3r/core/tools/amqp-manager.php {deployment_environment}",
+			":",
+			"asse",
+			"clean",
+			"processCustomerChanges",
+			"feed",
+			"isCopyBlockActive",
+			"gettimestamp",
+			"stamp",
+			"getNoticeCacheIdForCurrencyAndGender",
+			"getActiveNoticeHtml",
+			"notice",
+			"notice_new",
+			"Confirm New Password",
+			"Confirm New Password<",
+			"AbstractCallout",
+			"addBasketError",
+			"outerEdgeLimit",
+			"slick-track",
+			"flex",
+			"filterable-dimension-carousel",
+			"filterable-dimension-carousel__image",
+			"slick",
+			"slick.js",
+			"margin",
+			"slides",
+			"slidesto",
+			".filterable-dimension-carousel__scroller",
+			"basket-item__qty",
+			"quantity-control",
+			"basket-item__qty",
+			"qty",
+			"blocks",
+			"prc",
+			"free",
+			"quotes",
+			"25px",
+			"icon-",
+			".svg",
+			"svg",
+			"symbols",
+			"params",
+			"use_url",
+			"add",
+			"addnew",
+			"categories",
+			"getProductsMatchingGroups",
+			"42px",
+			"wrap",
+			"white",
+			"whote",
+			"height: 40",
+			"ab-",
+			"updateEmarsysBas",
+			"$popup =",
+			"42px",
+			"wht",
+			"42px",
+			"filters__toggle",
+			"ab-visual",
+			"46px"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"",
+			"App\\Recommendations",
+			"overlay--extended",
+			"' ",
+			"''",
+			"' => '$1',",
+			"",
+			" $1",
+			"',",
+			"",
+			"c(info)",
+			"c(note)",
+			"c(border)",
+			"\", \"",
+			"\\t",
+			"], ",
+			", ",
+			"",
+			"';",
+			"' where stockinfo_sku='",
+			"update nav_stockinfo set stockinfo_leadtime='"
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "editor.js",
+					"selected": true,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5931,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"origPos":
+							[
+								0.0,
+								0.0
+							],
+							"syncScroll": false,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"stack_multiselect": false,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 29.0
+	},
+	"input":
+	{
+		"height": 42.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.SublimeLinter":
+	{
+		"height": 0.0
+	},
+	"output.exec":
+	{
+		"height": 100.0
+	},
+	"output.find_results":
+	{
+		"height": 569.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 94.0
+	},
+	"pinned_build_system": "",
+	"project": "streetwise.sublime-project",
+	"replace":
+	{
+		"height": 54.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"prodshow",
+				"modules/Products/views/show.twig"
+			],
+			[
+				"prodprod",
+				"modules/Products/models/Products_Product.php"
+			],
+			[
+				"recomme",
+				"resources/javascript/recommend.js"
+			],
+			[
+				"app.p",
+				"config/app.php"
+			],
+			[
+				"app.",
+				"config/app.php"
+			],
+			[
+				"app.ph",
+				"config/app.php"
+			],
+			[
+				"reindexAlgolia",
+				"scripts/scheduled/reindexAlgolia.php"
+			],
+			[
+				"cron",
+				"config/cron"
+			],
+			[
+				"cronstaging",
+				"config/cron.staging"
+			],
+			[
+				"inputpatter",
+				"resources/javascript/plugins/input-pattern.js"
+			],
+			[
+				"pers",
+				"resources/javascript/plugins/personalisation.js"
+			],
+			[
+				"editembr",
+				"modules/Products/views/partials/editEmbroidery.html"
+			],
+			[
+				"editper",
+				"modules/Products/views/partials/editPersonalisation.html"
+			],
+			[
+				"prodcontroll",
+				"modules/Products/ProductsController.php"
+			],
+			[
+				"prodcontrol",
+				"modules/Products/ProductsController.php"
+			],
+			[
+				"prodcust",
+				"modules/Products/models/Products_Customised.php"
+			],
+			[
+				"editgift",
+				"modules/Products/views/partials/editGiftwrap.html"
+			],
+			[
+				"schedtrait",
+				"vendor/d3r/time-machine/src/Model/ScheduledTrait.php"
+			],
+			[
+				"partialnoticeh",
+				"views/partials/notice-home.html"
+			],
+			[
+				"noticetra",
+				"src/Notices/Model/NoticeTrait.php"
+			],
+			[
+				"homecontro",
+				"src/Home/Controller.php"
+			],
+			[
+				"homepagex",
+				"src/Home/Model/Page.xml"
+			],
+			[
+				"homeindex",
+				"src/Home/views/index.twig"
+			],
+			[
+				"d3rmodel",
+				"vendor/d3r/core/library/d3r_core/D3R/Model.php"
+			],
+			[
+				"checkouttw",
+				"src/Ecom/Controller/views/layouts/checkout.twig"
+			],
+			[
+				"fieldtext",
+				"src/Model/Field/Text.php"
+			],
+			[
+				"prodcontroller",
+				"modules/Products/ProductsController.php"
+			],
+			[
+				"carousel",
+				"resources/javascript/components/carousel.js"
+			],
+			[
+				"baskethtm",
+				"modules/Store/views/basket.html"
+			],
+			[
+				"proddetail",
+				"views/partials/product-detail.twig"
+			],
+			[
+				"linebasket",
+				"modules/Store/views/Store_Lineitem/basket.html"
+			],
+			[
+				"basket",
+				"modules/Store/views/basketPreview.html"
+			],
+			[
+				"homequote",
+				"src/Home/Model/Quote.php"
+			],
+			[
+				"homecon",
+				"src/Home/Controller.php"
+			],
+			[
+				"blockqu",
+				"src/Blocks/Rule/Template/quotes.twig"
+			],
+			[
+				"homeinde",
+				"src/Home/views/index.twig"
+			],
+			[
+				"quotescss",
+				"resources/sass/components/_quote.scss"
+			],
+			[
+				"d3rselect",
+				"vendor/d3r/core/library/d3r_core/D3R/Db/Select.php"
+			],
+			[
+				"d3rdbse",
+				"vendor/d3r/core/library/d3r_core/D3R/Db/Select.php"
+			],
+			[
+				"linktoman",
+				"vendor/d3r/core/library/d3r_core/D3R/Model/Field/LinkToMany.php"
+			],
+			[
+				"prodgroup",
+				"src/Products/Model/Group.php"
+			],
+			[
+				"offeroffer",
+				"modules/Offers/models/Offers_Offer.php"
+			],
+			[
+				"break",
+				"resources/config/breakpoints.json"
+			],
+			[
+				"filterablescss",
+				"resources/sass/components/_filterable.scss"
+			],
+			[
+				"internationfor",
+				"vendor/d3r/core/library/d3r_core/D3R/Model/Field/InternationalTelephone/FormTemplate.html"
+			],
+			[
+				"custcus",
+				"modules/Customers/models/Customers_Customer.xml"
+			],
+			[
+				"custlogin",
+				"modules/Customers/views/login.html"
+			],
+			[
+				"register",
+				"modules/Customers/views/register.html"
+			],
+			[
+				"fieldemail",
+				"vendor/d3r/core/library/d3r_core/D3R/Model/Field/Email/FormTemplate.html"
+			],
+			[
+				"custcustx",
+				"modules/Customers/models/Customers_Customer.xml"
+			],
+			[
+				"address",
+				"vendor/d3r/ecom/src/Model/Address.xml"
+			],
+			[
+				"srcprovider",
+				"src/Provider.php"
+			],
+			[
+				"contactcontact",
+				"modules/Contacts/models/Contacts_Contact.php"
+			],
+			[
+				"vendorfieldtext",
+				"vendor/d3r/core/library/d3r_core/D3R/Model/Field/Text.php"
+			],
+			[
+				"form",
+				"modules/Form/FormController.php"
+			],
+			[
+				"formcontr",
+				"modules/Form/FormController.php"
+			],
+			[
+				"contact",
+				"modules/Form/views/contact.twig"
+			],
+			[
+				"contacttwig",
+				"views/partials/contact.twig"
+			],
+			[
+				"vendortelepform",
+				"vendor/d3r/core/library/d3r_core/D3R/Model/Field/Telephone/FormTemplate.html"
+			],
+			[
+				"inttelep",
+				"vendor/d3r/core/library/d3r_core/D3R/Model/Field/InternationalTelephone.php"
+			],
+			[
+				"field email",
+				"vendor/d3r/core/library/d3r_core/D3R/Model/Field/Email.php"
+			],
+			[
+				"contactx",
+				"modules/Contacts/models/Contacts_Contact.xml"
+			],
+			[
+				"bannerxml",
+				"src/Banners/Model/Banner.xml"
+			],
+			[
+				"jquery.uploader.js",
+				"vendor/d3r/assets/resources/javascript/jquery.uploader.js"
+			],
+			[
+				"homepage",
+				"src/Home/Model/Page.xml"
+			],
+			[
+				"core/javascript/repeater.js",
+				"vendor/d3r/core/resources/javascript/repeater.js"
+			],
+			[
+				"blockscroller",
+				"resources/sass/components/blocks/_block--scroller.scss"
+			],
+			[
+				"blockscroll",
+				"resources/sass/components/blocks/_block--scroller.scss"
+			],
+			[
+				"blockscss",
+				"resources/sass/components/_blocks.scss"
+			],
+			[
+				"calloutscs",
+				"resources/sass/components/_callout.scss"
+			],
+			[
+				"blocktrait",
+				"src/Blocks/Model/BlocksTrait.php"
+			],
+			[
+				"partialcallouttwig",
+				"views/partials/callout.twig"
+			],
+			[
+				"blockxml",
+				"src/Blocks/Model/Block.xml"
+			],
+			[
+				"ruletrait",
+				"vendor/d3r/blocks/src/Rule/RuleTrait.php"
+			],
+			[
+				"blockquote",
+				"src/Blocks/Rule/Quote.php"
+			],
+			[
+				"formattraix",
+				"src/Shared/Model/FormatTrait.xml"
+			],
+			[
+				"blockcallouts",
+				"src/Blocks/Rule/Template/callouts.twig"
+			],
+			[
+				"plpalgolia",
+				"resources/javascript/plp-algolia.js"
+			],
+			[
+				"readmore",
+				"resources/javascript/read-more.js"
+			],
+			[
+				"algolia",
+				"resources/javascript/components/algolia.js"
+			],
+			[
+				"sourcesb",
+				"modules/Customers/views_admin/sourcesBreakdown.html"
+			],
+			[
+				"customersour",
+				"modules/Customers/views_admin/sourcesBreakdown.html"
+			],
+			[
+				"storeorder",
+				"modules/Store/models/Store_Order.php"
+			],
+			[
+				"custadmin",
+				"modules/Customers/CustomersAdminController.php"
+			],
+			[
+				"storeadmin",
+				"modules/Store/StoreAdminController.php"
+			],
+			[
+				"storerder",
+				"modules/Store/models/Store_Order.php"
+			],
+			[
+				"storeorderxml",
+				"modules/Store/models/Store_Order.xml"
+			],
+			[
+				"custcust",
+				"modules/Customers/models/Customers_Customer.xml"
+			],
+			[
+				"repairsxm",
+				"src/Repairs/Model/Request.xml"
+			],
+			[
+				"colour",
+				"resources/config/colours.json"
+			],
+			[
+				"fieldscss",
+				"resources/sass/components/_fields.scss"
+			],
+			[
+				"field",
+				"resources/sass/components/_fields.scss"
+			],
+			[
+				"blockfeaturesc",
+				"resources/sass/components/blocks/_block--feature.scss"
+			],
+			[
+				"slickscss",
+				"resources/sass/components/_slick.scss"
+			],
+			[
+				"studentbeans",
+				"src/Blocks/Rule/StudentBeans.php"
+			],
+			[
+				"src/Banners/Model/Banner.php",
+				"src/Banners/Model/Banner.php"
+			],
+			[
+				"src/Footer/Model/Content.php",
+				"src/Footer/Model/Content.php"
+			],
+			[
+				"abstractblockx",
+				"vendor/d3r/blocks/src/Model/AbstractBlock.xml"
+			],
+			[
+				"blockstraitx",
+				"vendor/d3r/blocks/src/Model/BlocksTrait.xml"
+			],
+			[
+				"homepag",
+				"src/Home/Model/Page.xml"
+			],
+			[
+				"gendertraitx",
+				"src/Shared/Model/GenderedTrait.xml"
+			],
+			[
+				"statustra",
+				"src/Shared/Model/StatusTrait.php"
+			],
+			[
+				"homecontroll",
+				"src/Home/Controller.php"
+			],
+			[
+				"homepagexm",
+				"src/Home/Model/Page.xml"
+			],
+			[
+				"vendord3rblockcontroll",
+				"vendor/d3r/blocks/src/Controller/BlocksTrait.php"
+			],
+			[
+				"bulkreorder",
+				"src/Shared/Controller/BulkReorder.php"
+			],
+			[
+				"homepagexml",
+				"src/Home/Model/Page.xml"
+			],
+			[
+				"blockcontroller",
+				"vendor/d3r/blocks/src/Controller/BlocksTrait.php"
+			],
+			[
+				"blockblock",
+				"src/Blocks/Model/Block.php"
+			],
+			[
+				"schedultrait",
+				"vendor/d3r/time-machine/src/Model/ScheduledTrait.php"
+			],
+			[
+				"previewtrait",
+				"src/Shared/Model/PreviewTrait.php"
+			],
+			[
+				"band",
+				"resources/sass/objects/_band.scss"
+			],
+			[
+				"wrap",
+				"resources/sass/objects/_wrap.scss"
+			],
+			[
+				"quotescs",
+				"resources/sass/components/_quote.scss"
+			],
+			[
+				"partialquote",
+				"views/partials/quote.twig"
+			],
+			[
+				"hometwig",
+				"src/Home/views/index.twig"
+			],
+			[
+				"type",
+				"config/image/type.php"
+			],
+			[
+				"crop",
+				"config/image/crop.php"
+			],
+			[
+				"quote",
+				"src/Home/Model/Quote.xml"
+			],
+			[
+				"cookis",
+				"resources/sass/components/_cookie-centre.scss"
+			],
+			[
+				"pdpjs",
+				"resources/javascript/pdp.js"
+			],
+			[
+				"upsell",
+				"src/Products/Model/Upsell.php"
+			],
+			[
+				"linbasket",
+				"modules/Store/views/Store_Lineitem/basket.html"
+			],
+			[
+				"itembasket",
+				"modules/Store/views/Store_Lineitem/basket.html"
+			],
+			[
+				"prodcustom",
+				"modules/Products/models/Products_Customised.php"
+			],
+			[
+				"prodstoc",
+				"modules/Products/models/Products_Stockitem.php"
+			],
+			[
+				"storehelpercore",
+				"vendor/d3r/ecom/modules/Store/models/Store_Helper_Core.php"
+			],
+			[
+				"storehelper",
+				"src/Ecom/StoreHelper.php"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 296.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"trackeven",
+				"trackEvent"
+			]
+		],
+		"width": 584.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 368.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

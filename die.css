@@ -1,0 +1,170 @@
+:root {
+  --success: rgba(0, 150, 0, 0.2);
+  --failure: rgba(150, 0, 0, 0.2);
+}
+
+@keyframes spin {
+  0% {
+    filter: blur(0);
+  }
+  50% {
+    filter: blur(1px);
+  }
+  100% {
+    filter: blur(0);
+  }
+}
+
+#tray {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+#dice {
+  display: grid;
+  gap: 5px;
+  grid-template-columns: repeat(6, 1fr);
+  perspective: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+#dieSlot {
+  padding: 25px;
+  opacity: 0.5;
+  transition: opacity .5s;
+  position: relative;
+}
+
+.die {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(-45deg) rotateY(-45deg) rotateZ(-90deg);
+  transition: transform 0.6s ease;
+}
+
+#tray .buttons {
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#calc {
+  display: none;
+  font-size: 16px;
+  gap: 10px;
+  align-items: center;
+  color: var(--body);
+}
+#calc span {
+  color: var(--strong);
+  font-weight: bold;
+}
+#calc input {
+  display: block;
+  border: 2px solid var(--border);
+  border-radius: 3px;
+  width: 50px;
+  height: 30px;
+  text-align: right;
+}
+.total #calc {
+  display: flex;
+}
+
+#rolled {
+  display: none;
+  font-size: 16px;
+  gap: 20px;
+}
+#rolled span {
+  color: var(--strong);
+  font-weight: bold;
+}
+.halos #rolled {
+  display: flex;
+}
+
+.face {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: white;
+  border: 1px solid #666;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.face .dot {
+  width: 8px;
+  height: 9px;
+  background: black;
+  border-radius: 50%;
+  position: absolute;
+  visibility: hidden;
+}
+
+.one   {transform: rotateY(0deg)    translateZ(25px);}
+.two   {transform: rotateX(-90deg)  translateZ(25px);}
+.three {transform: rotateY(90deg)   translateZ(25px);}
+.four  {transform: rotateY(-90deg)  translateZ(25px);}
+.five  {transform: rotateX(90deg)   translateZ(25px);}
+.six   {transform: rotateY(180deg)  translateZ(25px);}
+
+.center        { top: 21px; left: 21px; }
+.top-left      { top: 10px; left: 10px; }
+.top-right     { top: 10px; right: 10px; }
+.bottom-left   { bottom: 10px; left: 10px; }
+.bottom-right  { bottom: 10px; right: 10px; }
+.center-left   { top: 21px; left: 10px; }
+.center-right  { top: 21px; right: 10px; }
+
+#dieSlot:has(.rolled) {
+  opacity: 1;
+  animation: spin .5s;
+}
+
+.die.rolled .dot {
+  visibility: visible;
+}
+
+[data-rolled="1"] {transform: rotateX(  45deg) rotateY(      0) rotateZ(-45deg);}
+[data-rolled="2"] {transform: rotateX(-225deg) rotateY( 225deg) rotateZ(     0);}
+[data-rolled="3"] {transform: rotateX( -45deg) rotateY(-135deg) rotateZ(270deg);}
+[data-rolled="4"] {transform: rotateX( -45deg) rotateY( 225deg) rotateZ( 90deg);}
+[data-rolled="5"] {transform: rotateX( -45deg) rotateY(-135deg) rotateZ(     0);}
+[data-rolled="6"] {transform: rotateX(  45deg) rotateY( 180deg) rotateZ(135deg);}
+
+.halos #dieSlot:has([data-rolled="6"]) {
+  border-radius: 50%;
+  box-shadow: 0 0 10px 4px var(--success);
+}
+
+.halos #dieSlot:has([data-rolled="1"]) {
+  border-radius: 50%;
+  box-shadow: 0 0 10px 4px var(--failure);
+}
+
+.strain .face {
+  background-color: #900;
+}
+
+.added .face {
+  background-color: #090;
+}
+
+.keep .face {
+  background-color: #999;
+}
+
+.keep .dot,
+.added .dot,
+.strain .dot {
+  background-color: white;
+}

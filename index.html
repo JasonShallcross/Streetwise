@@ -1,0 +1,297 @@
+<html>
+	<head>
+		<title>Streetwise Character Sheet</title>
+		<link rel="stylesheet" href="streetwise.css">
+		<link rel="stylesheet" href="mobile.css">
+		<link rel="stylesheet" href="print.css">
+		<link rel="stylesheet" href="die.css">
+		<script type="text/javascript" src="jquery.js"></script>
+		<script type="text/javascript" src="names.js"></script>
+		<script type="text/javascript" src="archetypes.js"></script>
+		<script type="text/javascript" src="attributes.js"></script>
+		<script type="text/javascript" src="skills.js"></script>
+		<script type="text/javascript" src="talents.js"></script>
+		<script type="text/javascript" src="quirks.js"></script>
+		<script type="text/javascript" src="events.js"></script>
+		<script type="text/javascript" src="editor.js"></script>
+	</head>
+
+	<body>
+		<h1><span>Streetwise</span></h1>
+
+		<div id="toolbar">
+			<h3>Urchinator v1.0</h3>
+			<label for="edit" title="ctrl-e">
+				Edit mode
+				<input type="checkbox" id="edit" value="edit">
+			</label>
+		</div>
+
+		<div id="show">
+			<h2><span id="show_fullname"></span> (<span id="show_archetype"></span>)</h2>
+			<div class="bio">
+				<div id="show_picture"><img id="show_image"></div>
+				<div id="show_backstory" class="panel"></div>
+			</div>
+
+			<h2>Talents</h2>
+			<dl id="show_talents" class="terms"></dl>
+
+			<h2>Attributes</h2>
+			<dl id="show_attributes" class="stats"></dl>
+
+			<h2>Skills</h2>
+			<dl id="show_skills" class="stats"></dl>
+
+			<h2>Quirks</h2>
+			<div id="show_quirks" class="panel"></div>
+
+			<h2>Health</h2>
+			<div class="health">
+				<ul>
+					<li><input type="number" id="wound_points" name="wound_points"> Wound Points</li>
+					<li><input type="number" id="strain_points" name="strain_points"> Strain Points</li>
+				</ul>
+
+				<div class="buttons">
+					<button class="minor" data-roll="1" data-strain="false" data-start="#strain_points" data-title="Roll for Panic">Panic</button>
+					<button class="minor" data-roll="1" data-strain="false" data-start="#attribute_agility" data-title="Roll for Initiative">Initiative</button>
+				</div>
+			</div>
+		</div>
+
+		<form id="form">
+			<input type="hidden" id="id" name="id" value="">
+
+			<h2>Name</h2>
+			<section>
+				<fieldset class="twocol">	
+					<label for="firstname">First name</label>
+					<input id="firstname" name="firstname">
+
+					<label for="lastname">Last name</label>
+					<input id="lastname" name="lastname">
+
+					<label for="nickname">Nick name</label>
+					<input id="nickname" name="nickname">
+				</fieldset>
+
+				<div class="chooser">
+					<select id="names">
+						<option>Choose...</option>
+					</select>
+
+					<button id="randomName" class="minor">Random</button>
+				</div>
+			</section>
+
+			<h2>Description</h2>
+			<section>
+				<fieldset class="twocol">
+					<label for="archetypeid">Archetype</label>
+					<select id="archetypeid" name="archetypeid">
+						<option value="">Choose...</option>
+					</select>
+					<input type="hidden" id="archetype" name="archetype">
+					
+					<label>Key attribute</label>
+					<input id="attribute" name="attribute" readonly>
+
+					<label>Talents</label>
+					<input id="talents" name="talents" readonly>
+
+					<label>Skills</label>
+					<input id="skills" name="skills" readonly>
+				</fieldset>
+			</section>
+
+			<h2>Attributes</h2>
+			<section class="attributes" data-max="6">
+				<fieldset>
+					<table>
+						<tbody></tbody>
+					</table>
+				</fieldset>
+
+				<div>
+					<p>
+						<label>Attribute points used: </label>
+						<span class="used">0</span> of <span class="total">6</span>
+					</p>
+
+					<p>Maximum of 3 per attribute</p>
+
+					<button class="reset minor">Reset</button>
+				</div>
+			</section>
+
+			<h2>Skills</h2>
+			<section class="skills" data-max="12">
+				<fieldset>
+					<table>
+						<tbody></tbody>
+					</table>
+				</fieldset>
+
+				<div>
+					<p>
+						<label>Skill points used: </label>
+						<span class="used">0</span> of <span class="total">12</span>
+					</p>
+
+					<p>Maximum of 3 per skill</p>
+
+					<button class="reset minor">Reset</button>
+				</div>
+			</section>
+		
+			<h2>Quirks</h2>
+			<fieldset class="random">
+				<label for="quirk1">Quirk 1</label>
+				<textarea id="quirk1" name="quirk1" rows="3"></textarea>
+				<button data-field="quirk1" data-list="quirks" class="minor">Random</button>
+
+				<label for="quirk2">Quirk 2</label>
+				<textarea id="quirk2" name="quirk2" rows="3"></textarea>
+				<button data-field="quirk2" data-list="quirks" class="minor">Random</button>
+			</fieldset>
+
+			<h2>Tragedies and Triumphs</h2>
+			<fieldset class="random">
+				<label for="event1">Event 1</label>
+				<textarea id="event1" name="event1" rows="3"></textarea>
+				<button data-field="event1" data-list="events" class="minor">Random</button>
+
+				<label for="event2">Event 2</label>
+				<textarea id="event2" name="event2" rows="3"></textarea>
+				<button data-field="event2" data-list="events" class="minor">Random</button>
+
+				<label for="event3">Event 3</label>
+				<textarea id="event3" name="event3" rows="3"></textarea>
+				<button data-field="event3" data-list="events" class="minor">Random</button>
+			</fieldset>
+
+			<h2>Backstory</h2>
+			<fieldset>
+				<textarea id="backstory" name="backstory" rows="15"></textarea>
+			</fieldset>
+
+			<h2>Image</h2>
+			<section>
+				<fieldset>
+					<img id="preview">
+					<textarea id="image" name="image"></textarea>
+
+					<div class="small-buttons">
+						<label class="button minor" for="upload">
+							<span>Upload</span>
+							<input type="file" id="upload" />
+						</label>
+
+						<button class="button minor" id="remove">Remove</button>
+					</div>
+				</fieldset>
+
+				<div>
+					<p>JPGs only, less than 100Kb</p>
+				</div>
+			</section>
+
+			<button type="submit" title="ctrl-s">Save</button>
+		</form>
+
+		<form id="characters">
+			<h2>Characters</h2>
+			<ol id="slots">
+			</ol>
+
+			<div class="buttons">
+				<button id="new">New</button>
+
+				<label class="button" for="import">
+					<span>Import</span>
+					<input type="file" id="import" multiple />
+				</label>
+
+				<a href="#" class="button" id="export" type="application/json">Export</a>
+			</div>
+		</form>
+
+		<footer>
+			<a href="https://docs.google.com/document/d/1ZyVuCBddBbIRzPuyQ2ij8AvKkMX8yhIUY3BfFMlw5mI/edit?usp=sharing">Full Streetwise User Manual</a>
+			<a href="#" data-roll="1" data-strain="false" data-title="Dice Roller">Dice Roller</a>
+			<a id="history" href="history">Dice History</a>
+		</footer>
+
+		<div id="overlay">
+			<div id="popup">
+				<h2 id="popupTitle"></h2>
+				<div id="popupContent"></div>
+				<button class="close minor">X</button>
+			</div>
+		</div>
+
+		<div id="hidden">
+			<div id="tray">
+				<div id="dice"></div>
+
+				<div class="buttons">
+					<div>
+						<button id="diceDec" class="button minor">-</button>
+						<button id="diceInc" class="button minor">+</button>
+					</div>
+
+					<div id="calc">
+						<input id="start" type="number"> +
+						<span id="total">?</span> =
+						<span id="result">?</span>
+					</div>
+
+					<div id="rolled">
+						<div>Success: <span id="success">0</span></div>
+						<div>Strain: <span id="failure">0</span></div>
+					</div>
+					<button id="roll" class="button minor">Roll</button>
+				</div>
+			</div>
+
+			<div id="dieSlot">
+				<div class="die">
+					<div class="face one">
+						<div class="dot center"></div>
+					</div>
+					<div class="face two">
+						<div class="dot top-left"></div>
+						<div class="dot bottom-right"></div>
+					</div>
+					<div class="face three">
+						<div class="dot top-left"></div>
+						<div class="dot center"></div>
+						<div class="dot bottom-right"></div>
+					</div>
+					<div class="face four">
+						<div class="dot top-left"></div>
+						<div class="dot top-right"></div>
+						<div class="dot bottom-left"></div>
+						<div class="dot bottom-right"></div>
+					</div>
+					<div class="face five">
+						<div class="dot top-left"></div>
+						<div class="dot top-right"></div>
+						<div class="dot center"></div>
+						<div class="dot bottom-left"></div>
+						<div class="dot bottom-right"></div>
+					</div>
+						<div class="face six">
+						<div class="dot top-left"></div>
+						<div class="dot top-right"></div>
+						<div class="dot center-left"></div>
+						<div class="dot center-right"></div>
+						<div class="dot bottom-left"></div>
+						<div class="dot bottom-right"></div>
+					</div>
+				</div>
+	  		</div>
+	  	</div>
+	</body>
+</html>

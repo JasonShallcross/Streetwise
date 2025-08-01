@@ -1,0 +1,54 @@
+@media print {
+	:root {
+	  --heading: black;
+	  --body: black;
+	  --border: black;
+	  --strong: black;
+	}
+
+	#toolbar {
+		display: none !important;
+	}
+
+	h1 {
+		min-height: auto;
+		margin: 0;
+		padding: 0;
+		border-bottom: 1px solid black;
+	}
+	h1 span {
+		color: var(--body);
+		font-size: 30px;
+		opacity: 1;
+		text-shadow: none;
+		padding: 0;
+	}
+	h1 span:before {
+		display: none;
+	}
+
+	#edit {
+		display: none !important;
+	}
+
+	#show {
+		display: flex !important;
+	}
+
+	#show_image {
+		width: 150px;
+		filter: saturate(0) contrast(0.5) brightness(1.5);
+	}
+
+	#characters {
+		display: none !important;
+	}
+
+	.health .buttons {
+		display: none;
+	}
+
+	footer {
+		display: none;
+	}
+}
