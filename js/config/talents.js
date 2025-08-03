@@ -12,11 +12,11 @@ var talents = {
 	"Gut Feeling"           : "You have a knack for knowing when trouble is coming. You can roll Notice using Empathy instead of Wits when trying to detect impending problems.",
 	"Gone In A Blink"       : "When you're in your element in a chosen urban setting, you may automatically slip away unnoticed if escape is physically possible. The setting must be clear and specific - sewers, crowds, rooftops, backalleys, etc.",
 	"Watch the Hands"       : "When you are the centre of attention, you can create a compelling distraction and award an extra fast action, for one round, to an ally of your choice.",
-	"Up and at ‘em"         : "You are extremely light on your feet and almost always the first to act. When rolling initiative, roll two dice and use the highest result.",
+	"Up and at 'em"         : "You are extremely light on your feet and almost always the first to act. When rolling initiative, roll two dice and use the highest result.",
 	"Block Out The Pain"    : "When have to keep going and can't afford to break, you may defer a Critical Injury or Panic roll to the next round. However, when you do roll, you must add a +1 modifier to the result before adding your Wound or Strain Points.",
 	"Lucky For You"         : "When you are wounded and roll for a Critical Injury, you may roll twice and choose the result you prefer.",
 	"Hold It Together"      : "When your mental strain is becoming too much and you roll on the Panic Table, you may roll twice and choose the result you prefer.",
-	"I Saw ‘Em Do It"       : "When you are trying to get a glimpse of hidden goings on, you may declare a story detail which might aid you in your efforts. It can be a small to medium inanimate object or a scene feature. The GM may question or tweak your idea and must eventually agree, but may impose consequences on it's use.",
+	"I Saw 'Em Do It"       : "When you are trying to get a glimpse of hidden goings on, you may declare a story detail which might aid you in your efforts. It can be a small to medium inanimate object or a scene feature. The GM may question or tweak your idea and must eventually agree, but may impose consequences on it's use.",
 	"Catch The Gist"        : "When you strain to hear a conversation that should be secret, you may roll Notice using Agility instead of Wits.",
 	"I Read That Somewhere" : "When you try to make connections between threads about an object, situation or person, you may roll Deduce using Empathy instead of Wits."
 }

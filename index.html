@@ -1,19 +1,20 @@
 <html>
 	<head>
-		<title>Streetwise Character Sheet</title>
-		<link rel="stylesheet" href="streetwise.css">
-		<link rel="stylesheet" href="mobile.css">
-		<link rel="stylesheet" href="print.css">
-		<link rel="stylesheet" href="die.css">
-		<script type="text/javascript" src="jquery.js"></script>
-		<script type="text/javascript" src="names.js"></script>
-		<script type="text/javascript" src="archetypes.js"></script>
-		<script type="text/javascript" src="attributes.js"></script>
-		<script type="text/javascript" src="skills.js"></script>
-		<script type="text/javascript" src="talents.js"></script>
-		<script type="text/javascript" src="quirks.js"></script>
-		<script type="text/javascript" src="events.js"></script>
-		<script type="text/javascript" src="editor.js"></script>
+		<title>Streetwise Urchinator v1.0</title>
+		<link rel="stylesheet" href="css/streetwise.css">
+		<link rel="stylesheet" href="css/mobile.css">
+		<link rel="stylesheet" href="css/print.css">
+		<link rel="stylesheet" href="css/die.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+		<script type="text/javascript" src="js/config/names.js"></script>
+		<script type="text/javascript" src="js/config/archetypes.js"></script>
+		<script type="text/javascript" src="js/config/attributes.js"></script>
+		<script type="text/javascript" src="js/config/skills.js"></script>
+		<script type="text/javascript" src="js/config/talents.js"></script>
+		<script type="text/javascript" src="js/config/quirks.js"></script>
+		<script type="text/javascript" src="js/config/events.js"></script>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/editor.js"></script>
 	</head>
 
 	<body>
@@ -49,14 +50,35 @@
 			<h2>Health</h2>
 			<div class="health">
 				<ul>
-					<li><input type="number" id="wound_points" name="wound_points"> Wound Points</li>
-					<li><input type="number" id="strain_points" name="strain_points"> Strain Points</li>
+					<li><input type="number" id="strain_points" name="strain_points"> Strain</li>
+					<li><input type="number" id="wound_points" name="wound_points" max="5"> Conditions</li>
 				</ul>
 
-				<div class="buttons">
-					<button class="minor" data-roll="1" data-strain="false" data-start="#strain_points" data-title="Roll for Panic">Panic</button>
-					<button class="minor" data-roll="1" data-strain="false" data-start="#attribute_agility" data-title="Roll for Initiative">Initiative</button>
-				</div>
+				<ol class="conditions" start="0">
+					<li>Healthy</li>
+					<li>Bruised</li>
+					<li>Hurt</li>
+					<li>Injured</li>
+					<li>Broken</li>
+					<li>Dead</li>
+				</ol>
+			</div>
+
+			<div class="buttons">
+				<a href="#notesPopup" class="button minor popup" data-title="Notes"><span class="icon">notes</span> Notes</a>
+				<a href="#inventoryPopup" class="button minor popup" data-title="Belongings"><span class="icon">list</span> Belongings</a>
+			</div>
+
+			<div class="buttons">
+				<button class="minor" data-roll="1" data-strain="false" data-start="#strain_points" data-title="Roll for Panic"><span class="icon">earthquake</span> Panic</button>
+				<button class="minor" data-roll="1" data-strain="false" data-start="#attribute_agility" data-title="Roll for Initiative"><span class="icon">lightbulb_2</span> Initiative</button>
+				<button class="minor" data-roll="1" data-strain="false" data-title="Dice Roller"><span class="icon">ifl</span> Roller</button>
+				<button class="minor" id="history"><span class="icon">history</span> History</button>
+			</div>
+
+			<div class="buttons">
+				<a href="#actions" class="info popup">Actions</a>
+				<a href="#bonus" class="info popup">Bonus</a>
 			</div>
 		</div>
 
@@ -81,7 +103,7 @@
 						<option>Choose...</option>
 					</select>
 
-					<button id="randomName" class="minor">Random</button>
+					<button id="randomName" class="minor"><span class="icon">ifl</span> Random</button>
 				</div>
 			</section>
 
@@ -106,7 +128,7 @@
 			</section>
 
 			<h2>Attributes</h2>
-			<section class="attributes" data-max="6">
+			<section class="attributes" data-total="10" data-max="4">
 				<fieldset>
 					<table>
 						<tbody></tbody>
@@ -116,17 +138,17 @@
 				<div>
 					<p>
 						<label>Attribute points used: </label>
-						<span class="used">0</span> of <span class="total">6</span>
+						<span class="used"></span> of <span class="total"></span>
 					</p>
 
-					<p>Maximum of 3 per attribute</p>
+					<p>Maximum of <span class="max"></span> per attribute</p>
 
-					<button class="reset minor">Reset</button>
+					<button class="reset minor"><span class="icon">replay</span> Reset</button>
 				</div>
 			</section>
 
 			<h2>Skills</h2>
-			<section class="skills" data-max="12">
+			<section class="skills" data-total="12" data-max="3">
 				<fieldset>
 					<table>
 						<tbody></tbody>
@@ -136,12 +158,12 @@
 				<div>
 					<p>
 						<label>Skill points used: </label>
-						<span class="used">0</span> of <span class="total">12</span>
+						<span class="used"></span> of <span class="total"></span>
 					</p>
 
-					<p>Maximum of 3 per skill</p>
+					<p>Maximum of <span class="max"></span> per skill</p>
 
-					<button class="reset minor">Reset</button>
+					<button class="reset minor"><span class="icon">replay</span> Reset</button>
 				</div>
 			</section>
 		
@@ -149,26 +171,26 @@
 			<fieldset class="random">
 				<label for="quirk1">Quirk 1</label>
 				<textarea id="quirk1" name="quirk1" rows="3"></textarea>
-				<button data-field="quirk1" data-list="quirks" class="minor">Random</button>
+				<button data-field="quirk1" data-list="quirks" class="minor"><span class="icon">ifl</span> Random</button>
 
 				<label for="quirk2">Quirk 2</label>
 				<textarea id="quirk2" name="quirk2" rows="3"></textarea>
-				<button data-field="quirk2" data-list="quirks" class="minor">Random</button>
+				<button data-field="quirk2" data-list="quirks" class="minor"><span class="icon">ifl</span> Random</button>
 			</fieldset>
 
 			<h2>Tragedies and Triumphs</h2>
 			<fieldset class="random">
 				<label for="event1">Event 1</label>
 				<textarea id="event1" name="event1" rows="3"></textarea>
-				<button data-field="event1" data-list="events" class="minor">Random</button>
+				<button data-field="event1" data-list="events" class="minor"><span class="icon">ifl</span> Random</button>
 
 				<label for="event2">Event 2</label>
 				<textarea id="event2" name="event2" rows="3"></textarea>
-				<button data-field="event2" data-list="events" class="minor">Random</button>
+				<button data-field="event2" data-list="events" class="minor"><span class="icon">ifl</span> Random</button>
 
 				<label for="event3">Event 3</label>
 				<textarea id="event3" name="event3" rows="3"></textarea>
-				<button data-field="event3" data-list="events" class="minor">Random</button>
+				<button data-field="event3" data-list="events" class="minor"><span class="icon">ifl</span> Random</button>
 			</fieldset>
 
 			<h2>Backstory</h2>
@@ -184,7 +206,7 @@
 
 					<div class="small-buttons">
 						<label class="button minor" for="upload">
-							<span>Upload</span>
+							<span><span class="icon">add_a_photo</span> Upload</span>
 							<input type="file" id="upload" />
 						</label>
 
@@ -197,7 +219,7 @@
 				</div>
 			</section>
 
-			<button type="submit" title="ctrl-s">Save</button>
+			<button type="submit" title="ctrl-s"><span class="icon">save</span> Save</button>
 		</form>
 
 		<form id="characters">
@@ -206,21 +228,20 @@
 			</ol>
 
 			<div class="buttons">
-				<button id="new">New</button>
+				<button id="new"><span class="icon">draft</span> New</button>
 
 				<label class="button" for="import">
-					<span>Import</span>
+					<span><span class="icon">face_up</span> Import</span>
 					<input type="file" id="import" multiple />
 				</label>
 
-				<a href="#" class="button" id="export" type="application/json">Export</a>
+				<a href="#" class="button" id="export" type="application/json"><span class="icon">face_down</span> Export</a>
+				<a href="#" class="button" id="backup" type="application/json"><span class="icon">download</span> Backup</a>
 			</div>
 		</form>
 
 		<footer>
 			<a href="https://docs.google.com/document/d/1ZyVuCBddBbIRzPuyQ2ij8AvKkMX8yhIUY3BfFMlw5mI/edit?usp=sharing">Full Streetwise User Manual</a>
-			<a href="#" data-roll="1" data-strain="false" data-title="Dice Roller">Dice Roller</a>
-			<a id="history" href="history">Dice History</a>
 		</footer>
 
 		<div id="overlay">
@@ -232,26 +253,47 @@
 		</div>
 
 		<div id="hidden">
+			<div id="notesPopup">
+				<textarea class="populate" id="notes" name="notes" cols="50" rows="15"></textarea>
+				<div class="buttons right">
+					<button id="updateNotes" class="minor"><span class="icon">save</span> Save</button>
+				</div>
+			</div>
+
+			<div id="inventoryPopup">
+				<ol class="inventory">
+					<li><input class="populate" id="inventory"></li>
+					<li><input class="populate" id="inventory"></li>
+					<li><input class="populate" id="inventory"></li>
+					<li><input class="populate" id="inventory"></li>
+					<li><input class="populate" id="inventory"></li>
+				</ol>
+
+				<div class="buttons right">
+					<button id="updateInventory" class="minor"><span class="icon">save</span> Save</button>
+				</div>
+			</div>
+
 			<div id="tray">
 				<div id="dice"></div>
 
 				<div class="buttons">
 					<div>
-						<button id="diceDec" class="button minor">-</button>
-						<button id="diceInc" class="button minor">+</button>
+						<button id="diceDec" class="button minor"><span class="icon">remove</span></button>
+						<button id="diceInc" class="button minor"><span class="icon">add</span></button>
 					</div>
 
-					<div id="calc">
+					<span id="calc">
 						<input id="start" type="number"> +
 						<span id="total">?</span> =
 						<span id="result">?</span>
-					</div>
+					</span>
 
-					<div id="rolled">
-						<div>Success: <span id="success">0</span></div>
-						<div>Strain: <span id="failure">0</span></div>
-					</div>
-					<button id="roll" class="button minor">Roll</button>
+					<span id="rolled">
+						<span>Success: <span id="success">0</span></span>
+						<span>Strain: <span id="failure">0</span></span>
+					</span>
+					<button id="roll" class="button minor"><span class="icon">ifl</span> Roll</button>
 				</div>
 			</div>
 
@@ -292,6 +334,51 @@
 					</div>
 				</div>
 	  		</div>
+
+	  		<div id="actions">
+	  			<div class="help">
+		  			<h3>Fast Actions</h3>
+					<ul>
+						<li>Standing up from being prone</li>
+						<li>Shouting a quick message</li>
+						<li>Drawing a weapon</li>
+						<li>Moving across a zone</li>
+						<li>Drinking some physick</li>
+						<li>Reloading a single-shot weapon</li>
+						<li>Dodging (Scramble)</li>
+						<li>Blocking (Scrap)</li>
+					</ul>
+
+					<h3>Slow Actions</h3>
+					<ul>
+						<li>Scrapping attack</li>
+						<li>Shooting attack</li>
+						<li>Physicking</li>
+						<li>Hoodwinking an enemy</li>
+					</ul>
+				</div>
+			</div>
+
+			<div id="bonus">
+	  			<div class="help">
+					<h3>Scapping</h3>
+					<ul>
+						<li>An extra Condition</li>
+						<li>Disarm</li>
+						<li>Knock Prone</li>
+						<li>Push Back</li>
+						<li>Grapple</li>
+						<li>Cancel a Scene Strain Point</li>
+					</ul>
+
+					<h3>Shooting</h3>
+					<ul>
+						<li>An extra Condition</li>
+						<li>Called shot</li>
+						<li>Pin</li>
+					</ul>
+				</div>
+			</div>
 	  	</div>
 	</body>
 </html>

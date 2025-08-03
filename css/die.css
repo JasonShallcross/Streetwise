@@ -27,8 +27,6 @@
   gap: 5px;
   grid-template-columns: repeat(6, 1fr);
   perspective: 600px;
-  max-height: 80vh;
-  overflow-y: auto;
   padding: 10px;
 }
 
@@ -52,6 +50,10 @@
   width: 100%;
   justify-content: space-between;
   align-items: center;
+}
+#tray .buttons div {
+  display: flex;
+  gap: 3px;
 }
 
 #calc {
@@ -130,6 +132,9 @@
   opacity: 1;
   animation: spin .5s;
 }
+#dieSlot:has(.disabled) {
+  opacity: 0.2;
+}
 
 .die.rolled .dot {
   visibility: visible;
@@ -161,6 +166,10 @@
 }
 
 .keep .face {
+  background-color: #999;
+}
+
+.disabled .face {
   background-color: #999;
 }
 

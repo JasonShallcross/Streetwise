@@ -59,11 +59,12 @@ $(() => {
 			const $btn = $(e.target);
 			const $input = $btn.closest('tr').find('input');
 			const $section = $btn.closest('section');
+			let max = $section.data('max');
 
-			const inc = $btn.index() == 0 ? 1 : -1;
+			const inc = $btn.index() == 0 ? -1 : 1;
 			const result = parseInt($input.val()) + inc;
 
-			if (result >= 0 && result <= 3) {
+			if (result >= 0 && result <= max) {
 				$input.val(parseInt($input.val()) + inc);
 				calculateValues($section[0].className);
 			}
@@ -77,6 +78,17 @@ $(() => {
 			calculateValues($section[0].className);
 		});
 
+		$('.popup').on('click', (e) => {
+			e.preventDefault();
+
+			let $button = $(e.target);
+			let title = $button.data('title') || $button.html();
+			let id = $button.data('content') || $button.attr('href');
+			let content = $(id).html();
+
+			popup(title, content);
+		});
+
 		$('#slots').on('click', 'a', (e) => {
 			e.preventDefault();
 
@@ -84,11 +96,16 @@ $(() => {
 			let id = $link.attr('href');
 
 			if ($link.hasClass('delete')) {
-				deleteCharacter(id);
+				let character = streetwise.characters[id];
+				let body = '<p>' + fullname(character.firstname, character.lastname, character.nickname) + '</p>';
+				body += '<div class="buttons center"><button id="delete" data-id="' + id + '">CONFIRM</button></div>';
+				popup('Delete Character?', body);
 			} else {
 				loadCharacter(id);
 				streetwise.lastId = id;
-				localStorage.streetwise = JSON.stringify(streetwise);
+				updateStorage();
+				$('#show')[0].scrollIntoView(true);
+				$link.closest('li').addClass('active').siblings().removeClass('active');
 			}
 		});
 
@@ -104,6 +121,14 @@ $(() => {
 
 			calculateValues('attributes');
 			calculateValues('skills');
+		});
+
+		$('#backup').on('click', (e) => {
+			$link = $(e.target);
+
+		    var data = new Blob([JSON.stringify(streetwise)]);
+		    $link.attr('href', URL.createObjectURL(data));
+		  	$link.attr('download', 'streetwise.json');
 		});
 
 		$('#export').on('click', (e) => {
@@ -126,9 +151,17 @@ $(() => {
 
 				reader.onload = () => {
 					try {
-        				let character = JSON.parse(reader.result);
-						streetwise.characters[character.id] = character;
-						imported++;
+						let json = JSON.parse(reader.result);
+						if (json.characters) {
+							for (var id in json.characters) {
+								streetwise[id] = json.characters[id];
+								imported++;
+							}
+						} else {
+	        				let character = JSON.parse(reader.result);
+							streetwise.characters[character.id] = character;
+							imported++;
+						}
     				} catch (e) {
         				popup('Character Import', 'Error reading ' + file.name);
     				}
@@ -186,25 +219,24 @@ $(() => {
 				return;
 			}
 
-			$('html').removeClass('popup');
+			closePopup();
 		});
 
 		$('#overlay button.close').on('click', (e) => {
 			e.preventDefault();
 
-			$('html').removeClass('popup');
+			closePopup();;
 		});
 
 		$('#wound_points').on('input', (e) => {
-			streetwise.characters[streetwise.lastId].wound_points = e.target.value;
-
-			localStorage.streetwise = JSON.stringify(streetwise);
+			updateCondition();
+			updateField('wound_points', e.target.value);
+			updateStorage();
 		});
 
 		$('#strain_points').on('input', (e) => {
-			streetwise.characters[streetwise.lastId].strain_points = e.target.value;
-
-			localStorage.streetwise = JSON.stringify(streetwise);
+			updateField('strain_points', e.target.value);
+			updateStorage();
 		});
 
 		$('#history').on('click', (e) => {
@@ -217,6 +249,34 @@ $(() => {
 
 			let rolls = '<ul class="history"><li>' + history.join('</li><li>') + '</li></ul>';
 			popup('Dice History', rolls);
+		});
+
+		$(document).on('click', '#updateNotes', (e) => {
+			e.preventDefault();
+
+			updateField('notes', $('#notes').val());
+			updateStorage();
+			closePopup();
+		});
+
+		$(document).on('click', '#updateInventory', (e) => {
+			e.preventDefault();
+
+			let items = [];
+			$('#popup .inventory input').each((i, item) => {
+				items.push(item.value);
+			});
+
+			updateField('inventory', items);
+			updateStorage();
+			closePopup();
+		});
+
+		$(document).on('click', '#delete', (e) => {
+			e.preventDefault();
+
+			let id = $(e.target).data('id');
+			deleteCharacter(id);
 		});
 
 		$(document).on('input', '#start', (e) => {
@@ -243,18 +303,18 @@ $(() => {
 		$(document).on('click', '#diceInc', (e) => {
 			e.preventDefault();
 
-			incDice(1);
+			adjustDice(1);
 		});
 
 		$(document).on('click', '#diceDec', (e) => {
 			e.preventDefault();
 
-			incDice(-1);
+			adjustDice(-1);
 		});
 
 		$(document).on('keydown', (e) => {
 			if (e.key == 'Escape') {
-				$('html').removeClass('popup');
+				closePopup();
 			}
 
 			const shortcuts = ['s', 'e'];
@@ -279,8 +339,12 @@ $(() => {
 		});
 	}
 
-	function save(title, message) {
+	function updateStorage() {
 		localStorage.streetwise = JSON.stringify(streetwise);
+	}
+
+	function save(title, message) {
+		updateStorage();
 		updateSlots();
 
 		setTimeout(() => {
@@ -318,12 +382,12 @@ $(() => {
 
 		for (let a in attributes) {
 			let attribute = attributes[a];
-			let tr = '<tr><td>' + attribute + '</td><td><input id="attribute_' + attribute.toLowerCase() + '" name="attribute_' + attribute.toLowerCase() + '" value="0" readonly></td><td><span>+</span> <span>-</span></td></tr>';
+			let tr = '<tr><td>' + attribute + '</td><td width="70px"><input id="attribute_' + attribute.toLowerCase() + '" name="attribute_' + attribute.toLowerCase() + '" value="0" readonly></td><td width="80px"><span class="icon">remove</span><span class="icon">add</span></td></tr>';
 			$(tr).appendTo('.attributes table');
 		}
 
 		for (let s in skills) {
-			let tr = '<tr><td title="' + skills[s][1] + '">' + s + ' (' + skills[s][0] + ')</td><td><input id="skill_' + s.toLowerCase() + '" name="skill_' + s.toLowerCase() + '" value="0" readonly></td><td><span>+</span> <span>-</span></td></tr>';
+			let tr = '<tr><td title="' + skills[s][1] + '">' + s + ' (' + skills[s][0] + ')</td><td width="70px"><input id="skill_' + s.toLowerCase() + '" name="skill_' + s.toLowerCase() + '" value="0" readonly></td><td width="80px"><span class="icon">remove</span><span class="icon">add</span></td></tr>';
 			$(tr).appendTo('.skills table');
 		}	
 	}
@@ -351,6 +415,8 @@ $(() => {
 
 		character.wound_points = $('#wound_points').val();
 		character.strain_points = $('#strain_points').val();
+		character.notes = $('#notes').val();
+		character.inventory = currentCharacter().inventory;
 
 		if (character.id.indexOf('#') === -1) {
 			character.id = '#' + Math.floor(Math.random() * 10000000).toString(16);
@@ -359,23 +425,36 @@ $(() => {
 		return character;
 	}
 
+	function currentCharacter() {
+		return streetwise.characters[streetwise.lastId];
+	}
+
+	function updateField(name, value) {
+		return streetwise.characters[streetwise.lastId][name] = value;
+	}
+
 	function loadCharacter(id) {
 		let character = streetwise.characters[id];
-		streetwise.lastId = id;
+		if (character) {
+			streetwise.lastId = id;
 
-		updateFields(character);
-		updateAttribute();
-		calculateValues('attributes');
-		calculateValues('skills');
+			updateFields(character);
+			updateAttribute();
+			updateCondition();
+			calculateValues('attributes');
+			calculateValues('skills');
 
-		if (character.image) {
-			$('#preview').show().prop('src', character.image);
-			$('#remove').show();
+			if (character.image) {
+				$('#preview').show().prop('src', character.image);
+				$('#remove').show();
+			} else {
+				$('#preview').hide();
+				$('#remove').hide();
+			}
+			updateCharacter();
 		} else {
-			$('#preview').hide();
-			$('#remove').hide();
+			$('#edit').prop('checked', 'checked');
 		}
-		updateCharacter();
 	}
 
 	function deleteCharacter(id) {
@@ -410,7 +489,7 @@ $(() => {
 	function getTalents(character) {
 		let list = [];
 
-		character.talents.split(',').forEach((talent) => {
+		character.talents.split(/,\s*/).forEach((talent) => {
 			list.push(`<dt>${talent}:</dt><dd>${talents[talent]}</dd>`);
 		});
 
@@ -451,6 +530,7 @@ $(() => {
 			stats[skill] = score;
 		}
 
+
 		let list = [];
 		for (stat in stats) {
 			list.push(`<dt title="${skills[stat][1]}" data-roll="${stats[stat]}" data-title="${stat} Roll (${skills[stat][0]})">${stat}:</span></dt><dd data-roll="${stats[stat]}" data-title="${stat} Roll (${skills[stat][0]})">${stats[stat]}</dd>`);
@@ -487,14 +567,26 @@ $(() => {
 		for (field in data) {
 			let value = data[field];
 
+			if (Array.isArray(value)) {
+				value = value.join(', ');
+			}
 			$('#' + field).val(value);
 		}
+	}
+
+	function updateCondition() {
+		let $conditions = $('.conditions li');
+		$conditions.removeClass('current');
+
+		wounds = getWounds();
+		$conditions.eq(wounds).addClass('current');
 	}
 
 	function calculateValues(section) {
 		const $section = $('.' + section);
 		let used = 0;
-		let total = $section.data('max');
+		let total = $section.data('total');
+		let max   = $section.data('max');
 
 		$section.find('input').each((i, input) => {
 			if (input.value !== '') {
@@ -504,6 +596,7 @@ $(() => {
 
 		$section.find('.used').html(used);
 		$section.find('.total').html(total);
+		$section.find('.max').html(max);
 
 		$section.find('table').toggleClass('maxxed', used == total);
 	}
@@ -513,21 +606,46 @@ $(() => {
 
 		for (c in streetwise.characters) {
 			let character = streetwise.characters[c];
-			let $link = $('<li><a class="delete" href="' + character.id + '">X</a> <a class="edit" href="' + character.id + '">' + fullname(character.firstname, character.lastname, character.nickname) + '</a></li>').appendTo('#slots');
+			let active = (character.id == streetwise.lastId) ? 'active' : '';
+			let $link = $('<li class="' + active + '"><a class="delete" href="' + character.id + '"><span class="icon">delete</span></a> <a class="edit" href="' + character.id + '">' + fullname(character.firstname, character.lastname, character.nickname) + '</a></li>').appendTo('#slots');
 		}
 	}
 
 	function popup(title, message) {
 		$('#popupTitle').html(title);
-		$('#popupContent').html(message);
+
+		if (message) {
+			if (message.indexOf('<') == -1) {
+				message = '<p>' + message + '</p>';
+			}
+
+			$('#popupContent').html(message);
+		}
+
 		$('html').addClass('popup');
+
+		let character = currentCharacter();
+
+		setTimeout(() => {
+			$('#popupContent .populate').each((e, el) => {
+				$input = $(el);
+				let value = character[$input.attr('id')];
+				if (Array.isArray(value)) {
+					let ndx = $input.parent().index();
+					$input.val(value[ndx]);	
+				} else {
+					$input.val(value);
+				}
+			})
+		},10);
+	}
+
+	function closePopup() {
+		$('html').removeClass('popup');
 	}
 
 	function getWounds() {
-		let wounds = $('#wound_points').val();
-		if (wounds == '') {
-			wounds = 0;
-		}
+		let wounds = $('#wound_points').val() || 0;
 
 		return parseInt(wounds);
 	}
@@ -547,7 +665,7 @@ $(() => {
 	function showDice(title, dice, useStrain, start) {
 		dice = parseInt(dice);
 
-		popup(title, '');
+		popup(title);
 
 		let $tray = $('#hidden #tray').clone().appendTo('#popupContent');
 		let $dice = $tray.find('#dice');
@@ -557,7 +675,7 @@ $(() => {
 		for (d=0; d<dice; d++) {
 			let $new = $die.clone();
 			if (useStrain === false) {
-				$new.addClass('added');
+				$new.addClass('added').prop('title', 'Modifier');
 			}
 
 			$new.appendTo($dice);
@@ -577,8 +695,13 @@ $(() => {
 			let strain = getStrain();
 			if (strain > 0) {
 				for (d=0; d<strain; d++) {
-					$die.clone().addClass('strain').appendTo($dice);
+					$die.clone().addClass('strain').prop('title', 'Strain').appendTo($dice);
 				}
+			}
+
+			let wounds = getWounds();
+			for (w=0; w<wounds; w++) {
+				$tray.find('#dieSlot').eq(w).addClass('disabled').prop('title', 'Disabled');
 			}
 		}
 
@@ -592,14 +715,31 @@ $(() => {
         $('#result').html('?');
 	}
 
-    function incDice(dice) {
+    function adjustDice(dice) {
         let $dice = $('#popup #dice');
 
         if (dice > 0) {
-            let $die = $('#hidden #dieSlot');
-            $die.clone().addClass('added').appendTo($dice);
+        	let $disabled = $dice.find('.disabled');
+        	if ($disabled.length > 0) {
+            	$disabled.last(0).removeClass('disabled');
+            } else {
+	            let $die = $('#hidden #dieSlot');
+	            $die.clone().addClass('added').appendTo($dice);
+	        }
         } else {
-            $dice.find('#dieSlot.added:last(0)').remove();
+        	let $all = $dice.find('.die');
+            if ($all.length == 1) {
+            	return;
+            }
+        	let $added = $dice.find('.added');
+        	if ($added.length > 0) {
+            	$added.last(0).remove();
+            } else {
+            	let $other = $dice.find('#dieSlot:not(.disabled)');
+            	if ($other.length > 0) {
+            		$other.eq(0).addClass('disabled');
+            	}
+            }
         }
 
         resetCalc();
@@ -644,6 +784,10 @@ $(() => {
 					$success.html(successes);
 				}
 			}
+			
+			if ($die.closest('#dieSlot').hasClass('disabled')) {
+				rolling = false;
+			}
 
 			if (rolling) {
 				$die.removeClass('rolled');
@@ -668,7 +812,6 @@ $(() => {
 					}
 					$die.addClass('rolled').attr('data-rolled', face);
 
-					console.log('editor.js; line:671; d, $dice.length:', d, $dice.length);
 					if (d == $dice.length - 1) {
 						$('#roll').removeAttr('disabled');
 						let time = new Date().toLocaleTimeString();
@@ -677,7 +820,7 @@ $(() => {
 
 						if ($tray.hasClass('halos')) {
 							let pushes = parseInt($tray.data('pushes') || 0) + 1;
-							$('#popup #roll').html('push #' + pushes).data('push', true);
+							$('#popup #roll').html('<span class="icon">replay</span> push #' + pushes).data('push', true);
 
 							if (pushes > 0) {
 								title += ' #' + pushes;

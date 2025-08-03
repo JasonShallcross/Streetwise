@@ -44,7 +44,23 @@
 		display: none !important;
 	}
 
-	.health .buttons {
+	.health input {
+		display: none;
+	}
+
+	.health ul li:before {
+		content: "";
+		display: block;
+		width: 50px;
+		height: 50px;
+		border: 2px solid black;
+	}
+
+	button, .button {
+		display: none;
+	}
+
+	.noprint {
 		display: none;
 	}
 
