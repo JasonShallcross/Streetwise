@@ -10,6 +10,10 @@
 		display: none !important;
 	}
 
+	body {
+		padding: 0;
+	}
+
 	h1 {
 		min-height: auto;
 		margin: 0;
@@ -27,12 +31,13 @@
 		display: none;
 	}
 
-	#edit {
+	#form {
 		display: none !important;
 	}
 
 	#show {
 		display: flex !important;
+		gap: 10px;
 	}
 
 	#show_image {
@@ -40,8 +45,16 @@
 		filter: saturate(0) contrast(0.5) brightness(1.5);
 	}
 
+	#show_skills {
+		grid-template-columns: repeat(12, 1fr);
+	}
+
 	#characters {
 		display: none !important;
+	}
+
+	.conditions li {
+		font-size: 12px;
 	}
 
 	.health input {
@@ -52,11 +65,11 @@
 		content: "";
 		display: block;
 		width: 50px;
-		height: 50px;
+		height: 30px;
 		border: 2px solid black;
 	}
 
-	button, .button {
+	button, .button, .info {
 		display: none;
 	}
 

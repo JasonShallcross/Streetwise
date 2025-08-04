@@ -124,8 +124,13 @@ form {
 	gap: 20px;
 }
 
+#jumpStats {
+	scroll-margin-top: 60px;
+}
+
 #form {
 	display: none;
+	scroll-margin-top: 60px;
 }
 
 #toolbar {
@@ -147,21 +152,59 @@ form {
 	margin: 0;
 }
 
+#jumps {
+	display: flex;
+	gap: 10px;
+}
+#jumps a {
+	text-decoration: none;
+	border: 1px solid var(--border);
+	border-radius: 5px;
+	padding: 2px 10px;
+	display: flex;
+	align-items: center;
+}
+#jumps a:hover {
+	color: white;
+	background: var(--button);
+}
+#jumps a:before {
+	content: "keyboard_double_arrow_down";
+	font-family: 'Material Symbols Outlined';
+	font-size: 14px;
+	font-weight: normal;
+}
+
 label[for="editmode"] {
 	justify-content: flex-end;
 }
 
+#jumps .edit {
+	display: none;
+}
+
+body:has(#edit:checked) #jumps .show,
 body:has(#edit:checked) #show {
 	display: none;
 }
 
+body:has(#edit:checked) #jumps .edit,
 body:has(#edit:checked) #form {
 	display: flex;
 }
 
 .bio {
 	display: flex;
-	gap: 30px;
+	gap: 10px 20px;
+}
+#show_backstory {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+#show_backstory p {
+	margin: 0;
+	text-align: left;
 }
 
 #show_image {
@@ -169,6 +212,9 @@ body:has(#edit:checked) #form {
 	height: auto;
 	filter: saturate(0) sepia(0.7) contrast(0.5) brightness(1.5);
 	border-radius: 5px;
+}
+a:hover #show_image {
+	filter: none;
 }
 #show_skills {
 	display: grid;
@@ -308,18 +354,19 @@ section.attributes[attribute="Empathy"] td:has(#attribute_empathy):after {
 }
 
 #slots {
+	flex-wrap: wrap;
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 	font-family: var(--font);
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
+	display: grid;
+	gap: 20px 50px;
+	grid-template-columns: 1fr 1fr;
 }
 
 #slots li {
 	display: flex;
-	gap: 5px;
+	gap: 10px;
 }
 #slots li.active {
 	color: var(--strong);
@@ -331,17 +378,7 @@ section.attributes[attribute="Empathy"] td:has(#attribute_empathy):after {
 	font-weight: normal;
 }
 
-#slots a.edit {
-	color: inherit;
-	font-weight: bold;
-	text-decoration: none;
-}
-#slots a.edit:hover {
-	color: var(--hover);
-	text-decoration: underline;
-}
-
-#slots a.delete {
+#slots .delete {
 	cursor: pointer;
 	padding: 2px 15px;
 	color: white;
@@ -350,14 +387,59 @@ section.attributes[attribute="Empathy"] td:has(#attribute_empathy):after {
 	background: var(--button);
 	border-radius: 5px;
 	margin-right: 2px;
-	display: inline-block;
+	display: flex;
 	user-select: none;
 	text-decoration: none;
 	text-transform: uppercase;
+	align-items: center;
 }
-#slots a.delete:hover {
+#slots .delete:hover {
 	color: var(--strong);
 	background: var(--hover);
+	display: flex;
+}
+#slots .image,
+#slots .noimage {
+	width: 70px;
+	height: 70px;
+	display: block;
+	border: 1px solid var(--border);
+	border-radius: 5px;
+}
+#slots .image {
+	background-size: cover;
+	filter: saturate(0) sepia(0.7) contrast(0.5) brightness(1.5);
+}
+#slots .noimage {
+	background-color: var(--bg);
+}
+#slots .image {
+	width: 70px;
+	height: 70px;
+	background-color: var(--bg);
+	background-size: cover;
+	display: block;
+	border: 1px solid var(--border);
+	filter: saturate(0) sepia(0.7) contrast(0.5) brightness(1.5);
+	border-radius: 5px;
+}
+#slots a:hover .image {
+	filter: none;
+}
+#slots h3 {
+	font-size: 14px;
+	margin: 0 0 5px 0;
+}
+#slots h3 a {
+	color: inherit;
+	text-decoration: none;
+}
+#slots h3 a:hover {
+	text-decoration: underline;
+}
+#slots p {
+	color: inherit;
+	font-size: 12px;
 }
 
 .buttons {
@@ -399,6 +481,7 @@ button.minor {
 	padding: 2px 15px;
 	outline: none;
 	border: none;
+	text-transform: none;
 }
 .button:hover,
 button:hover {
@@ -563,12 +646,13 @@ dl.stats dd:hover {
 }
 .conditions li {
 	 counter-increment: counter;
+	 gap: 5px;
 }
 .conditions li.current {
 	color: var(--strong);
 }
 .conditions li:before {
-  content:counter(counter) ': '
+  content:counter(counter) ':'
 }
 
 .health input {

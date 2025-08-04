@@ -29,4 +29,8 @@
 	.buttons > * {
 		width: auto !important;
 	}
+
+	#slots {
+		display: flex;
+	}
 }

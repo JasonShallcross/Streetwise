@@ -22,20 +22,29 @@
 
 		<div id="toolbar">
 			<h3>Urchinator v1.0</h3>
+			
+			<div id="jumps">
+				<a class="link edit" href="#form">Top</a>
+				<a class="link show" href="#show">Top</a>
+				<a class="link show" href="#jumpStats">Stats</a>
+				<a class="link" href="#jumpChars">Characters</a>
+			</div>
+
 			<label for="edit" title="ctrl-e">
 				Edit mode
 				<input type="checkbox" id="edit" value="edit">
 			</label>
+
 		</div>
 
 		<div id="show">
 			<h2><span id="show_fullname"></span> (<span id="show_archetype"></span>)</h2>
 			<div class="bio">
-				<div id="show_picture"><img id="show_image"></div>
+				<a id="show_picture"><img id="show_image" title="download image"></a>
 				<div id="show_backstory" class="panel"></div>
 			</div>
 
-			<h2>Talents</h2>
+			<h2 id="jumpStats">Talents</h2>
 			<dl id="show_talents" class="terms"></dl>
 
 			<h2>Attributes</h2>
@@ -76,7 +85,7 @@
 				<button class="minor" id="history"><span class="icon">history</span> History</button>
 			</div>
 
-			<div class="buttons">
+			<div class="buttons noprint">
 				<a href="#actions" class="info popup">Actions</a>
 				<a href="#bonus" class="info popup">Bonus</a>
 			</div>
@@ -125,6 +134,10 @@
 					<label>Skills</label>
 					<input id="skills" name="skills" readonly>
 				</fieldset>
+
+				<div class="chooser">
+					<button id="randomArchetype" class="minor"><span class="icon">ifl</span> Random</button>
+				</div>
 			</section>
 
 			<h2>Attributes</h2>
@@ -143,7 +156,10 @@
 
 					<p>Maximum of <span class="max"></span> per attribute</p>
 
-					<button class="reset minor"><span class="icon">replay</span> Reset</button>
+					<div class="buttons">
+						<button class="reset minor"><span class="icon">replay</span> Reset</button>
+						<button id="randomAttributes" class="minor"><span class="icon">ifl</span> Random</button>
+					</div>
 				</div>
 			</section>
 
@@ -163,7 +179,10 @@
 
 					<p>Maximum of <span class="max"></span> per skill</p>
 
-					<button class="reset minor"><span class="icon">replay</span> Reset</button>
+					<div class="buttons">
+						<button class="reset minor"><span class="icon">replay</span> Reset</button>
+						<button id="randomSkills" class="minor"><span class="icon">ifl</span> Random</button>
+					</div>
 				</div>
 			</section>
 		
@@ -223,6 +242,7 @@
 		</form>
 
 		<form id="characters">
+			<a id="jumpChars"></a>
 			<h2>Characters</h2>
 			<ol id="slots">
 			</ol>
@@ -284,7 +304,7 @@
 					</div>
 
 					<span id="calc">
-						<input id="start" type="number"> +
+						<input id="start" type="number" title="modifier"> +
 						<span id="total">?</span> =
 						<span id="result">?</span>
 					</span>

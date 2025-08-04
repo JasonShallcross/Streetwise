@@ -17,6 +17,18 @@ $(() => {
 			updateCharacter();
 		});
 
+		$('#edit').on('change', (e) => {
+			if (e.target.checked) {
+				setTimeout(() => {
+					$('#form')[0].scrollIntoView(true);
+				}, 10);
+			} else {
+				setTimeout(() => {
+					$('#show')[0].scrollIntoView(true);
+				}, 10);
+			}
+		});
+
 		$('#names').on('change', (e) => {
 			e.preventDefault();
 
@@ -34,6 +46,73 @@ $(() => {
 			$('#firstname').val(name[0]);
 			$('#lastname').val(name[1]);
 			$('#nickname').val(name[2]);
+		});
+
+		$('#randomArchetype').on('click', (e) => {
+			e.preventDefault();
+
+			let rnd = Math.floor(Math.random() * archetypes.length);
+			let archetype = archetypes[rnd];
+			$('#archetypeid').val(archetype.archetypeid).trigger('change');
+		});
+
+		$('#randomAttributes').on('click', (e) => {
+			e.preventDefault();
+
+			const $btn = $(e.target);
+			const $section = $btn.closest('section');
+			$section.find('input').val('0');
+			let total = $section.data('total');
+			let max = $section.data('max');
+			let deck = [];
+
+			for (var a=0; a<attributes.length; a++) {
+				for (var f=0; f<max; f++) {
+					deck.push(attributes[a].toLowerCase());
+				}
+			}
+
+			let attribute = currentCharacter().attribute;
+			if (attribute) {
+				total -= 2;
+				$('#attribute_' + attribute.toLowerCase()).val(2);
+  				deck.splice(deck.indexOf(attribute.toLowerCase()), 2);
+			}
+
+			let hand = deal(deck, total);
+			for (var h in hand) {
+				let $input = $('#attribute_' + hand[h]);
+				$input.val(parseInt($input.val()) + 1);
+			}
+
+			calculateValues('attributes');
+		});
+
+		$('#randomSkills').on('click', (e) => {
+			e.preventDefault();
+
+			const $btn = $(e.target);
+			const $section = $btn.closest('section');
+			$section.find('input').val('0');
+			let total = $section.data('total');
+			let max = $section.data('max');
+			let deck = [];
+
+			let list = Object.keys(skills);
+
+			for (var s=0; s<list.length; s++) {
+				for (var f=0; f<max; f++) {
+					deck.push(list[s].toLowerCase());
+				}
+			}
+
+			let hand = deal(deck, total);
+			for (var h in hand) {
+				let $input = $('#skill_' + hand[h]);
+				$input.val(parseInt($input.val()) + 1);
+			}
+
+			calculateValues('skills');
 		});
 
 		$('.random button').on('click', (e) => {
@@ -92,7 +171,7 @@ $(() => {
 		$('#slots').on('click', 'a', (e) => {
 			e.preventDefault();
 
-			let $link = $(e.target);
+			let $link = $(e.target).closest('a');
 			let id = $link.attr('href');
 
 			if ($link.hasClass('delete')) {
@@ -117,10 +196,14 @@ $(() => {
 			$('#preview').hide();
 		    $('#remove').hide();
 		    $('#image').val('');
+			$('#strain_points').val('');
+			$('#wound_points').val('');
 			$('#edit').prop('checked', 'checked');
 
 			calculateValues('attributes');
 			calculateValues('skills');
+
+			$('#show')[0].scrollIntoView(true);
 		});
 
 		$('#backup').on('click', (e) => {
@@ -154,7 +237,7 @@ $(() => {
 						let json = JSON.parse(reader.result);
 						if (json.characters) {
 							for (var id in json.characters) {
-								streetwise[id] = json.characters[id];
+								streetwise.characters[id] = json.characters[id];
 								imported++;
 							}
 						} else {
@@ -249,6 +332,13 @@ $(() => {
 
 			let rolls = '<ul class="history"><li>' + history.join('</li><li>') + '</li></ul>';
 			popup('Dice History', rolls);
+		});
+
+		$('#jumps a').on('click', (e) => {
+			e.preventDefault();
+
+			let $link = $(e.target);
+			$($link.attr('href'))[0].scrollIntoView(true);
 		});
 
 		$(document).on('click', '#updateNotes', (e) => {
@@ -371,6 +461,18 @@ $(() => {
 		bind();
 	}
 
+	function deal(deck, cards) {
+		let hand = [];
+		for (var r=0; r<cards; r++) {
+			let rnd = Math.floor(Math.random() * deck.length);
+			let card = deck[rnd];
+			hand.push(card);
+			deck.splice(deck.indexOf(card), 1);
+		}
+
+		return hand;
+	}
+
 	function build() {
 		for (let n in names) {
 			$('<option>' + fullname(names[n][0], names[n][1], names[n][2]) + '</option>').appendTo('#names');
@@ -474,11 +576,17 @@ $(() => {
 		$('#show_quirks').html(getQuirks(character));
 		$('#show_backstory').html(getBackstory(character));
 
+		let $picture = $('#show_picture');
+
 		if (character.image) {
-			$('#show_picture').show();
+			var data = new Blob([character.image]);
+		    $picture.attr('href', URL.createObjectURL(data));
+		  	$picture.attr('download', character.firstname + '-' + character.lastname + '.jpg');
+			$picture.show();
 			$('#show_image').prop('src', character.image);
+
 		} else {
-			$('#show_picture').hide();
+			$picture.hide();
 		}
 	}
 
@@ -487,7 +595,11 @@ $(() => {
 	}
 
 	function getTalents(character) {
-		let list = [];
+		if (!character.talents) {
+			return '';
+		}
+
+		let list = [];		
 
 		character.talents.split(/,\s*/).forEach((talent) => {
 			list.push(`<dt>${talent}:</dt><dd>${talents[talent]}</dd>`);
@@ -500,7 +612,7 @@ $(() => {
 		let stats = {};
 
 		attributes.forEach((attribute) => {
-			stats[attribute] = parseInt(character['attribute_' + attribute.toLowerCase()]);
+			stats[attribute] = parseInt(character['attribute_' + attribute.toLowerCase()] || 0);
 		});
 
 		if (character.attribute) {
@@ -526,7 +638,7 @@ $(() => {
 
 		for (let skill in skills) {
 			let attr = skills[skill][0];
-			let score = parseInt(attrs[attr]) + parseInt(character['skill_' + skill.toLowerCase()]);
+			let score = parseInt(attrs[attr]) + parseInt(character['skill_' + skill.toLowerCase()] || 0);
 			stats[skill] = score;
 		}
 
@@ -606,21 +718,41 @@ $(() => {
 
 		for (c in streetwise.characters) {
 			let character = streetwise.characters[c];
-			let active = (character.id == streetwise.lastId) ? 'active' : '';
-			let $link = $('<li class="' + active + '"><a class="delete" href="' + character.id + '"><span class="icon">delete</span></a> <a class="edit" href="' + character.id + '">' + fullname(character.firstname, character.lastname, character.nickname) + '</a></li>').appendTo('#slots');
+			let $item = $('<li>');
+			if (character.id == streetwise.lastId) {
+				$item.addClass('active');
+			}
+
+			let name = fullname(character.firstname, character.lastname, character.nickname);
+
+			$('<a class="delete" href="' + character.id + '"><span class="icon">delete</span></a>').appendTo($item);
+
+			let $edit = $('<a href="' + character.id + '">');
+			if (character.image) {
+				let = $image = $('<span class="image" title="' + character.firstname + '">');
+				$image.css('backgroundImage', 'url(\'' + character.image + '\')').appendTo($edit);
+			} else {
+				$('<span class="noimage" title="No image">').appendTo($edit);
+			}
+			$edit.appendTo($item);
+
+			let $text = $('<div class="text">');
+			$('<h3><a href="' + character.id + '">' + name + '</a></h3>').appendTo($text);
+			$('<p>' + character.archetype + '</p>').appendTo($text);
+			$text.appendTo($item);
+
+			$item.appendTo('#slots');
 		}
 	}
 
 	function popup(title, message) {
 		$('#popupTitle').html(title);
 
-		if (message) {
-			if (message.indexOf('<') == -1) {
-				message = '<p>' + message + '</p>';
-			}
-
-			$('#popupContent').html(message);
+		if (message.indexOf('<') == -1) {
+			message = '<p>' + message + '</p>';
 		}
+
+		$('#popupContent').html(message);
 
 		$('html').addClass('popup');
 
@@ -665,7 +797,7 @@ $(() => {
 	function showDice(title, dice, useStrain, start) {
 		dice = parseInt(dice);
 
-		popup(title);
+		popup(title, '');
 
 		let $tray = $('#hidden #tray').clone().appendTo('#popupContent');
 		let $dice = $tray.find('#dice');
