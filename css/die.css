@@ -27,7 +27,7 @@
   gap: 5px;
   grid-template-columns: repeat(6, 1fr);
   perspective: 600px;
-  padding: 10px;
+  /* padding: 10px; */
 }
 
 #dieSlot {
@@ -96,8 +96,8 @@
   position: absolute;
   width: 50px;
   height: 50px;
-  background: white;
-  border: 1px solid #666;
+  background: linear-gradient(#fff, #eee);
+  border: 2px inset rgba(0,0,0, .3);
   border-radius: 8px;
   display: flex;
   justify-content: center;
@@ -107,7 +107,7 @@
 .face .dot {
   width: 8px;
   height: 9px;
-  background: black;
+  background: linear-gradient(#000, #999);
   border-radius: 50%;
   position: absolute;
   visibility: hidden;
@@ -149,32 +149,32 @@
 
 .halos #dieSlot:has([data-rolled="6"]) {
   border-radius: 50%;
-  box-shadow: 0 0 10px 4px var(--success);
+  box-shadow: 0 0 10px 4px var(--success) inset;
 }
 
 .halos #dieSlot:has([data-rolled="1"]) {
   border-radius: 50%;
-  box-shadow: 0 0 10px 4px var(--failure);
+  box-shadow: 0 0 10px 4px var(--failure) inset;
 }
 
 .strain .face {
-  background-color: #900;
+  background: linear-gradient(#900, #800);
 }
 
 .added .face {
-  background-color: #090;
+  background: linear-gradient(#090, #080);
 }
 
 .keep .face {
-  background-color: #999;
+  background: linear-gradient(#999, #888);
 }
 
 .disabled .face {
-  background-color: #999;
+  background: linear-gradient(#999, #888);
 }
 
 .keep .dot,
 .added .dot,
 .strain .dot {
-  background-color: white;
+  background: linear-gradient(#fff, #999);
 }

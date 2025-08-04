@@ -168,24 +168,35 @@ $(() => {
 			popup(title, content);
 		});
 
+		$('#slots').on('click', 'li', (e) => {
+			let $link = $(e.target).find('a:eq(0)');
+			console.log('editor.js; line:173; $link:', $link);
+			$link.trigger('click');
+		});
+
 		$('#slots').on('click', 'a', (e) => {
 			e.preventDefault();
 
 			let $link = $(e.target).closest('a');
 			let id = $link.attr('href');
 
-			if ($link.hasClass('delete')) {
-				let character = streetwise.characters[id];
-				let body = '<p>' + fullname(character.firstname, character.lastname, character.nickname) + '</p>';
-				body += '<div class="buttons center"><button id="delete" data-id="' + id + '">CONFIRM</button></div>';
-				popup('Delete Character?', body);
-			} else {
-				loadCharacter(id);
-				streetwise.lastId = id;
-				updateStorage();
-				$('#show')[0].scrollIntoView(true);
-				$link.closest('li').addClass('active').siblings().removeClass('active');
-			}
+			loadCharacter(id);
+			streetwise.lastId = id;
+			updateStorage();
+			$('#show')[0].scrollIntoView(true);
+			$link.closest('li').addClass('active').siblings().removeClass('active');
+		});
+
+		$('#slots').on('click', '.delete', (e) => {
+			e.preventDefault();
+
+			let $button = $(e.target).closest('a');
+			let id = $button.data('href');
+
+			let character = streetwise.characters[id];
+			let body = '<p>' + fullname(character.firstname, character.lastname, character.nickname) + '</p>';
+			body += '<div class="buttons center"><button id="delete" data-id="' + id + '">CONFIRM</button></div>';
+			popup('Delete Character?', body);
 		});
 
 		$('#new').on('click', (e) => {
@@ -725,8 +736,6 @@ $(() => {
 
 			let name = fullname(character.firstname, character.lastname, character.nickname);
 
-			$('<a class="delete" href="' + character.id + '"><span class="icon">delete</span></a>').appendTo($item);
-
 			let $edit = $('<a href="' + character.id + '">');
 			if (character.image) {
 				let = $image = $('<span class="image" title="' + character.firstname + '">');
@@ -739,6 +748,8 @@ $(() => {
 			let $text = $('<div class="text">');
 			$('<h3><a href="' + character.id + '">' + name + '</a></h3>').appendTo($text);
 			$('<p>' + character.archetype + '</p>').appendTo($text);
+			$('<button class="delete" data-href="' + character.id + '"><span class="icon">delete</span></button>').appendTo($text);
+
 			$text.appendTo($item);
 
 			$item.appendTo('#slots');
@@ -748,7 +759,7 @@ $(() => {
 	function popup(title, message) {
 		$('#popupTitle').html(title);
 
-		if (message.indexOf('<') == -1) {
+		if (message && message.indexOf('<') == -1) {
 			message = '<p>' + message + '</p>';
 		}
 
@@ -952,7 +963,7 @@ $(() => {
 
 						if ($tray.hasClass('halos')) {
 							let pushes = parseInt($tray.data('pushes') || 0) + 1;
-							$('#popup #roll').html('<span class="icon">replay</span> push #' + pushes).data('push', true);
+							$('#popup #roll').html('<span class="icon">replay</span> Push #' + pushes).data('push', true);
 
 							if (pushes > 0) {
 								title += ' #' + pushes;

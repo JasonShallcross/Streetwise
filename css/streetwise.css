@@ -124,6 +124,33 @@ form {
 	gap: 20px;
 }
 
+#floater {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+@media screen and (min-width: 1280px) {
+	#floater {
+		gap: 30px;
+		top: 50%;
+		left: calc(50% + 450px);
+		position: fixed;
+		transform: translateY(-50%);
+		background: var(--bg);
+		border: 1px solid var(--border);
+		border-radius: 5px;
+		box-shadow: rgba(0, 0, 0, .2) 0 0 10px 10px;
+		padding: 20px;
+	}
+
+	#floater .buttons.stretch {
+		flex-direction: column;
+	}
+	#floater .buttons.center {
+	}
+}
+
 #jumpStats {
 	scroll-margin-top: 60px;
 }
@@ -266,6 +293,7 @@ input {
 	color: var(--input);
 	border: 1px solid var(--border);
 	padding: 2px 5px;
+	width: 280px;
 	border-radius: 2px;
 }
 input[readonly] {
@@ -367,15 +395,34 @@ section.attributes[attribute="Empathy"] td:has(#attribute_empathy):after {
 #slots li {
 	display: flex;
 	gap: 10px;
+	padding: 10px;
+	border-radius: 5px;
+	position: relative;
+	border: 1px solid transparent;
+	cursor: pointer;
+}
+#slots li:hover {
+	border: 1px solid var(--border);
 }
 #slots li.active {
 	color: var(--strong);
+	background: var(--bg);
+	border: 1px solid var(--border);
 }
 #slots li.active:after {
 	content: "check";
 	font-family: 'Material Symbols Outlined';
 	font-size: 14px;
-	font-weight: normal;
+	font-weight: bold;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+}
+
+#slots .text {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
 
 #slots .delete {
@@ -386,12 +433,11 @@ section.attributes[attribute="Empathy"] td:has(#attribute_empathy):after {
 	font-size: 12px;
 	background: var(--button);
 	border-radius: 5px;
-	margin-right: 2px;
 	display: flex;
-	user-select: none;
-	text-decoration: none;
-	text-transform: uppercase;
-	align-items: center;
+	align-self: flex-start;
+	width: auto;
+	outline: none;
+	border: none;
 }
 #slots .delete:hover {
 	color: var(--strong);
@@ -423,19 +469,17 @@ section.attributes[attribute="Empathy"] td:has(#attribute_empathy):after {
 	filter: saturate(0) sepia(0.7) contrast(0.5) brightness(1.5);
 	border-radius: 5px;
 }
-#slots a:hover .image {
+#slots a:hover .image,
+#slots li:hover .image {
 	filter: none;
 }
 #slots h3 {
 	font-size: 14px;
-	margin: 0 0 5px 0;
+	margin: 0;
 }
 #slots h3 a {
 	color: inherit;
 	text-decoration: none;
-}
-#slots h3 a:hover {
-	text-decoration: underline;
 }
 #slots p {
 	color: inherit;
@@ -451,6 +495,13 @@ section.attributes[attribute="Empathy"] td:has(#attribute_empathy):after {
 }
 .buttons.right {
 	justify-content: flex-end;
+}
+.buttons.stretch {
+	justify-content: stretch;
+}
+.buttons.stretch .button,
+.buttons.stretch button {
+	flex-grow: 1;
 }
 
 .button,
@@ -478,7 +529,7 @@ button {
 .button.minor,
 button.minor {
 	width: auto;
-	padding: 2px 15px;
+	padding: 4px 15px;
 	outline: none;
 	border: none;
 	text-transform: none;
@@ -748,6 +799,12 @@ footer a:hover {
 	overflow-y: auto;
 	padding: 0 10px 0 0;
 	text-align: center;
+	border-top: 1px solid var(--border);
+  padding-top: 20px;
+}
+#popupContent:has(.history) {
+	border-top: none;
+  padding-top: 0;
 }
 #popup ul {
 	font-size: 14px;
@@ -778,6 +835,10 @@ footer a:hover {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
+	width: 300px;
+}
+#popup ol.inventory li {
+	width: 100%;
 }
 
 #popup .help {
