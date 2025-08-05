@@ -38,14 +38,14 @@ var archetypes = [
 		"archetypeid": "nose",
 		"archetype": "Street Nose",
 		"attribute": "Agility",
-		"talents": "Gone in a Blink",
+		"talents": "Gone In A Blink",
 		"skills": ["Sneak", "Notice", "Scramble"]
 	},
 	{
 		"archetypeid": "twister",
 		"archetype": "Card Twister",
 		"attribute": "Empathy",
-		"talents": "Watch the Hands",
+		"talents": "Watch The Hands",
 		"skills": ["Hoodwink", "Sneak", "Streetwise"]
 	}
 ];

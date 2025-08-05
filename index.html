@@ -6,13 +6,14 @@
 		<link rel="stylesheet" href="css/print.css">
 		<link rel="stylesheet" href="css/die.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-		<script type="text/javascript" src="js/config/names.js"></script>
 		<script type="text/javascript" src="js/config/archetypes.js"></script>
 		<script type="text/javascript" src="js/config/attributes.js"></script>
+		<script type="text/javascript" src="js/config/events.js"></script>
+		<script type="text/javascript" src="js/config/names.js"></script>
+		<script type="text/javascript" src="js/config/panic.js"></script>
+		<script type="text/javascript" src="js/config/quirks.js"></script>
 		<script type="text/javascript" src="js/config/skills.js"></script>
 		<script type="text/javascript" src="js/config/talents.js"></script>
-		<script type="text/javascript" src="js/config/quirks.js"></script>
-		<script type="text/javascript" src="js/config/events.js"></script>
 		<script type="text/javascript" src="js/jquery.js"></script>
 		<script type="text/javascript" src="js/editor.js"></script>
 	</head>
@@ -59,8 +60,8 @@
 			<h2>Health</h2>
 			<div class="health">
 				<ul>
-					<li><input type="number" id="strain_points" name="strain_points"> Strain</li>
-					<li><input type="number" id="wound_points" name="wound_points" max="5"> Conditions</li>
+					<li><input type="number" id="strain_points" name="strain_points" min="0"> Strain</li>
+					<li><input type="number" id="wound_points" name="wound_points" min="0" max="5"> Conditions</li>
 				</ul>
 
 				<ol class="conditions" start="0">
@@ -276,14 +277,15 @@
 
 		<div id="hidden">
 			<div id="notesPopup">
-				<textarea class="populate" id="notes" name="notes" cols="50" rows="15"></textarea>
+				<textarea class="populate nobar" id="notes" name="notes" cols="50" rows="15"></textarea>
+				
 				<div class="buttons right">
 					<button id="updateNotes" class="minor"><span class="icon">save</span> Save</button>
 				</div>
 			</div>
 
 			<div id="inventoryPopup">
-				<ol class="inventory">
+				<ol class="inventory nobar">
 					<li><input class="populate" id="inventory"></li>
 					<li><input class="populate" id="inventory"></li>
 					<li><input class="populate" id="inventory"></li>
@@ -313,9 +315,10 @@
 
 					<span id="rolled">
 						<span>Success: <span id="success">0</span></span>
-						<span>Strain: <span id="failure">0</span></span>
+						<span>Strain: <span id="failure">0</span><span id="warning" title="bane warnings"></span></span>
 					</span>
 					<button id="roll" class="button minor"><span class="icon">ifl</span> Roll</button>
+					<button id="panic" class="minor" data-roll="1" data-strain="false" data-start="#strain_points" data-title="Roll for Panic"><span class="icon">earthquake</span> Panic</button>
 				</div>
 			</div>
 

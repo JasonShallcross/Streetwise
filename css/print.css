@@ -45,10 +45,6 @@
 		filter: saturate(0) contrast(0.5) brightness(1.5);
 	}
 
-	#show_skills {
-		grid-template-columns: repeat(12, 1fr);
-	}
-
 	#characters {
 		display: none !important;
 	}

@@ -170,7 +170,6 @@ $(() => {
 
 		$('#slots').on('click', 'li', (e) => {
 			let $link = $(e.target).find('a:eq(0)');
-			console.log('editor.js; line:173; $link:', $link);
 			$link.trigger('click');
 		});
 
@@ -341,7 +340,7 @@ $(() => {
 				return;
 			}
 
-			let rolls = '<ul class="history"><li>' + history.join('</li><li>') + '</li></ul>';
+			let rolls = '<ul class="history nobar"><li>' + history.join('</li><li>') + '</li></ul>';
 			popup('Dice History', rolls);
 		});
 
@@ -388,7 +387,7 @@ $(() => {
 			e.preventDefault();
 			const $button = $(e.target); 
 
-			showDice($button.data('title'), $button.data('roll'), $button.data('strain'), $button.data('start'));
+			showDice($button.data('title'), $button.data('roll'), $button.data('strain'), $button.data('start'), $button.data('stat'));
 		});
 
 		$(document).on('click', '#roll', (e) => {
@@ -605,6 +604,25 @@ $(() => {
 		$('.attributes').attr('attribute', $('#attribute').val());
 	}
 
+	function hasPower(power) {
+		let powers = getPowers(currentCharacter());
+	
+		return powers.includes(power);
+	}
+
+	function getPowers(character) {
+		let powers = [];		
+
+		character.talents.split(/,\s*/).forEach((talent) => {
+			let matches = (talents[talent].match(/\{(.+)\}/));
+			if (matches !== null) {
+				powers.push(matches[1]);
+			}
+		});
+		
+		return powers;
+	}
+
 	function getTalents(character) {
 		if (!character.talents) {
 			return '';
@@ -613,7 +631,13 @@ $(() => {
 		let list = [];		
 
 		character.talents.split(/,\s*/).forEach((talent) => {
-			list.push(`<dt>${talent}:</dt><dd>${talents[talent]}</dd>`);
+			let desc = talents[talent];
+			if (desc) {
+				desc = desc.replace(/\{.+\}/, '');
+				list.push(`<dt>${talent}:</dt><dd>${desc}</dd>`);
+			} else {
+				desc = talent;
+			}
 		});
 
 		return list.join("\n");
@@ -637,7 +661,10 @@ $(() => {
 		let list = [];
 		for (stat in stats) {
 			let key = (stat == character.attribute) ? '*' : '';
-			list.push(`<dt data-roll="${stats[stat]}${key}" data-title="${stat} Roll">${stat}:</dt><dd data-roll="${stats[stat]}${key}" data-title="${stat} Roll">${stats[stat]}${key}</dd>`);
+			let icon = attributeIcons[stat];
+			let props = `data-stat="${stat}" data-roll="${stats[stat]}${key}" data-title="${stat} Roll"`;
+			list.push(`<dt ${props}><span class="icon">${icon}</span>${stat}:</dt>`);
+			list.push(`<dd ${props}>${stats[stat]}${key}</dd>`);
 		}
 
 		return list.join("\n");
@@ -653,10 +680,13 @@ $(() => {
 			stats[skill] = score;
 		}
 
-
 		let list = [];
 		for (stat in stats) {
-			list.push(`<dt title="${skills[stat][1]}" data-roll="${stats[stat]}" data-title="${stat} Roll (${skills[stat][0]})">${stat}:</span></dt><dd data-roll="${stats[stat]}" data-title="${stat} Roll (${skills[stat][0]})">${stats[stat]}</dd>`);
+			let attr = skills[stat][0];
+			let icon = attributeIcons[attr];
+			let props = `title="${skills[stat][0]}: ${skills[stat][1]}" data-stat="${attr}" data-roll="${stats[stat]}" data-title="${stat} Roll (${skills[stat][0]})"`;
+			list.push(`<dt ${props}><span class="icon">${icon}</span>${stat}:</span></dt>`);
+			list.push(`<dd ${props}>${stats[stat]}</dd>`);
 		}
 
 		return list.join("\n");
@@ -805,7 +835,7 @@ $(() => {
 		$('#strain_points').val(strain).trigger('input');
 	}
 
-	function showDice(title, dice, useStrain, start) {
+	function showDice(title, dice, useStrain, start, stat) {
 		dice = parseInt(dice);
 
 		popup(title, '');
@@ -813,6 +843,7 @@ $(() => {
 		let $tray = $('#hidden #tray').clone().appendTo('#popupContent');
 		let $dice = $tray.find('#dice');
 		let $die = $('#hidden #dieSlot');
+		$tray.data('stat', stat);
 		$dice.html('');
 
 		for (d=0; d<dice; d++) {
@@ -834,6 +865,8 @@ $(() => {
 			$tray.addClass('total');
 		} else {
 			$tray.addClass('halos');
+
+			$('#popup #warning').hide();
 
 			let strain = getStrain();
 			if (strain > 0) {
@@ -888,39 +921,60 @@ $(() => {
         resetCalc();
     }
 
+    function panicLevel(score) {
+    	let level = panic.length-1;
+    	while (score < panic[level].min) {
+    		level--;
+    	}
+
+    	return panic[level].desc;
+    }
+
 	function rollDice(reroll) {
 		$('#roll').attr('disabled', 'disabled');
 
 		let $tray = $('#popup #tray');
 		let $dice = $('#popup .die');
+		let $warning = $('#popup #warning');
 
 		if (reroll) {
 			addStrain(1);
-			$tray.find('#dieSlot:has([data-rolled="6"])').addClass('keep').prependTo('#popup #dice');
+			$tray.find('#dieSlot:has([data-rolled="1"]), #dieSlot:has([data-rolled="6"])').addClass('keep').prependTo('#popup #dice');
 			$dice = $('#popup .die');
 			let pushes = parseInt($tray.data('pushes') || 0) + 1;
 			$tray.data('pushes', pushes);
+			$warning.hide();
 		}
 
-		let $success = $('#success');
+		let $success = $('#popup #success');
 		$success.html('0');
 
-		let $failure = $('#failure');
+		let $failure = $('#popup #failure');
 		$failure.html('0');
 
-		let start = $('#start').val() || 0;
+		let start = $('#popup #start').val() || 0;
 
 		let successes = 0;
 		let failures = 0;
+		let warnings = 0;
 		let timer = 0;
 		let total = 0;
 		let result = 0;
+		let panic = false;
 
 		$dice.each((d, die) => {
 			let $die = $(die);
+			let $slot = $die.closest('#dieSlot');
 			let rolling = true;
 
 			if (reroll) {
+				if ($die.attr('data-rolled') == 1) {
+					rolling = false;
+					failures++;
+					$failure.html(failures);
+					$slot.addClass('failure');
+				}
+
 				if ($die.attr('data-rolled') == 6) {
 					rolling = false;
 					successes++;
@@ -928,7 +982,7 @@ $(() => {
 				}
 			}
 			
-			if ($die.closest('#dieSlot').hasClass('disabled')) {
+			if ($slot.hasClass('disabled')) {
 				rolling = false;
 			}
 
@@ -945,13 +999,24 @@ $(() => {
 					$('#result').html(result);
 
 					if (face == 6) {
+						$slot.addClass('success');
 						successes++;
 						$success.html(successes);
 					}
 					if (face == 1) {
-						failures++;
-						$failure.html(failures);
-						addStrain(1);
+						if ($slot.hasClass('strain')) {
+							panic = true;
+							$slot.addClass('failure');
+						}
+						if (reroll) {
+							$slot.addClass('failure');
+							failures++;
+							$failure.html(failures);
+							addStrain(1);
+						} else {
+							warnings++;
+							$warning.html(warnings).show();
+						}
 					}
 					$die.addClass('rolled').attr('data-rolled', face);
 
@@ -963,13 +1028,37 @@ $(() => {
 
 						if ($tray.hasClass('halos')) {
 							let pushes = parseInt($tray.data('pushes') || 0) + 1;
-							$('#popup #roll').html('<span class="icon">replay</span> Push #' + pushes).data('push', true);
-
 							if (pushes > 0) {
 								title += ' #' + pushes;
 							}
+
 							roll += `${$dice.length}d6; Success: ${successes}; Strain: ${failures};`;
+
+							if (panic) {
+								$tray.addClass('panic');
+								roll += '<span class="icon">earthquake</span>';
+							} else {
+								let stat = $tray.data('stat');
+								let label = 'Push';
+								let maxPushes = 1;
+
+								if (hasPower('Push2:' + stat)) {
+									maxPushes = 2;
+									label += ` #${pushes}/${maxPushes}`;
+								}
+
+								if (pushes <= maxPushes) {
+									$('#popup #roll').html('<span class="icon">replay</span> ' + label).data('push', true);
+								} else {
+									$('#popup #roll').hide();
+								}
+							}
 						} else {
+							if (title.indexOf('Panic') > -1) {
+								result += ' (' + panicLevel(result) + ')';
+								$('#result').html(result);
+							}
+
 							if (start > 0) {
 								roll = `${start} + ${$dice.length}d6 (${total}) = ${result}`;
 							} else {
@@ -980,6 +1069,10 @@ $(() => {
 						history.unshift(`${time} ${title}: ${roll}`);
 					}
 				}, timer);
+			} else {
+				if (d == $dice.length - 1) {
+					$('#roll').removeAttr('disabled');
+				}
 			}
 		});
 

@@ -644,8 +644,13 @@ dl.stats {
 dl.stats dt {
 	font-weight: bold;
 	margin: 0 5px 0 0;
-	letter-spacing: 0.5px;
 	word-spacing: 1px;
+	display: flex;
+  align-items: center;
+  gap: 2px;
+}
+dl.stats dt .icon {
+	color: var(--strong);
 }
 dl.stats dd {
 	font-family: var(--font);
@@ -802,7 +807,7 @@ footer a:hover {
 	border-top: 1px solid var(--border);
   padding-top: 20px;
 }
-#popupContent:has(.history) {
+#popupContent:has(.nobar) {
 	border-top: none;
   padding-top: 0;
 }
@@ -830,6 +835,9 @@ footer a:hover {
 	font-size: 14px;
 	margin: 10px 0 20px 0;
 	padding: 0 0 0 20px;
+}
+#popup textarea {
+	margin-bottom: 10px;
 }
 #popup ol.inventory {
 	display: flex;

@@ -35,6 +35,7 @@
   opacity: 0.5;
   transition: opacity .5s;
   position: relative;
+  border-radius: 50%;
 }
 
 .die {
@@ -88,8 +89,32 @@
   color: var(--strong);
   font-weight: bold;
 }
+#rolled #warning {
+  color: #ccc;
+}
+#rolled #warning:before {
+  content: " (";
+  display: inline;
+}
+#rolled #warning:after {
+  content: ")";
+}
 .halos #rolled {
   display: flex;
+}
+
+#popup #panic {
+  display: none;
+  background: #900;
+}
+#popup #panic:hover {
+  color: black;
+}
+#popup #tray.panic #panic {
+  display: flex;
+}
+#popup #tray.panic #roll {
+  display: none;
 }
 
 .face {
@@ -147,14 +172,15 @@
 [data-rolled="5"] {transform: rotateX( -45deg) rotateY(-135deg) rotateZ(     0);}
 [data-rolled="6"] {transform: rotateX(  45deg) rotateY( 180deg) rotateZ(135deg);}
 
-.halos #dieSlot:has([data-rolled="6"]) {
-  border-radius: 50%;
-  box-shadow: 0 0 10px 4px var(--success) inset;
+.halos #dieSlot:has([data-rolled="1"]) {
+  box-shadow: 0 0 10px 4px #ccc inset;
+}
+.halos .success {
+  box-shadow: 0 0 10px 4px var(--success) inset !important;
 }
 
-.halos #dieSlot:has([data-rolled="1"]) {
-  border-radius: 50%;
-  box-shadow: 0 0 10px 4px var(--failure) inset;
+.halos .failure {
+  box-shadow: 0 0 10px 4px var(--failure) inset !important;
 }
 
 .strain .face {
