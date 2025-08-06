@@ -57,6 +57,21 @@
   gap: 3px;
 }
 
+#continue {
+  display: none;
+  opacity: 0;
+  transition: opacity .5s
+}
+.panicking #continue {
+  display: flex;
+}
+.panicked #continue {
+  opacity: 1;
+}
+.panicking #roll {
+  display: none;
+}
+
 #calc {
   display: none;
   font-size: 16px;
@@ -76,7 +91,11 @@
   height: 30px;
   text-align: right;
 }
-.total #calc {
+#tray.panicking #adjustDice {
+  display: none;
+}
+#tray.panicking #calc,
+#tray.total #calc {
   display: flex;
 }
 
@@ -99,7 +118,7 @@
 #rolled #warning:after {
   content: ")";
 }
-.halos #rolled {
+.halos:not(.panicking) #rolled {
   display: flex;
 }
 
@@ -114,6 +133,10 @@
   display: flex;
 }
 #popup #tray.panic #roll {
+  display: none;
+}
+
+#popup #tray.panicking #dieSlot:not(.panic) {
   display: none;
 }
 
@@ -172,33 +195,38 @@
 [data-rolled="5"] {transform: rotateX( -45deg) rotateY(-135deg) rotateZ(     0);}
 [data-rolled="6"] {transform: rotateX(  45deg) rotateY( 180deg) rotateZ(135deg);}
 
-.halos #dieSlot:has([data-rolled="1"]) {
+.halos:not(.panicking) #dieSlot:has([data-rolled="1"]) {
   box-shadow: 0 0 10px 4px #ccc inset;
 }
-.halos .success {
+.halos:not(.panicking) .success {
   box-shadow: 0 0 10px 4px var(--success) inset !important;
 }
 
-.halos .failure {
+.halos:not(.panicking) .failure {
   box-shadow: 0 0 10px 4px var(--failure) inset !important;
 }
 
-.strain .face {
+#tray .strain .face {
   background: linear-gradient(#900, #800);
 }
 
-.added .face {
+#tray .added .face {
   background: linear-gradient(#090, #080);
 }
 
-.keep .face {
+#tray .keep .face {
   background: linear-gradient(#999, #888);
 }
 
-.disabled .face {
+#tray .disabled .face {
   background: linear-gradient(#999, #888);
 }
 
+#tray .panic .face {
+  background: linear-gradient(#000, #333);
+}
+
+.panic .dot,
 .keep .dot,
 .added .dot,
 .strain .dot {

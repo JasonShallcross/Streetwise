@@ -81,7 +81,6 @@
 				</div>
 
 				<div class="buttons stretch">
-					<button class="minor" data-roll="1" data-strain="false" data-start="#strain_points" data-title="Roll for Panic"><span class="icon">earthquake</span> Panic</button>
 					<button class="minor" data-roll="1" data-strain="false" data-start="#attribute_agility" data-title="Roll for Initiative"><span class="icon">lightbulb_2</span> Initiative</button>
 					<button class="minor" data-roll="1" data-strain="false" data-title="Dice Roller"><span class="icon">ifl</span> Roller</button>
 					<button class="minor" id="history"><span class="icon">history</span> History</button>
@@ -232,12 +231,31 @@
 							<input type="file" id="upload" />
 						</label>
 
-						<button class="button minor" id="remove">Remove</button>
+						<button class="button minor" id="remove"><span class="icon">delete</span> Remove</button>
 					</div>
 				</fieldset>
 
-				<div>
-					<p>JPGs only, less than 100Kb</p>
+				<div class="chooser">
+					<div>
+						<h3>Upload an image:</h3>
+						<p>JPGs only, less than 100Kb</p>
+					</div>
+
+					<div>
+						<h3>Choose an image:</h3>
+						<div class="buttons stretch">
+							<button class="minor chooseImage" data-gender="boys"><span class="icon">photo</span> Boys</button>
+							<button class="minor chooseImage" data-gender="girls"><span class="icon">photo</span> Girls</button>
+						</div>
+					</div>
+
+					<div>
+						<h3>Random image:</h3>
+						<div class="buttons stretch">
+							<button class="minor randomImage" data-gender="boys"><span class="icon">ifl</span> Boys</button>
+							<button class="minor randomImage" data-gender="girls"><span class="icon">ifl</span> Girls</button>
+						</div>
+					</div>
 				</div>
 			</section>
 
@@ -247,7 +265,7 @@
 		<form id="characters">
 			<a id="jumpChars"></a>
 			<h2>Characters</h2>
-			<ol id="slots">
+			<ol id="slots" class="characters">
 			</ol>
 
 			<div class="buttons">
@@ -278,7 +296,7 @@
 		<div id="hidden">
 			<div id="notesPopup">
 				<textarea class="populate nobar" id="notes" name="notes" cols="50" rows="15"></textarea>
-				
+
 				<div class="buttons right">
 					<button id="updateNotes" class="minor"><span class="icon">save</span> Save</button>
 				</div>
@@ -302,7 +320,7 @@
 				<div id="dice"></div>
 
 				<div class="buttons">
-					<div>
+					<div id="adjustDice">
 						<button id="diceDec" class="button minor"><span class="icon">remove</span></button>
 						<button id="diceInc" class="button minor"><span class="icon">add</span></button>
 					</div>
@@ -318,7 +336,8 @@
 						<span>Strain: <span id="failure">0</span><span id="warning" title="bane warnings"></span></span>
 					</span>
 					<button id="roll" class="button minor"><span class="icon">ifl</span> Roll</button>
-					<button id="panic" class="minor" data-roll="1" data-strain="false" data-start="#strain_points" data-title="Roll for Panic"><span class="icon">earthquake</span> Panic</button>
+					<button id="panic" class="minor"><span class="icon">earthquake</span> Panic</button>
+					<button id="continue" class="minor"><span class="icon">replay</span> Back</button>
 				</div>
 			</div>
 

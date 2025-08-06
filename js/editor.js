@@ -13,7 +13,9 @@ $(() => {
 			streetwise.lastId = character.id;
 			streetwise.characters[character.id] = character;
 
-			save('Character Saved', fullname(character.firstname, character.lastname, character.nickname));
+			let $character = characterSummary(character, false);
+
+			save('Character Saved', $character.prop('outerHTML'));
 			updateCharacter();
 		});
 
@@ -203,12 +205,11 @@ $(() => {
 
 			$('#form input, #form textarea').val('');
 			$('.attributes').attr('attribute', '');
-			$('#preview').hide();
-		    $('#remove').hide();
-		    $('#image').val('');
 			$('#strain_points').val('');
 			$('#wound_points').val('');
 			$('#edit').prop('checked', 'checked');
+
+			updateImage('');
 
 			calculateValues('attributes');
 			calculateValues('skills');
@@ -287,10 +288,8 @@ $(() => {
 			}
 
 			reader.onload = () => {
-				var dataURL = reader.result;
-			    $('#preview').show().prop('src', dataURL);
-			    $('#image').val(dataURL);
-			    $('#remove').show();
+				var url = reader.result;
+				updateImage(url);
 			};
 
 			reader.readAsDataURL(file);
@@ -299,9 +298,7 @@ $(() => {
 		$('#remove').on('click', (e) => {
 			e.preventDefault();
 
-			$('#preview').hide();
-			$('#remove').hide();
-			$('#image').val('');
+			updateImage('');
 		});
 
 		$('#overlay').on('click', (e) => {
@@ -344,11 +341,48 @@ $(() => {
 			popup('Dice History', rolls);
 		});
 
+		$('.chooseImage').on('click', (e) => {
+			e.preventDefault();
+
+			let gender = $(e.target).closest('button').data('gender');
+			let images = [];
+			for (i=1; i<=50; i++) {
+				let num = String(i).padStart(2, '0');
+				images.push(`<img title="${num}" src="images/portraits/${gender}/${num}.jpeg">`);
+			}
+
+			let content = '<div class="gallery">' + images.join("\n") + '</div>';
+
+			popup('Choose an image', content);
+		});
+
 		$('#jumps a').on('click', (e) => {
 			e.preventDefault();
 
 			let $link = $(e.target);
 			$($link.attr('href'))[0].scrollIntoView(true);
+		});
+
+		$(document).on('click', '.gallery img', (e) => {
+			e.preventDefault();
+
+			var url = e.target.src;
+		    updateImage(url);
+
+			closePopup();
+		});
+
+		$(document).on('click', '.randomImage', (e) => {
+			e.preventDefault();
+			let gender = $(e.target).closest('button').data('gender');
+
+			let rnd = Math.floor(Math.random() * 50) + 1;
+			let num = String(rnd).padStart(2, '0');
+
+			let url = `images/portraits/${gender}/${num}.jpeg`;
+		    updateImage(url);
+
+			closePopup();
 		});
 
 		$(document).on('click', '#updateNotes', (e) => {
@@ -383,11 +417,24 @@ $(() => {
 			resetCalc();
 		});
 
+		$(document).on('click', '#panic', (e) => {
+			e.preventDefault();
+
+			panicRoll();
+		});
+
 		$(document).on('click', '[data-roll]', (e) => {
 			e.preventDefault();
+
 			const $button = $(e.target); 
 
 			showDice($button.data('title'), $button.data('roll'), $button.data('strain'), $button.data('start'), $button.data('stat'));
+		});
+
+		$(document).on('click', '#continue', (e) => {
+			e.preventDefault();
+
+			restoreDice();
 		});
 
 		$(document).on('click', '#roll', (e) => {
@@ -415,6 +462,19 @@ $(() => {
 		$(document).on('keydown', (e) => {
 			if (e.key == 'Escape') {
 				closePopup();
+			}
+
+			if (e.key == ' ') {
+				let $tray = $('#popup #tray');
+				if ($tray.length > 0) {
+					if ($tray.hasClass('panicked')) {
+						$('#continue').trigger('click');
+					} else if ($tray.hasClass('panic')) {
+						$('#panic').trigger('click');
+					} else {
+						$('#roll').trigger('click');
+					}
+				}
 			}
 
 			const shortcuts = ['s', 'e'];
@@ -556,13 +616,7 @@ $(() => {
 			calculateValues('attributes');
 			calculateValues('skills');
 
-			if (character.image) {
-				$('#preview').show().prop('src', character.image);
-				$('#remove').show();
-			} else {
-				$('#preview').hide();
-				$('#remove').hide();
-			}
+			updateImage(character.image);
 			updateCharacter();
 		} else {
 			$('#edit').prop('checked', 'checked');
@@ -754,33 +808,51 @@ $(() => {
 		$section.find('table').toggleClass('maxxed', used == total);
 	}
 
+	function characterSummary(character, buttons) {
+		let $item = $('<li class="character">');
+		if (character.id == streetwise.lastId) {
+			$item.addClass('active');
+		}
+
+		let name = fullname(character.firstname, character.lastname, character.nickname);
+
+		let $edit = $('<a href="' + character.id + '">');
+		if (character.image) {
+			let = $image = $('<span class="image" title="' + character.firstname + '">');
+			$image.css('backgroundImage', 'url(\'' + character.image + '\')').appendTo($edit);
+		} else {
+			$('<span class="noimage" title="No image">').appendTo($edit);
+		}
+		$edit.appendTo($item);
+
+		let $text = $('<div class="text">');
+		let $details = $('<div>');
+		$('<h3><a href="' + character.id + '">' + name + '</a></h3>').appendTo($details);
+		$('<p>' + character.archetype + '</p>').appendTo($details);
+		$details.appendTo($text);
+
+		if (buttons) {
+			let $buttons = $('<div class="buttons stretch">');
+			$('<button class="minor edit" data-href="' + character.id + '"><span class="icon">edit</span></button>').appendTo($buttons);
+			$('<button class="minor delete" data-href="' + character.id + '"><span class="icon">delete</span></button>').appendTo($buttons);
+			$buttons.appendTo($text);
+		}
+
+		$text.appendTo($item);
+
+		return $item;
+	}
+
 	function updateSlots() {
 		$('#slots').html('');
 
 		for (c in streetwise.characters) {
 			let character = streetwise.characters[c];
-			let $item = $('<li>');
+			let $item = characterSummary(character);
+
 			if (character.id == streetwise.lastId) {
 				$item.addClass('active');
 			}
-
-			let name = fullname(character.firstname, character.lastname, character.nickname);
-
-			let $edit = $('<a href="' + character.id + '">');
-			if (character.image) {
-				let = $image = $('<span class="image" title="' + character.firstname + '">');
-				$image.css('backgroundImage', 'url(\'' + character.image + '\')').appendTo($edit);
-			} else {
-				$('<span class="noimage" title="No image">').appendTo($edit);
-			}
-			$edit.appendTo($item);
-
-			let $text = $('<div class="text">');
-			$('<h3><a href="' + character.id + '">' + name + '</a></h3>').appendTo($text);
-			$('<p>' + character.archetype + '</p>').appendTo($text);
-			$('<button class="delete" data-href="' + character.id + '"><span class="icon">delete</span></button>').appendTo($text);
-
-			$text.appendTo($item);
 
 			$item.appendTo('#slots');
 		}
@@ -815,6 +887,7 @@ $(() => {
 
 	function closePopup() {
 		$('html').removeClass('popup');
+		$('#popupContent').html('');
 	}
 
 	function getWounds() {
@@ -833,6 +906,18 @@ $(() => {
 		let strain = getStrain() + parseInt(points);
 
 		$('#strain_points').val(strain).trigger('input');
+	}
+
+	function updateImage(url) {
+		$('#image').val(url);
+
+		if (url) {
+			$('#preview').show().prop('src', url);
+			$('#remove').show();
+		} else {
+			$('#preview').hide();
+			$('#remove').hide();
+		}
 	}
 
 	function showDice(title, dice, useStrain, start, stat) {
@@ -891,7 +976,7 @@ $(() => {
         $('#result').html('?');
 	}
 
-    function adjustDice(dice) {
+    function adjustDice(dice, addClass) {
         let $dice = $('#popup #dice');
 
         if (dice > 0) {
@@ -900,7 +985,10 @@ $(() => {
             	$disabled.last(0).removeClass('disabled');
             } else {
 	            let $die = $('#hidden #dieSlot');
-	            $die.clone().addClass('added').appendTo($dice);
+	            if (!addClass) {
+	            	addClass = 'added';
+	            }
+	            $die.clone().addClass(addClass).attr('title',addClass).appendTo($dice);
 	        }
         } else {
         	let $all = $dice.find('.die');
@@ -930,6 +1018,51 @@ $(() => {
     	return panic[level].desc;
     }
 
+    function restoreDice() {
+		let $title = $('#popup #popupTitle');
+		$title.html($title.data('title'));
+
+		let $tray = $('#popup #tray');
+		$tray.removeClass('panicking').removeClass('panicked');
+		$tray.find('.panic').remove();
+    }
+
+    function panicRoll() {
+    	adjustDice(1, 'panic');
+		$('#popup #tray').removeClass('panic').addClass('panicking');
+
+		let $title = $('#popup #popupTitle');
+		$title.data('title', $title.html()).html('Panic Roll!');
+
+		let start = $('#strain_points').val();
+		$('#popup #start').val(start);
+
+		let $roll = $('#roll');
+
+		let $tray = $('#popup #tray');
+		let $die = $('#popup #dieSlot.panic .die');
+		let $slot = $die.closest('#dieSlot');
+		let total = 0;
+		let result = 0;
+
+		setTimeout(() => {
+			const face = Math.floor(Math.random() * 6) + 1;
+			$die.addClass('rolled').attr('data-rolled', face);
+			total = face;
+			result = parseInt(start) + total;
+			$('#total').html(total);
+			$('#result').html(result + ' (' + panicLevel(result) + ')');
+
+			let time = new Date().toLocaleTimeString();
+			let title = 'Panic Roll (' + panicLevel(result) + ')';
+			let roll = `${start} + ${total} = ${result}`;
+
+			history.unshift(`${time} ${title}: <span class="icon">earthquake</span> ${roll}`);
+
+			$tray.addClass('panicked');
+		}, 500);
+    }
+
 	function rollDice(reroll) {
 		$('#roll').attr('disabled', 'disabled');
 
@@ -944,6 +1077,7 @@ $(() => {
 			let pushes = parseInt($tray.data('pushes') || 0) + 1;
 			$tray.data('pushes', pushes);
 			$warning.hide();
+			$('#adjustDice').hide();
 		}
 
 		let $success = $('#popup #success');
@@ -961,6 +1095,7 @@ $(() => {
 		let total = 0;
 		let result = 0;
 		let panic = false;
+		let stat = $tray.data('stat');
 
 		$dice.each((d, die) => {
 			let $die = $(die);
@@ -1023,7 +1158,7 @@ $(() => {
 					if (d == $dice.length - 1) {
 						$('#roll').removeAttr('disabled');
 						let time = new Date().toLocaleTimeString();
-						let title = $('#popupTitle').html();
+						let title = '<span class="icon">' + attributeIcons[stat] + '</span>' + $('#popupTitle').html();
 						let roll = '';
 
 						if ($tray.hasClass('halos')) {
@@ -1032,33 +1167,26 @@ $(() => {
 								title += ' #' + pushes;
 							}
 
-							roll += `${$dice.length}d6; Success: ${successes}; Strain: ${failures};`;
+							roll += `${$dice.length}d6; Success: ${successes}; Strain: ${failures}`;
 
 							if (panic) {
 								$tray.addClass('panic');
-								roll += '<span class="icon">earthquake</span>';
+							}
+
+							let label = 'Push';
+							let maxPushes = 1;
+
+							if (hasPower('Push2:' + stat)) {
+								maxPushes = 2;
+								label += ` #${pushes}/${maxPushes}`;
+							}
+
+							if (pushes <= maxPushes) {
+								$('#popup #roll').html('<span class="icon">replay</span> ' + label).data('push', true);
 							} else {
-								let stat = $tray.data('stat');
-								let label = 'Push';
-								let maxPushes = 1;
-
-								if (hasPower('Push2:' + stat)) {
-									maxPushes = 2;
-									label += ` #${pushes}/${maxPushes}`;
-								}
-
-								if (pushes <= maxPushes) {
-									$('#popup #roll').html('<span class="icon">replay</span> ' + label).data('push', true);
-								} else {
-									$('#popup #roll').hide();
-								}
+								$('#popup #roll').attr('disabled', 'disabled').hide();
 							}
 						} else {
-							if (title.indexOf('Panic') > -1) {
-								result += ' (' + panicLevel(result) + ')';
-								$('#result').html(result);
-							}
-
 							if (start > 0) {
 								roll = `${start} + ${$dice.length}d6 (${total}) = ${result}`;
 							} else {
