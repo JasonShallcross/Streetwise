@@ -410,6 +410,7 @@ section.attributes[attribute="Empathy"] td:has(#attribute_empathy):after {
 	position: relative;
 	border: 1px solid transparent;
 	cursor: pointer;
+	justify-content: stretch;
 }
 #slots .character:hover {
 	border: 1px solid var(--border);
@@ -434,6 +435,7 @@ section.attributes[attribute="Empathy"] td:has(#attribute_empathy):after {
 	flex-direction: column;
 	justify-content: space-between;
 	text-align: left;
+	flex-grow: 1;
 }
 .character h3 {
 	font-size: 14px;
@@ -628,6 +630,7 @@ dl.stats {
 	gap: 10px 30px;
   flex-wrap: wrap;
 }
+
 dl.stats dt {
 	font-weight: bold;
 	margin: 0 5px 0 0;
@@ -636,6 +639,17 @@ dl.stats dt {
   align-items: center;
   gap: 2px;
 }
+dl.stats dt:hover {
+	background: var(--button);
+	color: white;
+	border-radius: 2px;
+}
+dl.stats dt:hover .icon {
+	background: var(--button);
+	color: white;
+	border-radius: 2px;
+}
+
 dl.stats dt .icon {
 	color: var(--strong);
 }
@@ -726,9 +740,6 @@ footer a:hover {
 
 [data-roll] {
 	cursor: pointer;
-}
-[data-roll]:hover {
-	text-decoration: underline;
 }
 
 #hidden {

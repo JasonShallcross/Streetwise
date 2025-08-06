@@ -170,36 +170,6 @@ $(() => {
 			popup(title, content);
 		});
 
-		$('#slots').on('click', 'li', (e) => {
-			let $link = $(e.target).find('a:eq(0)');
-			$link.trigger('click');
-		});
-
-		$('#slots').on('click', 'a', (e) => {
-			e.preventDefault();
-
-			let $link = $(e.target).closest('a');
-			let id = $link.attr('href');
-
-			loadCharacter(id);
-			streetwise.lastId = id;
-			updateStorage();
-			$('#show')[0].scrollIntoView(true);
-			$link.closest('li').addClass('active').siblings().removeClass('active');
-		});
-
-		$('#slots').on('click', '.delete', (e) => {
-			e.preventDefault();
-
-			let $button = $(e.target).closest('a');
-			let id = $button.data('href');
-
-			let character = streetwise.characters[id];
-			let body = '<p>' + fullname(character.firstname, character.lastname, character.nickname) + '</p>';
-			body += '<div class="buttons center"><button id="delete" data-id="' + id + '">CONFIRM</button></div>';
-			popup('Delete Character?', body);
-		});
-
 		$('#new').on('click', (e) => {
 			e.preventDefault();
 
@@ -220,9 +190,11 @@ $(() => {
 		$('#backup').on('click', (e) => {
 			$link = $(e.target);
 
+			let time = new Date().getTime();
+
 		    var data = new Blob([JSON.stringify(streetwise)]);
 		    $link.attr('href', URL.createObjectURL(data));
-		  	$link.attr('download', 'streetwise.json');
+		  	$link.attr('download', 'streetwise-' + time + '.json');
 		});
 
 		$('#export').on('click', (e) => {
@@ -239,6 +211,7 @@ $(() => {
 			const files = e.target.files;
 			let imported = 0;
 			let read = 0;
+			let content = '';
 
 			for (let file of files) {
 				const reader = new FileReader();
@@ -248,12 +221,15 @@ $(() => {
 						let json = JSON.parse(reader.result);
 						if (json.characters) {
 							for (var id in json.characters) {
-								streetwise.characters[id] = json.characters[id];
+								let character = json.characters[id];
+								streetwise.characters[id] = character;
+								content += characterSummary(character).prop('outerHTML');
 								imported++;
 							}
 						} else {
 	        				let character = JSON.parse(reader.result);
 							streetwise.characters[character.id] = character;
+							content += characterSummary(character).prop('outerHTML');
 							imported++;
 						}
     				} catch (e) {
@@ -262,7 +238,7 @@ $(() => {
 
     				read++;
 					if (read == files.length) {
-						save('File Import', 'Characters Imported: ' + imported);
+						save('Character Import', content);
 					}
 				};
 
@@ -363,11 +339,53 @@ $(() => {
 			$($link.attr('href'))[0].scrollIntoView(true);
 		});
 
+		$(document).on('click', '.character', (e) => {
+			let $button = $(e.target).find('.edit:eq(0)');
+			let id = $button.attr('href') || $button.data('href');
+
+			loadCharacter(id);
+			streetwise.lastId = id;
+			updateStorage();
+
+			$('#edit').removeAttr('checked');
+			$('#show')[0].scrollIntoView(true);
+			$button.closest('li').addClass('active').siblings().removeClass('active');
+		});
+
+		$(document).on('click', '.character .edit', (e) => {
+			e.preventDefault();
+			e.stopPropagation(true, true);
+
+			let $button = $(e.target).closest('.edit');
+			let id = $button.attr('href') || $button.data('href');
+
+			loadCharacter(id);
+			streetwise.lastId = id;
+			updateStorage();
+
+			$('#edit').attr('checked', 'checked');
+			$('#form')[0].scrollIntoView(true);
+			$button.closest('li').addClass('active').siblings().removeClass('active');
+		});
+
+		$(document).on('click', '.character .delete', (e) => {
+			e.preventDefault();
+			e.stopPropagation(true, true);
+
+			let $button = $(e.target).closest('.delete');
+			let id = $button.attr('href') || $button.data('href');
+
+			let character = streetwise.characters[id];
+			let body = '<p>' + fullname(character.firstname, character.lastname, character.nickname) + '</p>';
+			body += '<div class="buttons center"><button id="delete" data-id="' + id + '">CONFIRM</button></div>';
+			popup('Delete Character?', body);
+		});
+
 		$(document).on('click', '.gallery img', (e) => {
 			e.preventDefault();
 
 			var url = e.target.src;
-		    updateImage(url);
+		    updateImage(url.slice(url.indexOf('images')));
 
 			closePopup();
 		});
@@ -816,7 +834,7 @@ $(() => {
 
 		let name = fullname(character.firstname, character.lastname, character.nickname);
 
-		let $edit = $('<a href="' + character.id + '">');
+		let $edit = $('<a class="edit" href="' + character.id + '">');
 		if (character.image) {
 			let = $image = $('<span class="image" title="' + character.firstname + '">');
 			$image.css('backgroundImage', 'url(\'' + character.image + '\')').appendTo($edit);
@@ -827,12 +845,12 @@ $(() => {
 
 		let $text = $('<div class="text">');
 		let $details = $('<div>');
-		$('<h3><a href="' + character.id + '">' + name + '</a></h3>').appendTo($details);
+		$('<h3><a class="edit" href="' + character.id + '">' + name + '</a></h3>').appendTo($details);
 		$('<p>' + character.archetype + '</p>').appendTo($details);
 		$details.appendTo($text);
 
 		if (buttons) {
-			let $buttons = $('<div class="buttons stretch">');
+			let $buttons = $('<div class="buttons">');
 			$('<button class="minor edit" data-href="' + character.id + '"><span class="icon">edit</span></button>').appendTo($buttons);
 			$('<button class="minor delete" data-href="' + character.id + '"><span class="icon">delete</span></button>').appendTo($buttons);
 			$buttons.appendTo($text);
@@ -848,7 +866,7 @@ $(() => {
 
 		for (c in streetwise.characters) {
 			let character = streetwise.characters[c];
-			let $item = characterSummary(character);
+			let $item = characterSummary(character, true);
 
 			if (character.id == streetwise.lastId) {
 				$item.addClass('active');
