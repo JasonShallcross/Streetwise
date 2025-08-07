@@ -31,21 +31,21 @@ var archetypes = [
 		"archetypeid": "fixer",
 		"archetype": "Gutter Fixer",
 		"attribute": "Empathy",
-		"talents": "I Know A Cove",
+		"talents": ["I Know A Cove"],
 		"skills": ["Streetwise", "Hoodwink", "Notice"]
 	},
 	{
 		"archetypeid": "nose",
 		"archetype": "Street Nose",
 		"attribute": "Agility",
-		"talents": "Gone In A Blink",
+		"talents": ["Gone In A Blink"],
 		"skills": ["Sneak", "Notice", "Scramble"]
 	},
 	{
 		"archetypeid": "twister",
 		"archetype": "Card Twister",
 		"attribute": "Empathy",
-		"talents": "Watch The Hands",
+		"talents": ["Watch The Hands"],
 		"skills": ["Hoodwink", "Sneak", "Streetwise"]
 	}
 ];

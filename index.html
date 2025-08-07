@@ -75,15 +75,21 @@
 			</div>
 
 			<div id="floater">
-				<div class="buttons stretch">
-					<a href="#notesPopup" class="button minor popup" data-title="Notes"><span class="icon">notes</span> Notes</a>
-					<a href="#inventoryPopup" class="button minor popup" data-title="Belongings"><span class="icon">list</span> Belongings</a>
+				<div class="buttons tight">
+					<button id="prevCharacter" class="minor tight"><i>chevron_left</i></button>
+					<select id="characterSwitcher"></select>
+					<button id="nextCharacter" class="minor tight"><i>chevron_right</i></button>
 				</div>
 
 				<div class="buttons stretch">
-					<button class="minor" data-roll="1" data-strain="false" data-start="#attribute_agility" data-title="Roll for Initiative"><span class="icon">lightbulb_2</span> Initiative</button>
-					<button class="minor" data-roll="1" data-strain="false" data-title="Dice Roller"><span class="icon">ifl</span> Roller</button>
-					<button class="minor" id="history"><span class="icon">history</span> History</button>
+					<a href="#notesPopup" class="button minor popup" data-title="Notes"><i>notes</i> Notes</a>
+					<a href="#inventoryPopup" class="button minor popup" data-title="Belongings"><i>list</i> Belongings</a>
+				</div>
+
+				<div class="buttons stretch">
+					<button class="minor" data-roll="1" data-strain="false" data-start="#attribute_agility" data-title="Roll for Initiative"><i>lightbulb_2</i> Initiative</button>
+					<button class="minor" data-roll="1" data-strain="false" data-title="Dice Roller"><i>ifl</i> Roller</button>
+					<button class="minor" id="history"><i>history</i> History</button>
 				</div>
 
 				<div class="buttons noprint center">
@@ -114,7 +120,7 @@
 						<option>Choose...</option>
 					</select>
 
-					<button id="randomName" class="minor"><span class="icon">ifl</span> Random</button>
+					<button id="randomName" class="minor"><i>ifl</i> Random</button>
 				</div>
 			</section>
 
@@ -138,7 +144,7 @@
 				</fieldset>
 
 				<div class="chooser">
-					<button id="randomArchetype" class="minor"><span class="icon">ifl</span> Random</button>
+					<button id="randomArchetype" class="minor"><i>ifl</i> Random</button>
 				</div>
 			</section>
 
@@ -159,8 +165,8 @@
 					<p>Maximum of <span class="max"></span> per attribute</p>
 
 					<div class="buttons">
-						<button class="reset minor"><span class="icon">replay</span> Reset</button>
-						<button id="randomAttributes" class="minor"><span class="icon">ifl</span> Random</button>
+						<button class="reset minor"><i>replay</i> Reset</button>
+						<button id="randomAttributes" class="minor"><i>ifl</i> Random</button>
 					</div>
 				</div>
 			</section>
@@ -182,8 +188,8 @@
 					<p>Maximum of <span class="max"></span> per skill</p>
 
 					<div class="buttons">
-						<button class="reset minor"><span class="icon">replay</span> Reset</button>
-						<button id="randomSkills" class="minor"><span class="icon">ifl</span> Random</button>
+						<button class="reset minor"><i>replay</i> Reset</button>
+						<button id="randomSkills" class="minor"><i>ifl</i> Random</button>
 					</div>
 				</div>
 			</section>
@@ -192,26 +198,26 @@
 			<fieldset class="random">
 				<label for="quirk1">Quirk 1</label>
 				<textarea id="quirk1" name="quirk1" rows="3"></textarea>
-				<button data-field="quirk1" data-list="quirks" class="minor"><span class="icon">ifl</span> Random</button>
+				<button data-field="quirk1" data-list="quirks" class="minor"><i>ifl</i> Random</button>
 
 				<label for="quirk2">Quirk 2</label>
 				<textarea id="quirk2" name="quirk2" rows="3"></textarea>
-				<button data-field="quirk2" data-list="quirks" class="minor"><span class="icon">ifl</span> Random</button>
+				<button data-field="quirk2" data-list="quirks" class="minor"><i>ifl</i> Random</button>
 			</fieldset>
 
 			<h2>Tragedies and Triumphs</h2>
 			<fieldset class="random">
 				<label for="event1">Event 1</label>
 				<textarea id="event1" name="event1" rows="3"></textarea>
-				<button data-field="event1" data-list="events" class="minor"><span class="icon">ifl</span> Random</button>
+				<button data-field="event1" data-list="events" class="minor"><i>ifl</i> Random</button>
 
 				<label for="event2">Event 2</label>
 				<textarea id="event2" name="event2" rows="3"></textarea>
-				<button data-field="event2" data-list="events" class="minor"><span class="icon">ifl</span> Random</button>
+				<button data-field="event2" data-list="events" class="minor"><i>ifl</i> Random</button>
 
 				<label for="event3">Event 3</label>
 				<textarea id="event3" name="event3" rows="3"></textarea>
-				<button data-field="event3" data-list="events" class="minor"><span class="icon">ifl</span> Random</button>
+				<button data-field="event3" data-list="events" class="minor"><i>ifl</i> Random</button>
 			</fieldset>
 
 			<h2>Backstory</h2>
@@ -227,11 +233,11 @@
 
 					<div class="small-buttons">
 						<label class="button minor" for="upload">
-							<span><span class="icon">add_a_photo</span> Upload</span>
+							<span><i>add_a_photo</i> Upload</span>
 							<input type="file" id="upload" />
 						</label>
 
-						<button class="button minor" id="remove"><span class="icon">delete</span> Remove</button>
+						<button class="button minor" id="remove"><i>delete</i> Remove</button>
 					</div>
 				</fieldset>
 
@@ -244,22 +250,22 @@
 					<div>
 						<h3>Choose an image:</h3>
 						<div class="buttons stretch">
-							<button class="minor chooseImage" data-gender="boys"><span class="icon">photo</span> Boys</button>
-							<button class="minor chooseImage" data-gender="girls"><span class="icon">photo</span> Girls</button>
+							<button class="minor chooseImage" data-gender="boys"><i>photo</i> Boys</button>
+							<button class="minor chooseImage" data-gender="girls"><i>photo</i> Girls</button>
 						</div>
 					</div>
 
 					<div>
 						<h3>Random image:</h3>
 						<div class="buttons stretch">
-							<button class="minor randomImage" data-gender="boys"><span class="icon">ifl</span> Boys</button>
-							<button class="minor randomImage" data-gender="girls"><span class="icon">ifl</span> Girls</button>
+							<button class="minor randomImage" data-gender="boys"><i>ifl</i> Boys</button>
+							<button class="minor randomImage" data-gender="girls"><i>ifl</i> Girls</button>
 						</div>
 					</div>
 				</div>
 			</section>
 
-			<button type="submit" title="ctrl-s"><span class="icon">save</span> Save</button>
+			<button type="submit" title="ctrl-s"><i>save</i> Save</button>
 		</form>
 
 		<form id="characters">
@@ -269,15 +275,15 @@
 			</ol>
 
 			<div class="buttons">
-				<button id="new"><span class="icon">draft</span> New</button>
+				<button id="new"><i>draft</i> New</button>
 
 				<label class="button" for="import">
-					<span><span class="icon">face_up</span> Import</span>
+					<span><i>face_up</i> Import</span>
 					<input type="file" id="import" multiple />
 				</label>
 
-				<a href="#" class="button" id="export" type="application/json"><span class="icon">face_down</span> Export</a>
-				<a href="#" class="button" id="backup" type="application/json"><span class="icon">download</span> Backup</a>
+				<a href="#" class="button" id="export" type="application/json"><i>face_down</i> Export</a>
+				<a href="#" class="button" id="backup" type="application/json"><i>download</i> Backup</a>
 			</div>
 		</form>
 
@@ -298,7 +304,7 @@
 				<textarea class="populate nobar" id="notes" name="notes" cols="50" rows="15"></textarea>
 
 				<div class="buttons right">
-					<button id="updateNotes" class="minor"><span class="icon">save</span> Save</button>
+					<button id="updateNotes" class="minor"><i>save</i> Save</button>
 				</div>
 			</div>
 
@@ -312,7 +318,7 @@
 				</ol>
 
 				<div class="buttons right">
-					<button id="updateInventory" class="minor"><span class="icon">save</span> Save</button>
+					<button id="updateInventory" class="minor"><i>save</i> Save</button>
 				</div>
 			</div>
 
@@ -321,8 +327,8 @@
 
 				<div class="buttons">
 					<div id="adjustDice">
-						<button id="diceDec" class="button minor"><span class="icon">remove</span></button>
-						<button id="diceInc" class="button minor"><span class="icon">add</span></button>
+						<button id="diceDec" class="button minor"><i>remove</i></button>
+						<button id="diceInc" class="button minor"><i>add</i></button>
 					</div>
 
 					<span id="calc">
@@ -335,9 +341,9 @@
 						<span>Success: <span id="success">0</span></span>
 						<span>Strain: <span id="failure">0</span><span id="warning" title="bane warnings"></span></span>
 					</span>
-					<button id="roll" class="button minor"><span class="icon">ifl</span> Roll</button>
-					<button id="panic" class="minor"><span class="icon">earthquake</span> Panic</button>
-					<button id="continue" class="minor"><span class="icon">replay</span> Back</button>
+					<button id="roll" class="button minor"><i>ifl</i> Roll</button>
+					<button id="panic" class="minor"><i>earthquake</i> Panic</button>
+					<button id="continue" class="minor"><i>replay</i> Back</button>
 				</div>
 			</div>
 
