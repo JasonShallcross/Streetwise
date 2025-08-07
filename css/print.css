@@ -40,6 +40,14 @@
 		gap: 10px;
 	}
 
+	#show_picture {
+		border: 1px solid black;
+		outline: none;
+	}
+	#show_picture:after {
+		display: none;
+	}
+
 	#show_image {
 		width: 150px;
 		filter: saturate(0) contrast(0.5) brightness(1.5);

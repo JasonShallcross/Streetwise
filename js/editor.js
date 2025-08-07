@@ -74,7 +74,7 @@ $(() => {
 				}
 			}
 
-			let attribute = currentCharacter().attribute;
+			let attribute = $('#archetypeid').val();
 			if (attribute) {
 				total -= 2;
 				$('#attribute_' + attribute.toLowerCase()).val(2);
@@ -120,7 +120,7 @@ $(() => {
 		$('.random button').on('click', (e) => {
 			e.preventDefault();
 
-			let $button = $(e.target);
+			let $button = $(e.target).closest('button');
 			let $field = $('#' + $button.data('field'));
 			let list = window[$button.data('list')];
 
@@ -185,6 +185,8 @@ $(() => {
 			calculateValues('skills');
 
 			$('#show')[0].scrollIntoView(true);
+
+			streetwise.lastId = '';
 		});
 
 		$('#backup').on('click', (e) => {
@@ -339,17 +341,37 @@ $(() => {
 			$($link.attr('href'))[0].scrollIntoView(true);
 		});
 
+		$('#characterSwitcher').on('change', (e) => {
+			e.preventDefault();
+
+			let id = $(e.target).val();
+
+			loadCharacter(id);
+		});
+
+		$('#prevCharacter').on('click', (e) => {
+			e.preventDefault();
+
+			cycleCharacter(-1);
+		});
+
+		$('#nextCharacter').on('click', (e) => {
+			e.preventDefault();
+
+			cycleCharacter(+1);
+		});
+
 		$(document).on('click', '.character', (e) => {
 			let $button = $(e.target).find('.edit:eq(0)');
 			let id = $button.attr('href') || $button.data('href');
 
 			loadCharacter(id);
-			streetwise.lastId = id;
-			updateStorage();
 
-			$('#edit').removeAttr('checked');
-			$('#show')[0].scrollIntoView(true);
-			$button.closest('li').addClass('active').siblings().removeClass('active');
+			if ($('#edit').is(':checked')) {
+				$('#form')[0].scrollIntoView(true);
+			} else {
+				$('#show')[0].scrollIntoView(true);
+			}
 		});
 
 		$(document).on('click', '.character .edit', (e) => {
@@ -360,12 +382,9 @@ $(() => {
 			let id = $button.attr('href') || $button.data('href');
 
 			loadCharacter(id);
-			streetwise.lastId = id;
-			updateStorage();
 
 			$('#edit').attr('checked', 'checked');
 			$('#form')[0].scrollIntoView(true);
-			$button.closest('li').addClass('active').siblings().removeClass('active');
 		});
 
 		$(document).on('click', '.character .delete', (e) => {
@@ -540,6 +559,7 @@ $(() => {
 			}
 
 			$('#edit').prop('checked', 'checked');
+			updateImage('');
 		} else {
 			streetwise = JSON.parse(streetwise);
 			loadCharacter(streetwise.lastId);
@@ -572,12 +592,12 @@ $(() => {
 
 		for (let a in attributes) {
 			let attribute = attributes[a];
-			let tr = '<tr><td>' + attribute + '</td><td width="70px"><input id="attribute_' + attribute.toLowerCase() + '" name="attribute_' + attribute.toLowerCase() + '" value="0" readonly></td><td width="80px"><span class="icon">remove</span><span class="icon">add</span></td></tr>';
+			let tr = '<tr><td>' + attribute + '</td><td width="70px"><input id="attribute_' + attribute.toLowerCase() + '" name="attribute_' + attribute.toLowerCase() + '" value="0" readonly></td><td width="80px"><i>remove</i><i>add</i></td></tr>';
 			$(tr).appendTo('.attributes table');
 		}
 
 		for (let s in skills) {
-			let tr = '<tr><td title="' + skills[s][1] + '">' + s + ' (' + skills[s][0] + ')</td><td width="70px"><input id="skill_' + s.toLowerCase() + '" name="skill_' + s.toLowerCase() + '" value="0" readonly></td><td width="80px"><span class="icon">remove</span><span class="icon">add</span></td></tr>';
+			let tr = '<tr><td title="' + skills[s][1] + '">' + s + ' (' + skills[s][0] + ')</td><td width="70px"><input id="skill_' + s.toLowerCase() + '" name="skill_' + s.toLowerCase() + '" value="0" readonly></td><td width="80px"><i>remove</i><i>add</i></td></tr>';
 			$(tr).appendTo('.skills table');
 		}	
 	}
@@ -605,11 +625,16 @@ $(() => {
 
 		character.wound_points = $('#wound_points').val();
 		character.strain_points = $('#strain_points').val();
-		character.notes = $('#notes').val();
-		character.inventory = currentCharacter().inventory;
 
-		if (character.id.indexOf('#') === -1) {
+		if (character.id.indexOf('#') > -1) {
+			let storedChacter = currentCharacter();
+
+			character.notes = storedChacter.notes;
+			character.inventory = storedChacter.inventory;
+		} else {
 			character.id = '#' + Math.floor(Math.random() * 10000000).toString(16);
+			character.notes = '';
+			character.inventory = [];
 		}
 
 		return character;
@@ -636,6 +661,12 @@ $(() => {
 
 			updateImage(character.image);
 			updateCharacter();
+
+			streetwise.lastId = id;
+			updateStorage();
+
+			$('#slots li[data-id="' + id + '"]').addClass('active').siblings().removeClass('active');
+			$('#characterSwitcher').val(id);
 		} else {
 			$('#edit').prop('checked', 'checked');
 		}
@@ -661,8 +692,33 @@ $(() => {
 		let $picture = $('#show_picture');
 
 		if (character.image) {
-			var data = new Blob([character.image]);
-		    $picture.attr('href', URL.createObjectURL(data));
+			let url = character.image;
+			if (url.indexOf('portraits') == -1) {
+				const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
+					const byteCharacters = atob(b64Data);
+					const byteArrays = [];
+
+					for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+						const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+						const byteNumbers = new Array(slice.length);
+						for (let i = 0; i < slice.length; i++) {
+							byteNumbers[i] = slice.charCodeAt(i);
+						}
+
+						const byteArray = new Uint8Array(byteNumbers);
+						byteArrays.push(byteArray);
+					}
+
+					const blob = new Blob(byteArrays, {type: contentType});
+					return blob;
+				}
+
+				const blob = b64toBlob(character.image.replace('data:image/jpeg;base64,', ''), 'image/jpeg');
+				url = URL.createObjectURL(blob);
+		    }
+
+		    $picture.attr('href', url);
 		  	$picture.attr('download', character.firstname + '-' + character.lastname + '.jpg');
 			$picture.show();
 			$('#show_image').prop('src', character.image);
@@ -735,7 +791,7 @@ $(() => {
 			let key = (stat == character.attribute) ? '*' : '';
 			let icon = attributeIcons[stat];
 			let props = `data-stat="${stat}" data-roll="${stats[stat]}${key}" data-title="${stat} Roll"`;
-			list.push(`<dt ${props}><span class="icon">${icon}</span>${stat}:</dt>`);
+			list.push(`<dt ${props}><i>${icon}</i>${stat}:</dt>`);
 			list.push(`<dd ${props}>${stats[stat]}${key}</dd>`);
 		}
 
@@ -757,7 +813,7 @@ $(() => {
 			let attr = skills[stat][0];
 			let icon = attributeIcons[attr];
 			let props = `title="${skills[stat][0]}: ${skills[stat][1]}" data-stat="${attr}" data-roll="${stats[stat]}" data-title="${stat} Roll (${skills[stat][0]})"`;
-			list.push(`<dt ${props}><span class="icon">${icon}</span>${stat}:</span></dt>`);
+			list.push(`<dt ${props}><i>${icon}</i>${stat}:</span></dt>`);
 			list.push(`<dd ${props}>${stats[stat]}</dd>`);
 		}
 
@@ -827,7 +883,7 @@ $(() => {
 	}
 
 	function characterSummary(character, buttons) {
-		let $item = $('<li class="character">');
+		let $item = $('<li class="character" data-id="' + character.id + '">');
 		if (character.id == streetwise.lastId) {
 			$item.addClass('active');
 		}
@@ -851,8 +907,8 @@ $(() => {
 
 		if (buttons) {
 			let $buttons = $('<div class="buttons">');
-			$('<button class="minor edit" data-href="' + character.id + '"><span class="icon">edit</span></button>').appendTo($buttons);
-			$('<button class="minor delete" data-href="' + character.id + '"><span class="icon">delete</span></button>').appendTo($buttons);
+			$('<button class="minor edit" data-href="' + character.id + '"><i>edit</i></button>').appendTo($buttons);
+			$('<button class="minor delete" data-href="' + character.id + '"><i>delete</i></button>').appendTo($buttons);
 			$buttons.appendTo($text);
 		}
 
@@ -861,19 +917,45 @@ $(() => {
 		return $item;
 	}
 
+	function cycleCharacter(direction) {
+		let $switcher = $('#characterSwitcher');
+		let options = $switcher.find('option').length - 1;
+		let ndx = $switcher.prop('selectedIndex') + direction;
+
+		if (ndx < 0) {
+			ndx = options;
+			$switcher.prop('selectedIndex', ndx - 1);
+		}
+
+		if (ndx > options) {
+			ndx = 0;
+		}
+
+		$switcher.prop('selectedIndex', ndx).trigger('change');
+	}
+
 	function updateSlots() {
-		$('#slots').html('');
+		let $switcher = $('#characterSwitcher');
+		let $slots = $('#slots');
+
+		$switcher.html('');
+		$slots.html('');
 
 		for (c in streetwise.characters) {
 			let character = streetwise.characters[c];
+			let name = fullname(character.firstname, character.lastname, character.nickname);
 			let $item = characterSummary(character, true);
 
 			if (character.id == streetwise.lastId) {
 				$item.addClass('active');
 			}
 
-			$item.appendTo('#slots');
+			$item.appendTo($slots);
+
+			$(`<option value="${character.id}">${name}</option>`).appendTo($switcher);
 		}
+
+		$switcher.val(streetwise.lastId);
 	}
 
 	function popup(title, message) {
@@ -1075,7 +1157,7 @@ $(() => {
 			let title = 'Panic Roll (' + panicLevel(result) + ')';
 			let roll = `${start} + ${total} = ${result}`;
 
-			history.unshift(`${time} ${title}: <span class="icon">earthquake</span> ${roll}`);
+			history.unshift(`${time} ${title}: <i>earthquake</i> ${roll}`);
 
 			$tray.addClass('panicked');
 		}, 500);
@@ -1176,7 +1258,7 @@ $(() => {
 					if (d == $dice.length - 1) {
 						$('#roll').removeAttr('disabled');
 						let time = new Date().toLocaleTimeString();
-						let title = '<span class="icon">' + attributeIcons[stat] + '</span>' + $('#popupTitle').html();
+						let title = '<i>' + attributeIcons[stat] + '</i>' + $('#popupTitle').html();
 						let roll = '';
 
 						if ($tray.hasClass('halos')) {
@@ -1200,7 +1282,7 @@ $(() => {
 							}
 
 							if (pushes <= maxPushes) {
-								$('#popup #roll').html('<span class="icon">replay</span> ' + label).data('push', true);
+								$('#popup #roll').html('<i>replay</i> ' + label).data('push', true);
 							} else {
 								$('#popup #roll').attr('disabled', 'disabled').hide();
 							}

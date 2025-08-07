@@ -9,6 +9,7 @@
   --hover: #F5C692;
   --strong: #7D5C67;
   --font: Arial, sans-serif;
+  --icon: 'Material Symbols Outlined';
 }
 
 html {
@@ -107,10 +108,11 @@ p {
 	word-spacing: 1px;
 }
 
-.icon {
-	font-family: 'Material Symbols Outlined';
+i {
+	font-family: var(--icon);
 	font-size: 14px;
 	font-weight: normal;
+	font-style: normal;
 }
 
 td {
@@ -136,6 +138,11 @@ form {
 	gap: 20px;
 }
 
+#characterSwitcher {
+	display: none;
+	width: auto;
+}
+
 @media screen and (min-width: 1280px) {
 	#floater {
 		gap: 30px;
@@ -148,6 +155,10 @@ form {
 		border-radius: 5px;
 		box-shadow: rgba(0, 0, 0, .2) 0 0 10px 10px;
 		padding: 20px;
+	}
+
+	#characterSwitcher {
+		display: block;
 	}
 
 	#floater .buttons.stretch {
@@ -203,7 +214,7 @@ form {
 }
 #jumps a:before {
 	content: "keyboard_double_arrow_down";
-	font-family: 'Material Symbols Outlined';
+	font-family: var(--icon);
 	font-size: 14px;
 	font-weight: normal;
 }
@@ -229,6 +240,7 @@ body:has(#edit:checked) #form {
 .bio {
 	display: flex;
 	gap: 10px 20px;
+	align-items: flex-start;
 }
 #show_backstory {
 	display: flex;
@@ -448,7 +460,7 @@ section.attributes[attribute="Empathy"] td:has(#attribute_empathy):after {
 }
 #slots .character.active:after {
 	content: "check";
-	font-family: 'Material Symbols Outlined';
+	font-family: var(--icon);
 	font-size: 14px;
 	font-weight: bold;
 	position: absolute;
@@ -512,6 +524,9 @@ section.attributes[attribute="Empathy"] td:has(#attribute_empathy):after {
 .buttons.right {
 	justify-content: flex-end;
 }
+.buttons.tight {
+	gap: 3px;
+}
 .buttons.stretch {
 	justify-content: stretch;
 }
@@ -568,6 +583,10 @@ button span {
 	gap: 2px;
 	align-items: center;
 	justify-content: center;
+}
+.button.tight,
+button.tight {
+	padding: 4px;
 }
 
 a.link {
