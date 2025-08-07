@@ -686,14 +686,7 @@ dl.stats dt {
   gap: 2px;
 }
 dl.stats dt:hover {
-	background: var(--button);
-	color: white;
-	border-radius: 2px;
-}
-dl.stats dt:hover .icon {
-	background: var(--button);
-	color: white;
-	border-radius: 2px;
+	color: var(--strong);
 }
 
 dl.stats dt .icon {
