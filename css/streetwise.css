@@ -240,10 +240,36 @@ body:has(#edit:checked) #form {
 	text-align: left;
 }
 
+#show_picture {
+	position: relative;
+	overflow: hidden;
+	flex-shrink: 0;
+	outline: 2px solid #ccc;
+	border: 2px solid transparent;
+	border-radius: 5px;
+}
+#show_picture:after {
+	content: "";
+	position: absolute;
+	top: 0;
+	right: 0;
+	background: white url(../images/peel.png);
+	width: 20px;
+	height: 20px;
+	background-size: cover;
+	box-shadow: 2px -2px white, -2px 2px 2px 2px rgba(0,0,0,0.2);
+	transition: top .5s, right .5s;
+}
+#show_picture:hover:after {
+	top: -20px;
+	right: -20px;
+}
+
 #show_image {
 	width: 300px;
 	height: auto;
 	filter: saturate(0) sepia(0.7) contrast(0.5) brightness(1.5);
+	-webkit-transition: -webkit-filter .2s linear;
 	border-radius: 5px;
 }
 a:hover #show_image {
@@ -468,6 +494,7 @@ section.attributes[attribute="Empathy"] td:has(#attribute_empathy):after {
 	display: block;
 	border: 1px solid var(--border);
 	filter: saturate(0) sepia(0.7) contrast(0.5) brightness(1.5);
+	-webkit-transition: -webkit-filter .2s linear;
 	border-radius: 5px;
 	background-size: cover;
 }
@@ -595,8 +622,8 @@ input[type="file"] {
 
 #preview {
 	max-width: 400px;
-	max-height: 400px;
-	height: auto;
+	aspect-ratio: 1;
+	background-size: cover;
 }
 #image {
 	display: none;
@@ -882,6 +909,7 @@ footer a:hover {
 	width: 200px;
 	height: auto;
 	filter: saturate(0) sepia(0.7) contrast(0.5) brightness(1.5);
+	-webkit-transition: -webkit-filter .2s linear;
 	cursor: pointer;
 	border: 1px solid var(--border);
 	border-radius: 5px;

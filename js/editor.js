@@ -930,7 +930,7 @@ $(() => {
 		$('#image').val(url);
 
 		if (url) {
-			$('#preview').show().prop('src', url);
+			$('#preview').show().css('backgroundImage', `url(${url})`);
 			$('#remove').show();
 		} else {
 			$('#preview').hide();
