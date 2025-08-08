@@ -63,23 +63,37 @@ $(() => {
 
 			const $btn = $(e.target);
 			const $section = $btn.closest('section');
-			$section.find('input').val('0');
 			let total = $section.data('total');
 			let max = $section.data('max');
 			let deck = [];
 
 			for (var a=0; a<attributes.length; a++) {
-				for (var f=0; f<max; f++) {
+				let used = $('#attribute_' + attributes[a].toLowerCase()).val();
+				for (var f=used; f<max; f++) {
+					total -= used;
 					deck.push(attributes[a].toLowerCase());
 				}
 			}
 
-			let attribute = $('#archetypeid').val();
-			if (attribute) {
-				total -= 2;
-				$('#attribute_' + attribute.toLowerCase()).val(2);
-  				deck.splice(deck.indexOf(attribute.toLowerCase()), 2);
+			let archetypeId = $('#archetypeid').val();
+			if (archetypeId) {
+				let attribute = false;
+				for (var a in archetypes) {
+					let archetype = archetypes[a];
+					if (archetype.archetypeid == archetypeId) {
+						attribute = archetype.attribute.toLowerCase();
+					}
+				}
+				let $key = $('#attribute_' + attribute);
+				let value = parseInt($key.val() || 0);
+				if (value < 2) {
+					total -= 2 - value;
+					$key.val(2);
+	  				deck.splice(deck.indexOf(attribute.toLowerCase()), 2 - value);
+	  			}
 			}
+
+			console.log('editor.js; line:96; total:', total);
 
 			let hand = deal(deck, total);
 			for (var h in hand) {
@@ -95,7 +109,6 @@ $(() => {
 
 			const $btn = $(e.target);
 			const $section = $btn.closest('section');
-			$section.find('input').val('0');
 			let total = $section.data('total');
 			let max = $section.data('max');
 			let deck = [];
@@ -103,7 +116,9 @@ $(() => {
 			let list = Object.keys(skills);
 
 			for (var s=0; s<list.length; s++) {
-				for (var f=0; f<max; f++) {
+				let used = $('#skill_' + list[s].toLowerCase()).val();
+				total -= used;
+				for (var f=used; f<max; f++) {
 					deck.push(list[s].toLowerCase());
 				}
 			}
@@ -136,17 +151,18 @@ $(() => {
 			updateAttribute();
 		});
 
-		$('table span').on('click', (e) => {
+		$('table i').on('click', (e) => {
 			const $btn = $(e.target);
 			const $input = $btn.closest('tr').find('input');
 			const $section = $btn.closest('section');
 			let max = $section.data('max');
 
 			const inc = $btn.index() == 0 ? -1 : 1;
-			const result = parseInt($input.val()) + inc;
+			const value = parseInt($input.val() || 0);
+			const result = value + inc;
 
 			if (result >= 0 && result <= max) {
-				$input.val(parseInt($input.val()) + inc);
+				$input.val(value + inc);
 				calculateValues($section[0].className);
 			}
 		});
