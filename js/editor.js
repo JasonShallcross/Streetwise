@@ -68,7 +68,7 @@ $(() => {
 			let deck = [];
 
 			for (var a=0; a<attributes.length; a++) {
-				let used = $('#attribute_' + attributes[a].toLowerCase()).val();
+				let used = $('#attribute_' + attributes[a].toLowerCase()).val() || 0;
 				for (var f=used; f<max; f++) {
 					total -= used;
 					deck.push(attributes[a].toLowerCase());
@@ -93,8 +93,6 @@ $(() => {
 	  			}
 			}
 
-			console.log('editor.js; line:96; total:', total);
-
 			let hand = deal(deck, total);
 			for (var h in hand) {
 				let $input = $('#attribute_' + hand[h]);
@@ -116,7 +114,7 @@ $(() => {
 			let list = Object.keys(skills);
 
 			for (var s=0; s<list.length; s++) {
-				let used = $('#skill_' + list[s].toLowerCase()).val();
+				let used = $('#skill_' + list[s].toLowerCase()).val() || 0;
 				total -= used;
 				for (var f=used; f<max; f++) {
 					deck.push(list[s].toLowerCase());
