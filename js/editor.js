@@ -1026,10 +1026,10 @@ $(() => {
 		$('#image').val(url);
 
 		if (url) {
-			$('#preview').show().css('backgroundImage', `url(${url})`);
+			$('#preview').css('backgroundImage', `url(${url})`).removeClass('noimage');
 			$('#remove').show();
 		} else {
-			$('#preview').hide();
+			$('#preview').css('backgroundImage', '').addClass('noimage');
 			$('#remove').hide();
 		}
 	}

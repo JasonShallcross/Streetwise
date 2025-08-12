@@ -654,8 +654,23 @@ input[type="file"] {
 #preview {
 	max-width: 400px;
 	aspect-ratio: 1;
+	background-color: white;
 	background-size: cover;
+	border: 1px solid var(--border);
+	border-radius: 5px;
+	margin-bottom: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
+#preview.noimage:before {
+	content: "person";
+	display: block;
+	font-family: var(--icon);
+	font-size: 250px;
+	opacity: 0.2;
+}
+
 #image {
 	display: none;
 }
