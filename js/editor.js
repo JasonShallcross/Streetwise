@@ -96,7 +96,7 @@ $(() => {
 			let hand = deal(deck, total);
 			for (var h in hand) {
 				let $input = $('#attribute_' + hand[h]);
-				$input.val(parseInt($input.val()) + 1);
+				$input.val(parseInt($input.val() || 0) + 1);
 			}
 
 			calculateValues('attributes');
@@ -124,7 +124,7 @@ $(() => {
 			let hand = deal(deck, total);
 			for (var h in hand) {
 				let $input = $('#skill_' + hand[h]);
-				$input.val(parseInt($input.val()) + 1);
+				$input.val(parseInt($input.val() || 0) + 1);
 			}
 
 			calculateValues('skills');
@@ -198,7 +198,7 @@ $(() => {
 			calculateValues('attributes');
 			calculateValues('skills');
 
-			$('#show')[0].scrollIntoView(true);
+			$('#form')[0].scrollIntoView(true);
 
 			streetwise.lastId = '';
 		});
