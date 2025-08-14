@@ -81,6 +81,10 @@
 		display: none;
 	}
 
+	#floater {
+		display: none;
+	}
+	
 	footer {
 		display: none;
 	}
