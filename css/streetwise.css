@@ -139,8 +139,20 @@ form {
 }
 
 #characterSwitcher {
-	display: none;
+	display: block;
+	border-radius: 2px;
+	border-left: none;
+	border-right: none;
+	outline: none;
 	width: auto;
+}
+#prevCharacter {
+	border-radius: 5px 0 0 5px;
+	padding: 4px;
+}
+#nextCharacter {
+	border-radius: 0 5px 5px 0;
+	padding: 4px;
 }
 
 @media screen and (min-width: 1280px) {
@@ -157,30 +169,11 @@ form {
 		padding: 20px;
 	}
 
-	#characterSwitcher {
-		display: block;
-		border-radius: 2px;
-		border-left: none;
-		border-right: none;
-		outline: none;
-	}
-
 	#floater .buttons.tight {
 		gap: 0;
 	}
 	#floater .buttons.stretch {
 		flex-direction: column;
-	}
-	#floater .buttons.center {
-	}
-
-	#prevCharacter {
-		border-radius: 5px 0 0 5px;
-		padding: 4px;
-	}
-	#nextCharacter {
-		border-radius: 0 5px 5px 0;
-		padding: 4px;
 	}
 }
 
