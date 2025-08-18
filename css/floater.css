@@ -1,0 +1,55 @@
+#floater {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+
+	.floater {
+		display: none !important;
+	}
+
+	#characterSwitcher {
+		display: block;
+		border-radius: 2px;
+		border-left: none;
+		border-right: none;
+		outline: none;
+		width: auto;
+	}
+
+	#prevCharacter {
+		border-radius: 5px 0 0 5px;
+		padding: 4px;
+	}
+
+	#nextCharacter {
+		border-radius: 0 5px 5px 0;
+		padding: 4px;
+	}
+}
+
+@media screen and (min-width: 1280px) {
+	#floater {
+		gap: 30px;
+		top: 50%;
+		left: calc(50% + 450px);
+		position: fixed;
+		transform: translateY(-50%);
+		background: var(--bg);
+		border: 1px solid var(--border);
+		border-radius: 5px;
+		box-shadow: rgba(0, 0, 0, .2) 0 0 10px 10px;
+		padding: 20px;
+
+		.buttons.tight {
+			gap: 0;
+		}
+		
+		.buttons.stretch {
+			flex-direction: column;
+		}
+
+		.floater {
+			display: flex !important;
+		}
+	}
+}

@@ -1,0 +1,40 @@
+dl.stats {
+	display: flex;
+	margin: 0;
+	gap: 10px 30px;
+  flex-wrap: wrap;
+
+	dt {
+		font-weight: bold;
+		margin: 0 5px 0 0;
+		word-spacing: 1px;
+		display: flex;
+	  align-items: center;
+	  gap: 2px;
+
+		&:hover {
+			color: var(--strong);
+		}
+
+		& .icon {
+			color: var(--strong);
+		}
+	}
+	
+	dd {
+		font-family: var(--font);
+		color: white;
+		font-weight: bold;
+		margin: 0 0 0 -30px;
+		background: var(--strong);
+		text-align: center;
+		border-radius: 4px;
+		width: 35px;
+		
+		&:hover {
+			background: var(--hover);
+			color: var(--strong);
+			text-decoration: none;
+		}
+	}
+}

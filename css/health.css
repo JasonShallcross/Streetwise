@@ -1,0 +1,56 @@
+.health {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+
+	ul {
+		list-style-type: none;
+		display: flex;
+		gap: 30px;
+		margin: 0;
+		padding: 0;
+	}
+	li {
+		font-weight: bold;
+		font-size: 14px;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		margin: 0;
+		letter-spacing: 0.5px;
+		word-spacing: 1px;
+	}
+
+	input {
+		display: block;
+		border: 2px solid var(--border);
+		border-radius: 3px;
+		width: 50px;
+		height: 30px;
+		text-align: right;
+	}
+}
+
+.conditions {
+	list-style-type: none;
+	display: flex;
+	font-size: 14px;
+	gap: 30px;
+	margin: 0;
+	padding: 0;
+	counter-reset: counter -1;
+	display: flex;
+
+	li {
+		counter-increment: counter;
+		gap: 5px;
+
+		&:before {
+		  content:counter(counter) ':'
+		}
+
+		&.current {
+			color: var(--strong);
+		}
+	}
+}

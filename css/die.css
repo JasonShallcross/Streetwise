@@ -20,6 +20,17 @@
   flex-direction: column;
   align-items: center;
   gap: 30px;
+
+  .buttons {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  
+    div {
+      display: flex;
+      gap: 3px;
+    }
+  }
 }
 
 #dice {
@@ -47,29 +58,10 @@
   transition: transform 0.6s ease;
 }
 
-#tray .buttons {
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-}
-#tray .buttons div {
-  display: flex;
-  gap: 3px;
-}
-
 #continue {
   display: none;
   opacity: 0;
   transition: opacity .5s
-}
-.panicking #continue {
-  display: flex;
-}
-.panicked #continue {
-  opacity: 1;
-}
-.panicking #roll {
-  display: none;
 }
 
 #calc {
@@ -78,23 +70,50 @@
   gap: 10px;
   align-items: center;
   color: var(--body);
+  
+  span {
+    color: var(--strong);
+    font-weight: bold;
+  }
+  
+  input {
+    display: block;
+    border: 2px solid var(--border);
+    border-radius: 3px;
+    width: 50px;
+    height: 30px;
+    text-align: right;
+  }
 }
-#calc span {
-  color: var(--strong);
-  font-weight: bold;
+
+#tray.panicking {
+  #continue {
+    display: flex;
+  }
+
+  #roll {
+    display: none;
+  }
+
+  #adjustDice {
+    display: none;
+  }
+  
+  #calc {
+    display: flex;
+  }
+
+  #dieSlot:not(.panic) {
+    display: none;
+  }
 }
-#calc input {
-  display: block;
-  border: 2px solid var(--border);
-  border-radius: 3px;
-  width: 50px;
-  height: 30px;
-  text-align: right;
+
+#tray.panicked {
+  #continue {
+    opacity: 1;
+  }
 }
-#tray.panicking #adjustDice {
-  display: none;
-}
-#tray.panicking #calc,
+
 #tray.total #calc {
   display: flex;
 }
@@ -103,21 +122,26 @@
   display: none;
   font-size: 16px;
   gap: 20px;
+
+  span {
+    color: var(--strong);
+    font-weight: bold;
+  }
+
+  #warning {
+    color: #ccc;
+  
+    &:before {
+      content: " (";
+      display: inline;
+    }
+
+    &:after {
+      content: ")";
+    }
+  }
 }
-#rolled span {
-  color: var(--strong);
-  font-weight: bold;
-}
-#rolled #warning {
-  color: #ccc;
-}
-#rolled #warning:before {
-  content: " (";
-  display: inline;
-}
-#rolled #warning:after {
-  content: ")";
-}
+
 .halos:not(.panicking) #rolled {
   display: flex;
 }
@@ -125,19 +149,20 @@
 #popup #panic {
   display: none;
   background: #900;
-}
-#popup #panic:hover {
-  color: black;
-}
-#popup #tray.panic #panic {
-  display: flex;
-}
-#popup #tray.panic #roll {
-  display: none;
+
+  &:hover {
+    color: black;
+  }
 }
 
-#popup #tray.panicking #dieSlot:not(.panic) {
-  display: none;
+#popup #tray.panic {
+  #panic {
+    display: flex;
+  }
+  
+  #roll {
+    display: none;
+  }
 }
 
 .face {
@@ -150,31 +175,31 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  
+  &.one   {transform: rotateY(0deg)    translateZ(25px);}
+  &.two   {transform: rotateX(-90deg)  translateZ(25px);}
+  &.three {transform: rotateY(90deg)   translateZ(25px);}
+  &.four  {transform: rotateY(-90deg)  translateZ(25px);}
+  &.five  {transform: rotateX(90deg)   translateZ(25px);}
+  &.six   {transform: rotateY(180deg)  translateZ(25px);}
+  
+  .dot {
+    width: 8px;
+    height: 9px;
+    background: linear-gradient(#000, #999);
+    border-radius: 50%;
+    position: absolute;
+    visibility: hidden;
+
+    &.center        { top: 21px; left: 21px; }
+    &.top-left      { top: 10px; left: 10px; }
+    &.top-right     { top: 10px; right: 10px; }
+    &.bottom-left   { bottom: 10px; left: 10px; }
+    &.bottom-right  { bottom: 10px; right: 10px; }
+    &.center-left   { top: 21px; left: 10px; }
+    &.center-right  { top: 21px; right: 10px; }
+  }
 }
-
-.face .dot {
-  width: 8px;
-  height: 9px;
-  background: linear-gradient(#000, #999);
-  border-radius: 50%;
-  position: absolute;
-  visibility: hidden;
-}
-
-.one   {transform: rotateY(0deg)    translateZ(25px);}
-.two   {transform: rotateX(-90deg)  translateZ(25px);}
-.three {transform: rotateY(90deg)   translateZ(25px);}
-.four  {transform: rotateY(-90deg)  translateZ(25px);}
-.five  {transform: rotateX(90deg)   translateZ(25px);}
-.six   {transform: rotateY(180deg)  translateZ(25px);}
-
-.center        { top: 21px; left: 21px; }
-.top-left      { top: 10px; left: 10px; }
-.top-right     { top: 10px; right: 10px; }
-.bottom-left   { bottom: 10px; left: 10px; }
-.bottom-right  { bottom: 10px; right: 10px; }
-.center-left   { top: 21px; left: 10px; }
-.center-right  { top: 21px; right: 10px; }
 
 #dieSlot:has(.rolled) {
   opacity: 1;
@@ -195,15 +220,18 @@
 [data-rolled="5"] {transform: rotateX( -45deg) rotateY(-135deg) rotateZ(     0);}
 [data-rolled="6"] {transform: rotateX(  45deg) rotateY( 180deg) rotateZ(135deg);}
 
-.halos:not(.panicking) #dieSlot:has([data-rolled="1"]) {
-  box-shadow: 0 0 10px 4px #ccc inset;
-}
-.halos:not(.panicking) .success {
-  box-shadow: 0 0 10px 4px var(--success) inset !important;
-}
+.halos:not(.panicking) {
+  #dieSlot:has([data-rolled="1"]) {
+    box-shadow: 0 0 10px 4px #ccc inset;
+  }
+  
+  .success {
+    box-shadow: 0 0 10px 4px var(--success) inset !important;
+  }
 
-.halos:not(.panicking) .failure {
-  box-shadow: 0 0 10px 4px var(--failure) inset !important;
+  .failure {
+    box-shadow: 0 0 10px 4px var(--failure) inset !important;
+  }
 }
 
 #tray .strain .face {

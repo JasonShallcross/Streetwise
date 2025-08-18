@@ -2,6 +2,12 @@
 	<head>
 		<title>Streetwise Urchinator v1.0</title>
 		<link rel="stylesheet" href="css/streetwise.css">
+		<link rel="stylesheet" href="css/popup.css">
+		<link rel="stylesheet" href="css/floater.css">
+		<link rel="stylesheet" href="css/buttons.css">
+		<link rel="stylesheet" href="css/stats.css">
+		<link rel="stylesheet" href="css/health.css">
+		<link rel="stylesheet" href="css/characters.css">
 		<link rel="stylesheet" href="css/mobile.css">
 		<link rel="stylesheet" href="css/print.css">
 		<link rel="stylesheet" href="css/die.css">
@@ -75,7 +81,7 @@
 			</div>
 
 			<div id="floater">
-				<div class="buttons tight">
+				<div class="buttons tight floater">
 					<button id="prevCharacter" class="minor"><i>chevron_left</i></button>
 					<select id="characterSwitcher"></select>
 					<button id="nextCharacter" class="minor"><i>chevron_right</i></button>
@@ -116,11 +122,35 @@
 				</fieldset>
 
 				<div class="chooser">
-					<select id="names">
-						<option>Choose...</option>
-					</select>
+					<div class="names">
+						<select id="boysnames" class="nameList" data-field="#firstname">
+							<option>Choose a boy's name...</option>
+						</select>
 
-					<button id="randomName" class="minor"><i>ifl</i> Random</button>
+						or
+
+						<select id="girlsnames" class="nameList" data-field="#firstname">
+							<option>Choose a girl's name...</option>
+						</select>
+					</div>
+
+					<div class="names">
+						<select id="surnames" class="nameList" data-field="#lastname">
+							<option>Choose a last name...</option>
+						</select>
+
+						<select id="nicknames" class="nameList" data-field="#nickname">
+							<option>Choose a nickname...</option>
+						</select>
+					</div>
+
+					<div>
+						<h3>Random name:</h3>
+						<div class="buttons stretch">
+							<button class="minor randomName" data-gender="boys"><i>ifl</i> Boys</button>
+							<button class="minor randomName" data-gender="girls"><i>ifl</i> Girls</button>
+						</div>
+					</div>
 				</div>
 			</section>
 
@@ -287,6 +317,25 @@
 				<a href="#" class="button" id="export" type="application/json"><i>face_down</i> Export</a>
 				<a href="#" class="button" id="backup" type="application/json"><i>download</i> Backup</a>
 			</div>
+		</form>
+
+		<form id="generate">
+			<fieldset>
+				<label for="creations">Create</label>
+
+				<input id="creations" type="number" value="1">
+
+				<select id="genders">
+					<option value="both">Male or Female</option>
+					<option value="boys">Male</option>
+					<option value="girls">Female</option>
+				</select>
+				
+				character(s)
+
+				<button type="submit"><i>auto_awesome_motion</i> Generate</button>
+			</fieldset>
+
 		</form>
 
 		<footer>

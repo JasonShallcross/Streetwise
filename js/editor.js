@@ -31,23 +31,17 @@ $(() => {
 			}
 		});
 
-		$('#names').on('change', (e) => {
+		$('.nameList').on('change', (e) => {
 			e.preventDefault();
 
-			let name = names[e.target.selectedIndex - 1];
-			$('#firstname').val(name[0]);
-			$('#lastname').val(name[1]);
-			$('#nickname').val(name[2]);
+			let $list = $(e.target);
+			$($list.data('field')).val($list.val());
 		});
 
-		$('#randomName').on('click', (e) => {
+		$('.randomName').on('click', (e) => {
 			e.preventDefault();
-
-			let rnd = Math.floor(Math.random() * names.length);
-			let name = names[rnd];
-			$('#firstname').val(name[0]);
-			$('#lastname').val(name[1]);
-			$('#nickname').val(name[2]);
+			let $button = $(e.target).closest('button');
+			randomName($button.data('gender'));
 		});
 
 		$('#randomArchetype').on('click', (e) => {
@@ -75,6 +69,7 @@ $(() => {
 				}
 			}
 
+			// ensure key attribute is at least 2
 			let archetypeId = $('#archetypeid').val();
 			if (archetypeId) {
 				let attribute = false;
@@ -84,9 +79,10 @@ $(() => {
 						attribute = archetype.attribute.toLowerCase();
 					}
 				}
+
 				let $key = $('#attribute_' + attribute);
 				let value = parseInt($key.val() || 0);
-				if (value < 2) {
+				if (value < 2 && total > 2) {
 					total -= 2 - value;
 					$key.val(2);
 	  				deck.splice(deck.indexOf(attribute.toLowerCase()), 2 - value);
@@ -118,6 +114,25 @@ $(() => {
 				total -= used;
 				for (var f=used; f<max; f++) {
 					deck.push(list[s].toLowerCase());
+				}
+			}
+
+			// ensure key skills are at least 2
+			let attribute = $section.attr('attribute');
+			if (attribute) {
+				for (var s=0; s<list.length; s++) {
+					let skill = list[s].toLowerCase();
+					let $input = $('#skill_' + skill);
+					let $tr = $input.closest('tr');
+
+					if ($tr.data('attr') == attribute) {
+						let value = parseInt($input.val() || 0);
+						if (value < 2 && total > 2) {
+							total -= 2 - value;
+							$input.val(2);
+			  				deck.splice(deck.indexOf(skill), 2 - value);
+						}
+					}
 				}
 			}
 
@@ -187,7 +202,7 @@ $(() => {
 		$('#new').on('click', (e) => {
 			e.preventDefault();
 
-			$('#form input, #form textarea').val('');
+			$('#form input, #form textarea, #form select').val('');
 			$('.attributes').attr('attribute', '');
 			$('#strain_points').val('');
 			$('#wound_points').val('');
@@ -203,9 +218,50 @@ $(() => {
 			streetwise.lastId = '';
 		});
 
-		$('#backup').on('click', (e) => {
-			$link = $(e.target);
+		$('#generate').on('submit', (e) => {
+			let $form = $(e.target);
+			let creations = $('#creations').val();
+			let genders = $('#genders').val();
+			
+			$('#strain_points').val('');
+			$('#wound_points').val('');
 
+			for (var c=0; c< creations; c++) {
+				streetwise.lastId = '';
+				$('#form input, #form textarea').val('');
+				$('#form section.attributes input, #form section.skills input').val('0');
+
+				let gender = genders;
+				if (gender == 'both') {
+					gender = chooseFromList(['boys', 'girls']);
+				}
+				randomName(gender);
+
+				$('#randomArchetype').trigger('click');
+				$('#randomAttributes').trigger('click');
+				$('#randomSkills').trigger('click');
+
+				$('fieldset.random button').each((i, button) => {
+					$(button).trigger('click');
+				});
+
+				$('button.randomImage[data-gender="' + gender + '"]').trigger('click');
+				
+				let character = getCharacter();
+				streetwise.lastId = character.id;
+				streetwise.characters[character.id] = character;			
+			}		
+
+			updateStorage();
+			updateSlots();
+
+			setTimeout(() => {
+				$('#generate')[0].scrollIntoView();
+			}, 10);	
+		});
+
+		$('#backup').on('click', (e) => {
+			let $link = $(e.target);
 			let time = new Date().getTime();
 
 		    var data = new Blob([JSON.stringify(streetwise)]);
@@ -214,8 +270,7 @@ $(() => {
 		});
 
 		$('#export').on('click', (e) => {
-			$link = $(e.target);
-
+			let $link = $(e.target);
 			let character = getCharacter();
 
 		    var data = new Blob([JSON.stringify(character)]);
@@ -596,8 +651,18 @@ $(() => {
 	}
 
 	function build() {
-		for (let n in names) {
-			$('<option>' + fullname(names[n][0], names[n][1], names[n][2]) + '</option>').appendTo('#names');
+		['boys', 'girls'].forEach((gender) => {
+			forenames[gender].forEach((name) => {
+				$('<option>' + name + '</option>').appendTo('#' + gender + 'names');
+			});
+		});
+
+		for (let n in surnames) {
+			$('<option value="' + surnames[n] + '">' + surnames[n] + '</option>').appendTo('#surnames');
+		}
+
+		for (let n in nicknames) {
+			$('<option value="' + nicknames[n] + '">' + nicknames[n] + '</option>').appendTo('#nicknames');
 		}
 
 		for (let a in archetypes) {
@@ -606,12 +671,12 @@ $(() => {
 
 		for (let a in attributes) {
 			let attribute = attributes[a];
-			let tr = '<tr><td>' + attribute + '</td><td width="70px"><input id="attribute_' + attribute.toLowerCase() + '" name="attribute_' + attribute.toLowerCase() + '" value="0" readonly></td><td width="80px"><i>remove</i><i>add</i></td></tr>';
+			let tr = '<tr data-attr="' + attribute + '"><td>' + attribute + '</td><td width="70px"><input id="attribute_' + attribute.toLowerCase() + '" name="attribute_' + attribute.toLowerCase() + '" value="0" readonly></td><td width="80px"><i>remove</i><i>add</i></td></tr>';
 			$(tr).appendTo('.attributes table');
 		}
 
 		for (let s in skills) {
-			let tr = '<tr><td title="' + skills[s][1] + '">' + s + ' (' + skills[s][0] + ')</td><td width="70px"><input id="skill_' + s.toLowerCase() + '" name="skill_' + s.toLowerCase() + '" value="0" readonly></td><td width="80px"><i>remove</i><i>add</i></td></tr>';
+			let tr = '<tr data-attr="' + skills[s][0] + '"><td title="' + skills[s][1] + '">' + s + ' (' + skills[s][0] + ')</td><td width="70px"><input id="skill_' + s.toLowerCase() + '" name="skill_' + s.toLowerCase() + '" value="0" readonly></td><td width="80px"><i>remove</i><i>add</i></td></tr>';
 			$(tr).appendTo('.skills table');
 		}	
 	}
@@ -744,6 +809,7 @@ $(() => {
 
 	function updateAttribute() {
 		$('.attributes').attr('attribute', $('#attribute').val());
+		$('.skills').attr('attribute', $('#attribute').val());
 	}
 
 	function hasPower(power) {
@@ -839,7 +905,7 @@ $(() => {
 
 		for (q=0; q<=2; q++) {
 			if (character['quirk' + q]) {
-				quirks += '<p>' + character['quirk' + q] + '.</p>';
+				quirks += '<p>' + character['quirk' + q] + '</p>';
 			}
 		}
 
@@ -851,7 +917,7 @@ $(() => {
 
 		for (e=0; e<=3; e++) {
 			if (character['event' + e]) {
-				backstory += '<p>' + character['event' + e] + '.</p>';
+				backstory += '<p>' + character['event' + e] + '</p>';
 			}
 		}
 
@@ -1032,6 +1098,17 @@ $(() => {
 			$('#preview').css('backgroundImage', '').addClass('noimage');
 			$('#remove').hide();
 		}
+	}
+
+	function randomName(gender) {
+		$('#firstname').val(chooseFromList(forenames[gender]));
+		$('#lastname').val(chooseFromList(surnames));
+		$('#nickname').val(chooseFromList(nicknames));
+	}
+
+	function chooseFromList(list) {
+		let rnd = Math.floor(Math.random() * list.length);
+		return list[rnd];
 	}
 
 	function showDice(title, dice, useStrain, start, stat) {
