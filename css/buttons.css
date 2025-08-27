@@ -24,9 +24,6 @@
 button {
 	color: white;
 	background: var(--button);
-	border: 2px solid white;
-	border-radius: 5px;
-	outline: 1px solid var(--button);
 	padding: 5px 0;
 	width: 150px;
 	text-align: center;
@@ -41,20 +38,31 @@ button {
 	gap: 2px;
 	align-items: center;
 	justify-content: center;
+	transition: background-color var(--hoverFade), color var(--hoverFade);
+	border-radius: 4px;
+		
+	&.submit {
+		border: 1px solid white;
+		outline: 2px solid var(--button);
+
+		&:hover {
+			outline-color: var(--button);
+		}
+	}
+
+	&.minor {
+		width: auto;
+		padding: 4px 15px;
+		outline: none;
+		border: none;
+		text-transform: none;
+	}
 }
-.button.minor,
-button.minor {
-	width: auto;
-	padding: 4px 15px;
-	outline: none;
-	border: none;
-	text-transform: none;
-}
+
 .button:hover,
 button:hover {
 	color: var(--strong);
 	background: var(--hover);
-	outline: 1px solid var(--hover);
 	text-decoration: none !important;
 }
 .button[disabled] {

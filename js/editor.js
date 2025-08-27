@@ -29,6 +29,31 @@ $(() => {
 					$('#show')[0].scrollIntoView(true);
 				}, 10);
 			}
+
+			streetwise.editmode = e.target.checked;
+			updateStorage();
+		});
+
+		$('#darkmode').on('click', (e) => {
+			e.preventDefault();
+
+			let $body = $('body');
+			$body.toggleClass('darkmode');
+			streetwise.darkmode = $body.hasClass('darkmode');
+			updateStorage();
+		});
+
+		$('.tabs > *').on('click', (e) => {
+			e.preventDefault();
+
+			let $tab = $(e.target);
+			let ndx = $tab.index();
+			console.log(ndx);
+
+			$tab.addClass('activeTab').siblings().removeClass('activeTab');
+
+			let $panel = $tab.closest('.tabs').next('.panels').children().eq(ndx);
+			$panel.addClass('activePanel').siblings().removeClass('activePanel');
 		});
 
 		$('.nameList').on('change', (e) => {
@@ -117,23 +142,18 @@ $(() => {
 				}
 			}
 
-			// ensure key skills are at least 2
-			let attribute = $section.attr('attribute');
-			if (attribute) {
-				for (var s=0; s<list.length; s++) {
-					let skill = list[s].toLowerCase();
+			let suggested = $('#skills').val().toLowerCase().split(', ');
+			if (suggested) {
+				suggested.forEach((skill) => {
 					let $input = $('#skill_' + skill);
-					let $tr = $input.closest('tr');
+					let value = parseInt($input.val() || 0);
 
-					if ($tr.data('attr') == attribute) {
-						let value = parseInt($input.val() || 0);
-						if (value < 2 && total > 2) {
-							total -= 2 - value;
-							$input.val(2);
-			  				deck.splice(deck.indexOf(skill), 2 - value);
-						}
+					if (value < 2 && total > 2) {
+						total -= 2 - value;
+						$input.val(2);
+		  				deck.splice(deck.indexOf(skill), 2 - value);
 					}
-				}
+				});
 			}
 
 			let hand = deal(deck, total);
@@ -346,6 +366,19 @@ $(() => {
 			e.preventDefault();
 
 			updateImage('');
+		});
+
+		$('#preview').on('click', (e) => {
+			let $link = $(e.target);
+			let character = getCharacter();
+
+			if (!character.image) {
+				e.preventDefault();
+				return;
+			}
+
+			$link.attr('href', getImageUrl(character.image));
+		  	$link.attr('download', character.firstname + '-' + character.lastname + '.jpg');
 		});
 
 		$('#overlay').on('click', (e) => {
@@ -635,6 +668,14 @@ $(() => {
 			updateSlots();
 		}
 
+		if (streetwise.editmode) {
+			$('#edit').prop('checked', 'checked');
+		}
+
+		if (streetwise.darkmode) {
+			$('body').addClass('darkmode');
+		}
+
 		bind();
 	}
 
@@ -771,40 +812,43 @@ $(() => {
 		let $picture = $('#show_picture');
 
 		if (character.image) {
-			let url = character.image;
-			if (url.indexOf('portraits') == -1) {
-				const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
-					const byteCharacters = atob(b64Data);
-					const byteArrays = [];
-
-					for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-						const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-						const byteNumbers = new Array(slice.length);
-						for (let i = 0; i < slice.length; i++) {
-							byteNumbers[i] = slice.charCodeAt(i);
-						}
-
-						const byteArray = new Uint8Array(byteNumbers);
-						byteArrays.push(byteArray);
-					}
-
-					const blob = new Blob(byteArrays, {type: contentType});
-					return blob;
-				}
-
-				const blob = b64toBlob(character.image.replace('data:image/jpeg;base64,', ''), 'image/jpeg');
-				url = URL.createObjectURL(blob);
-		    }
-
-		    $picture.attr('href', url);
+		    $picture.attr('href', getImageUrl(character.image));
 		  	$picture.attr('download', character.firstname + '-' + character.lastname + '.jpg');
 			$picture.show();
 			$('#show_image').prop('src', character.image);
-
 		} else {
 			$picture.hide();
 		}
+	}
+
+	function getImageUrl(image) {
+		let url = image;
+		if (url.indexOf('portraits') == -1) {
+			const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
+				const byteCharacters = atob(b64Data);
+				const byteArrays = [];
+
+				for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+					const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+					const byteNumbers = new Array(slice.length);
+					for (let i = 0; i < slice.length; i++) {
+						byteNumbers[i] = slice.charCodeAt(i);
+					}
+
+					const byteArray = new Uint8Array(byteNumbers);
+					byteArrays.push(byteArray);
+				}
+
+				const blob = new Blob(byteArrays, {type: contentType});
+				return blob;
+			}
+
+			const blob = b64toBlob(image.replace('data:image/jpeg;base64,', ''), 'image/jpeg');
+			url = URL.createObjectURL(blob);
+	    }
+
+	    return url;
 	}
 
 	function updateAttribute() {
@@ -1313,6 +1357,7 @@ $(() => {
 			}
 
 			if (rolling) {
+				$slot.addClass('rolling');
 				$die.removeClass('rolled');
 				$die.attr('data-rolled', '');
 
@@ -1344,6 +1389,7 @@ $(() => {
 							$warning.html(warnings).show();
 						}
 					}
+					$slot.removeClass('rolling');
 					$die.addClass('rolled').attr('data-rolled', face);
 
 					if (d == $dice.length - 1) {

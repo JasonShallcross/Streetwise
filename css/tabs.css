@@ -1,0 +1,146 @@
+:root {
+	--tabBg: #7D5C67;
+	--tabFg: #FBF6E1;
+	--tabBgActive: #C18373;
+	--tabFgActive: #FBF6E1;
+}
+
+.tabs {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	gap: 1px;
+	border-bottom: 1px solid var(--tabBgActive);
+	
+	& > * {
+		background: var(--tabBg);
+		color: var(--tabFg);
+		flex-basis: 100%;
+		padding: 5px 10px 5px 10px;
+		border-radius: 5px 5px 0 0;
+		font-variant: small-caps;
+		font-family: var(--font);
+		font-size: 12px;
+		cursor: pointer;
+		position: relative;
+
+		&:after {
+			content: "";
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			height: 10px;
+			background: linear-gradient(#00000000, #00000033);
+		}
+
+		&.activeTab {
+			color: var(--tabFgActive);
+			background: var(--tabBgActive);
+			border: 1px solid var(--bg);
+			border-bottom: none;
+			margin-bottom: -2px;
+
+			&:after {
+				display: none;
+			}
+		}
+	}
+}
+
+.panels {
+	list-style-type: none;
+	margin: -20px 0 0 0;
+	padding: 0;
+
+	& > * {
+		max-height: 0;
+		overflow: hidden;
+		background: var(--tabBgActive);
+		color: var(--tabFgActive);
+		border-radius: 0 0 5px 5px;
+
+		label:has(input[type="checkbox"]) {
+			display: none;
+		}
+
+		@media screen and (min-width: 600px) {
+			&.activePanel {
+				max-height: 999;
+				padding: 10px;
+				border: 1px solid var(--tabFgActive);
+				transition: max-height 1s ease;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.tabs {
+		display: none;
+	}
+
+	.panels {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		margin-top: 0;
+
+		& > * {
+			max-height: none;
+			border-radius: 5px;
+
+			label:has(input[type="checkbox"]) {
+				display: flex;
+				justify-content: space-between;
+				color: var(--tabFg);
+				background: var(--tabBg);
+				color: var(--tabFg);
+				font-style: italic;
+				font-variant: small-caps;
+				letter-spacing: 0.5px;
+				margin: 0;
+				padding: 5px 10px;
+				cursor: pointer;
+				
+				&:after {
+					content: "add";
+					font-family: var(--icon);
+					font-variant: normal;
+					font-style: normal;
+				}
+			}
+
+			section {
+				max-height: 0;
+				overflow: hidden;
+				transition: max-height 1s ease;
+			}
+
+			&:has(input[type="checkbox"]:checked) {
+				color: var(--tabFgActive);
+				background: var(--tabBgActive);
+				padding: 10px;
+
+				label:has(input[type="checkbox"]) {
+					background: none;
+					padding: 0;
+					margin-bottom: 10px;
+
+					&:after {
+						content: "remove";
+					}
+				}
+
+				section {
+					max-height: 999;
+				}
+			}
+		}
+
+		input[type="checkbox"] {
+			display: none;
+		}
+	}
+}

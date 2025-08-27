@@ -39,7 +39,7 @@ html.popup {
 	z-index: 102;
 	border: 2px solid var(--strong);
 	border-radius: 10px;
-	box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.5);
+	box-shadow: 0 0 20px 5px rgba(255,255,255, 0.5);
 	padding: 30px;
 	font-size: 24px;
 	font-family: var(--font);
@@ -49,6 +49,11 @@ html.popup {
 	justify-content: center;
 	align-items: center;
 	position: relative;
+	max-width: calc(100% - 200px);
+
+	#popupTitle {
+		color: var(--dark);
+	}
 
 	#popupContent {
 		width: 100%;
@@ -136,6 +141,7 @@ html.popup {
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		font-family: var(--icon);
 
 		&:hover {
 			background: var(--hover);
@@ -154,7 +160,7 @@ html.popup {
 			width: 200px;
 			height: auto;
 			filter: saturate(0) sepia(0.7) contrast(0.5) brightness(1.5);
-			-webkit-transition: -webkit-filter .2s linear;
+			transition: filter .2s linear;
 			cursor: pointer;
 			border: 1px solid var(--border);
 			border-radius: 5px;

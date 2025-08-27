@@ -35,6 +35,10 @@
 		display: none !important;
 	}
 
+	#generate {
+		display: none !important;
+	}
+
 	#show {
 		display: flex !important;
 		gap: 10px;

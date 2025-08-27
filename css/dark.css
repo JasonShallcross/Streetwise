@@ -1,0 +1,96 @@
+body.darkmode {
+	--heading: #FBF6E1;
+	--highlight: #FBF6E1;
+	--strong: #FBF6E1;
+
+	background: black;
+
+  	h1 {
+  		span {
+  			text-shadow: -1px -1px black;
+  			filter: invert(1);
+  		}
+  	}
+
+	input, textarea, select {
+		background: black;
+		color: var(--hover);
+		border: 1px solid white;
+	}
+
+  	input[type="checkbox"] {
+  		border-color: black;
+  	}
+
+  	.button, button {
+  		color: var(--bg);
+		
+  		&.submit {
+  			border-color: var(--bg);
+
+  			&:hover {
+  				border-color: var(--button);
+  				outline-color: var(--hover);
+  			}
+  		}
+
+		&:hover {
+  			color: var(--button);
+  		}
+  	}
+
+  	#toolbar {
+  		background: black;
+  	
+  		label {
+  			color: var(--body);
+  		}
+  	}
+
+  	#show_picture {
+  		border-color: var(--body);
+
+  		&:after {
+  			background-color: black;
+  		}
+  	}
+
+  	#slots {
+	  	.character.active {
+	  		background-color: var(--body);
+	  		color: var(--highlight);
+	  	}
+	}
+
+	#popup {
+		box-shadow: 0 0 20px 5px rgba(255,255,255, 0.5);
+	}
+
+	.character {
+		.image {
+			border-color: var(--strong);
+			filter: saturate(0) sepia(0.7) contrast(0.5);
+
+			&:hover {
+				border-color: var(--body);
+			}
+		}
+	}
+
+	a.info:hover {
+		color: var(--hover);
+	}
+
+  	dl.stats {
+  		dd {
+  			color: black;
+  		}
+  	}
+
+  	#floater {
+  		select {
+  			background: white;
+  			color: black;
+  		}
+  	}
+}

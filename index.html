@@ -8,9 +8,12 @@
 		<link rel="stylesheet" href="css/stats.css">
 		<link rel="stylesheet" href="css/health.css">
 		<link rel="stylesheet" href="css/characters.css">
+		<link rel="stylesheet" href="css/tabs.css">
+		<link rel="stylesheet" href="css/die.css">
+		<link rel="stylesheet" href="css/die.css">
 		<link rel="stylesheet" href="css/mobile.css">
 		<link rel="stylesheet" href="css/print.css">
-		<link rel="stylesheet" href="css/die.css">
+		<link rel="stylesheet" href="css/dark.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 		<script type="text/javascript" src="js/config/archetypes.js"></script>
 		<script type="text/javascript" src="js/config/attributes.js"></script>
@@ -60,8 +63,10 @@
 			<h2>Skills</h2>
 			<dl id="show_skills" class="stats"></dl>
 
-			<h2>Quirks</h2>
-			<div id="show_quirks" class="panel"></div>
+			<div class="withContent">
+				<h2>Quirks</h2>
+				<div id="show_quirks" class="panel"></div>
+			</div>
 
 			<h2>Health</h2>
 			<div class="health">
@@ -108,196 +113,223 @@
 		<form id="form">
 			<input type="hidden" id="id" name="id" value="">
 
-			<h2>Name</h2>
-			<section>
-				<fieldset class="twocol">	
-					<label for="firstname">First name</label>
-					<input id="firstname" name="firstname">
+			<ul class="tabs">
+				<li class="activeTab">Name</li>
+				<li>Role</li>
+				<li>Attributes</li>
+				<li>Skills</li>
+				<li>Quirks</li>
+				<li>Events</li>
+				<li>Backstory</li>
+				<li>Image</li>
+			</ul>
 
-					<label for="lastname">Last name</label>
-					<input id="lastname" name="lastname">
+			<ul class="panels">
+				<li class="activePanel">
+					<label>Name <input type="checkbox" name="editPanels" checked></label>
+					<section class="cols">
+						<fieldset class="twocol">	
+							<label for="firstname">First name</label>
+							<input id="firstname" name="firstname">
 
-					<label for="nickname">Nick name</label>
-					<input id="nickname" name="nickname">
-				</fieldset>
+							<label for="lastname">Last name</label>
+							<input id="lastname" name="lastname">
 
-				<div class="chooser">
-					<div class="names">
-						<select id="boysnames" class="nameList" data-field="#firstname">
-							<option>Choose a boy's name...</option>
-						</select>
+							<label for="nickname">Nick name</label>
+							<input id="nickname" name="nickname">
+						</fieldset>
 
-						or
+						<div class="chooser">
+							<div class="names">
+								<select id="boysnames" class="nameList" data-field="#firstname">
+									<option>Choose a boy's name...</option>
+								</select>
 
-						<select id="girlsnames" class="nameList" data-field="#firstname">
-							<option>Choose a girl's name...</option>
-						</select>
-					</div>
+								or
 
-					<div class="names">
-						<select id="surnames" class="nameList" data-field="#lastname">
-							<option>Choose a last name...</option>
-						</select>
+								<select id="girlsnames" class="nameList" data-field="#firstname">
+									<option>Choose a girl's name...</option>
+								</select>
+							</div>
 
-						<select id="nicknames" class="nameList" data-field="#nickname">
-							<option>Choose a nickname...</option>
-						</select>
-					</div>
+							<div class="names">
+								<select id="surnames" class="nameList" data-field="#lastname">
+									<option>Choose a last name...</option>
+								</select>
 
-					<div>
-						<h3>Random name:</h3>
-						<div class="buttons stretch">
-							<button class="minor randomName" data-gender="boys"><i>ifl</i> Boys</button>
-							<button class="minor randomName" data-gender="girls"><i>ifl</i> Girls</button>
+								<select id="nicknames" class="nameList" data-field="#nickname">
+									<option>Choose a nickname...</option>
+								</select>
+							</div>
+
+							<div>
+								<h3>Random name:</h3>
+								<div class="buttons stretch">
+									<button class="minor randomName" data-gender="boys"><i>ifl</i> Boys</button>
+									<button class="minor randomName" data-gender="girls"><i>ifl</i> Girls</button>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-			</section>
+					</section>
+				</li>
 
-			<h2>Description</h2>
-			<section>
-				<fieldset class="twocol">
-					<label for="archetypeid">Archetype</label>
-					<select id="archetypeid" name="archetypeid">
-						<option value="">Choose...</option>
-					</select>
-					<input type="hidden" id="archetype" name="archetype">
-					
-					<label>Key attribute</label>
-					<input id="attribute" name="attribute" readonly>
+				<li>
+					<label>Role <input type="checkbox" name="editPanels"></label>
+					<section class="cols">
+						<fieldset class="twocol">
+							<label for="archetypeid">Archetype</label>
+							<select id="archetypeid" name="archetypeid">
+								<option value="">Choose...</option>
+							</select>
+							<input type="hidden" id="archetype" name="archetype">
+							
+							<label>Key attribute</label>
+							<input id="attribute" name="attribute" readonly>
 
-					<label>Talents</label>
-					<input id="talents" name="talents" readonly>
+							<label>Talents</label>
+							<input id="talents" name="talents" readonly>
 
-					<label>Skills</label>
-					<input id="skills" name="skills" readonly>
-				</fieldset>
+							<label>Skills</label>
+							<input id="skills" name="skills" readonly>
+						</fieldset>
 
-				<div class="chooser">
-					<button id="randomArchetype" class="minor"><i>ifl</i> Random</button>
-				</div>
-			</section>
-
-			<h2>Attributes</h2>
-			<section class="attributes" data-total="10" data-max="4">
-				<fieldset>
-					<table>
-						<tbody></tbody>
-					</table>
-				</fieldset>
-
-				<div>
-					<p>
-						<label>Attribute points used: </label>
-						<span class="used"></span> of <span class="total"></span>
-					</p>
-
-					<p>Maximum of <span class="max"></span> per attribute</p>
-
-					<div class="buttons">
-						<button class="reset minor"><i>replay</i> Reset</button>
-						<button id="randomAttributes" class="minor"><i>ifl</i> Random</button>
-					</div>
-				</div>
-			</section>
-
-			<h2>Skills</h2>
-			<section class="skills" data-total="12" data-max="3">
-				<fieldset>
-					<table>
-						<tbody></tbody>
-					</table>
-				</fieldset>
-
-				<div>
-					<p>
-						<label>Skill points used: </label>
-						<span class="used"></span> of <span class="total"></span>
-					</p>
-
-					<p>Maximum of <span class="max"></span> per skill</p>
-
-					<div class="buttons">
-						<button class="reset minor"><i>replay</i> Reset</button>
-						<button id="randomSkills" class="minor"><i>ifl</i> Random</button>
-					</div>
-				</div>
-			</section>
-		
-			<h2>Quirks</h2>
-			<fieldset class="random">
-				<label for="quirk1">Quirk 1</label>
-				<textarea id="quirk1" name="quirk1" rows="3"></textarea>
-				<button data-field="quirk1" data-list="quirks" class="minor"><i>ifl</i> Random</button>
-
-				<label for="quirk2">Quirk 2</label>
-				<textarea id="quirk2" name="quirk2" rows="3"></textarea>
-				<button data-field="quirk2" data-list="quirks" class="minor"><i>ifl</i> Random</button>
-			</fieldset>
-
-			<h2>Tragedies and Triumphs</h2>
-			<fieldset class="random">
-				<label for="event1">Event 1</label>
-				<textarea id="event1" name="event1" rows="3"></textarea>
-				<button data-field="event1" data-list="events" class="minor"><i>ifl</i> Random</button>
-
-				<label for="event2">Event 2</label>
-				<textarea id="event2" name="event2" rows="3"></textarea>
-				<button data-field="event2" data-list="events" class="minor"><i>ifl</i> Random</button>
-
-				<label for="event3">Event 3</label>
-				<textarea id="event3" name="event3" rows="3"></textarea>
-				<button data-field="event3" data-list="events" class="minor"><i>ifl</i> Random</button>
-			</fieldset>
-
-			<h2>Backstory</h2>
-			<fieldset>
-				<textarea id="backstory" name="backstory" rows="15"></textarea>
-			</fieldset>
-
-			<h2>Image</h2>
-			<section>
-				<fieldset>
-					<div id="preview"></div>
-					<textarea id="image" name="image"></textarea>
-
-					<div class="small-buttons">
-						<label class="button minor" for="upload">
-							<span><i>add_a_photo</i> Upload</span>
-							<input type="file" id="upload" />
-						</label>
-
-						<a target="_blank" class="button minor" href="https://perchance.org/ai-text-to-image-generator#data=uup1:902bd4fa03d73a2b159649e523ea46ea.gz"><i>open_in_new</i> Create</a>
-
-						<button class="button minor" id="remove"><i>delete</i> Remove</button>
-					</div>
-				</fieldset>
-
-				<div class="chooser">
-					<div>
-						<h3>Upload an image:</h3>
-						<p>JPGs only, less than 100Kb</p>
-					</div>
-
-					<div>
-						<h3>Choose an image:</h3>
-						<div class="buttons stretch">
-							<button class="minor chooseImage" data-gender="boys"><i>photo</i> Boys</button>
-							<button class="minor chooseImage" data-gender="girls"><i>photo</i> Girls</button>
+						<div class="chooser">
+							<button id="randomArchetype" class="minor"><i>ifl</i> Random</button>
 						</div>
-					</div>
+					</section>
+				</li>
 
-					<div>
-						<h3>Random image:</h3>
-						<div class="buttons stretch">
-							<button class="minor randomImage" data-gender="boys"><i>ifl</i> Boys</button>
-							<button class="minor randomImage" data-gender="girls"><i>ifl</i> Girls</button>
+				<li data-tab="attributes">
+					<label>Attributes <input type="checkbox" name="editPanels"></label>
+					<section class="cols attributes" data-total="10" data-max="4">
+						<fieldset>
+							<table>
+								<tbody></tbody>
+							</table>
+						</fieldset>
+
+						<div>
+							<h3>Attribute points used: <strong class="used"></strong> of <strong class="total"></strong></h3>
+							<p>Maximum of <strong class="max"></strong> per attribute</p>
+
+							<div class="buttons">
+								<button class="reset minor"><i>replay</i> Reset</button>
+								<button id="randomAttributes" class="minor"><i>ifl</i> Random</button>
+							</div>
 						</div>
-					</div>
-				</div>
-			</section>
+					</section>
+				</li>
 
-			<button type="submit" title="ctrl-s"><i>save</i> Save</button>
+				<li>
+					<label>Skills <input type="checkbox" name="editPanels"></label>
+					<section class="cols skills" data-total="12" data-max="3">
+						<fieldset>
+							<table>
+								<tbody></tbody>
+							</table>
+						</fieldset>
+
+						<div>
+							<h3>Skill points used: <strong class="used"></strong> of <strong class="total"></strong></h3>
+							<p>Maximum of <strong class="max"></strong> per skill</p>
+
+							<div class="buttons">
+								<button class="reset minor"><i>replay</i> Reset</button>
+								<button id="randomSkills" class="minor"><i>ifl</i> Random</button>
+							</div>
+						</div>
+					</section>
+				</li>
+			
+				<li>
+					<label>Quirks <input type="checkbox" name="editPanels"></label>
+					<section class="col">
+						<fieldset class="random">
+							<label for="quirk1">Quirk 1</label>
+							<textarea id="quirk1" name="quirk1" rows="3"></textarea>
+							<button data-field="quirk1" data-list="quirks" class="minor"><i>ifl</i> Random</button>
+
+							<label for="quirk2">Quirk 2</label>
+							<textarea id="quirk2" name="quirk2" rows="3"></textarea>
+							<button data-field="quirk2" data-list="quirks" class="minor"><i>ifl</i> Random</button>
+						</fieldset>
+					</section>
+				</li>
+
+				<li>
+					<label>Events <input type="checkbox" name="editPanels"></label>
+					<section class="col">
+						<fieldset class="random">
+							<label for="event1">Event 1</label>
+							<textarea id="event1" name="event1" rows="3"></textarea>
+							<button data-field="event1" data-list="events" class="minor"><i>ifl</i> Random</button>
+
+							<label for="event2">Event 2</label>
+							<textarea id="event2" name="event2" rows="3"></textarea>
+							<button data-field="event2" data-list="events" class="minor"><i>ifl</i> Random</button>
+
+							<label for="event3">Event 3</label>
+							<textarea id="event3" name="event3" rows="3"></textarea>
+							<button data-field="event3" data-list="events" class="minor"><i>ifl</i> Random</button>
+						</fieldset>
+					</section>
+				</li>
+
+				<li>
+					<label>Backstory <input type="checkbox" name="editPanels"></label>
+					<section class="col">
+						<fieldset>
+							<textarea id="backstory" name="backstory" rows="15"></textarea>
+						</fieldset>
+					</section>
+				</li>
+
+				<li>
+					<label>Image <input type="checkbox" name="editPanels"></label>
+					<section class="cols">
+						<fieldset>
+							<a id="preview"></a>
+							<textarea id="image" name="image"></textarea>
+
+							<div class="small-buttons">
+								<label class="button minor" for="upload">
+									<span><i>add_a_photo</i> Upload</span>
+									<input type="file" id="upload" />
+								</label>
+
+								<a target="_blank" class="button minor" href="https://perchance.org/ai-text-to-image-generator#data=uup1:902bd4fa03d73a2b159649e523ea46ea.gz"><i>open_in_new</i> Create</a>
+
+								<button class="button minor" id="remove"><i>delete</i> Remove</button>
+							</div>
+						</fieldset>
+
+						<div class="chooser">
+							<div>
+								<h3>Upload an image:</h3>
+								<p><strong>JPGs</strong> only, less than <strong>100Kb</strong></p>
+							</div>
+
+							<div>
+								<h3>Choose an image:</h3>
+								<div class="buttons stretch">
+									<button class="minor chooseImage" data-gender="boys"><i>photo</i> Boys</button>
+									<button class="minor chooseImage" data-gender="girls"><i>photo</i> Girls</button>
+								</div>
+							</div>
+
+							<div>
+								<h3>Random image:</h3>
+								<div class="buttons stretch">
+									<button class="minor randomImage" data-gender="boys"><i>ifl</i> Boys</button>
+									<button class="minor randomImage" data-gender="girls"><i>ifl</i> Girls</button>
+								</div>
+							</div>
+						</div>
+					</section>
+				</li>
+			</ul>
+
+			<button class="submit" type="submit" title="ctrl-s"><i>save</i> Save</button>
 		</form>
 
 		<form id="characters">
@@ -307,15 +339,15 @@
 			</ol>
 
 			<div class="buttons">
-				<button id="new"><i>draft</i> New</button>
+				<button class="submit" id="new"><i>draft</i> New</button>
 
-				<label class="button" for="import">
+				<label class="button submit" for="import">
 					<span><i>face_up</i> Import</span>
 					<input type="file" id="import" multiple />
 				</label>
 
-				<a href="#" class="button" id="export" type="application/json"><i>face_down</i> Export</a>
-				<a href="#" class="button" id="backup" type="application/json"><i>download</i> Backup</a>
+				<a href="#" class="button submit" id="export" type="application/json"><i>face_down</i> Export</a>
+				<a href="#" class="button submit" id="backup" type="application/json"><i>download</i> Backup</a>
 			</div>
 		</form>
 
@@ -333,20 +365,21 @@
 				
 				character(s)
 
-				<button type="submit"><i>auto_awesome_motion</i> Generate</button>
+				<button class="submit" type="submit"><i>auto_awesome_motion</i> Generate</button>
 			</fieldset>
 
 		</form>
 
 		<footer>
-			<a href="https://docs.google.com/document/d/1ZyVuCBddBbIRzPuyQ2ij8AvKkMX8yhIUY3BfFMlw5mI/edit?usp=sharing">Full Streetwise User Manual</a>
+			<a target="_blank" href="https://docs.google.com/document/d/1ZyVuCBddBbIRzPuyQ2ij8AvKkMX8yhIUY3BfFMlw5mI/edit?usp=sharing"><i>dictionary</i> User Manual</a>
+			<a href="#darkmode" id="darkmode"><i>dark_mode</i> Dark Mode</a>
 		</footer>
 
 		<div id="overlay">
 			<div id="popup">
 				<h2 id="popupTitle"></h2>
 				<div id="popupContent"></div>
-				<button class="close minor">X</button>
+				<button class="close minor">close</button>
 			</div>
 		</div>
 

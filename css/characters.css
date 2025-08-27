@@ -1,3 +1,7 @@
+:root {
+	--borderOff: #C1837300;
+}
+
 #characters {
 	padding-top: 15px;
 	border-top: 1px solid var(--border);
@@ -20,9 +24,10 @@
 	padding: 10px;
 	border-radius: 5px;
 	position: relative;
-	border: 1px solid transparent;
+	border: 1px solid var(--borderOff);
 	cursor: pointer;
 	justify-content: stretch;
+	transition: border-color var(--hoverFade);
 
 	.text {
 		display: flex;
@@ -66,18 +71,18 @@
 		display: block;
 		border: 1px solid var(--border);
 		filter: saturate(0) sepia(0.7) contrast(0.5) brightness(1.5);
-		-webkit-transition: -webkit-filter .2s linear;
+		transition: filter var(--hoverFade);
 		border-radius: 5px;
 		background-size: cover;
 	}
 	&:hover .image {
-		filter: none;
+		filter: none !important;
 	}
 }
 
 #slots {
 	.character:hover {
-		border: 1px solid var(--border);
+		border: 1px dashed var(--border);
 	}
 	
 	.character.active {
