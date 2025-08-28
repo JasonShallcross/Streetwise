@@ -273,18 +273,9 @@ $(() => {
 		$('#new').on('click', (e) => {
 			e.preventDefault();
 
-			$('#form input, #form textarea, #form select').val('');
-			$('#level').val('1');
-			$('.attributes').attr('attribute', '');
-			$('#strain_points').val('');
-			$('#wound_points').val('');
+			resetCharacter();
+
 			$('#edit').prop('checked', 'checked');
-
-			updateImage('');
-
-			calculateValues('attributes');
-			calculateValues('skills');
-
 			$('#form')[0].scrollIntoView(true);
 
 			streetwise.lastId = '';
@@ -522,12 +513,12 @@ $(() => {
 			let suggestion = $suggestion.text();
 
 			let field = $suggestion.closest('.suggestions').data('field');
-			console.log('editor.js; line:525; field:', field);
 			$('#' + field).val(suggestion).trigger('change');
 		});
 
 		$(document).on('click', '.character', (e) => {
-			let $button = $(e.target).find('.edit:eq(0)');
+			let $character = $(e.target).closest('.character');
+			let $button = $character.find('.edit:eq(0)');
 			let id = $button.attr('href') || $button.data('href');
 
 			loadCharacter(id);
@@ -851,7 +842,22 @@ $(() => {
 		return streetwise.characters[streetwise.lastId][name] = value;
 	}
 
+	function resetCharacter() {
+		$('#form input, #form textarea, #form select').val('');
+		$('#level').val('1');
+		$('.attributes').attr('attribute', '');
+		$('#strain_points').val('');
+		$('#wound_points').val('');
+
+		updateImage('');
+
+		calculateValues('attributes');
+		calculateValues('skills');
+	}
+
 	function loadCharacter(id) {
+		resetCharacter();
+
 		let character = streetwise.characters[id];
 		if (character) {
 			streetwise.lastId = id;
