@@ -108,6 +108,14 @@ h3 {
 	margin: 0 0 5px 0;
 }
 
+h4 {
+	font-size: 14px;
+	font-family: var(--font);
+	letter-spacing: 0.5px;
+	margin: 0 0 5px 0;
+	color: var(--body);
+}
+
 p {
 	font-size: 14px;
 	font-family: var(--font);
@@ -139,6 +147,11 @@ form {
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
+	visibility: hidden;
+
+	&.ready {
+		visibility: visible;
+	}
 }
 
 #jumpStats {
@@ -242,6 +255,22 @@ body:has(#edit:checked) #form {
 	border-radius: 5px;
 	margin-left: 2px;	
 
+	span {
+		position: absolute;
+		display: block;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		content: "";
+		background-image: url(../images/edging.png);
+		background-size: 100% 100%;
+		z-index: 11;
+		display: block;
+		pointer-events: none;
+		filter: sepia(1);
+	}
+
 	&:before {
 		content: "";
 		position: absolute;
@@ -251,6 +280,7 @@ body:has(#edit:checked) #form {
 		right: 0;
 		box-shadow: 0px 0px 50px 10px black inset;
 		z-index: 1;
+		transition: box-shadow var(--hoverFade);
 	}
 
 	&:after {
@@ -267,33 +297,57 @@ body:has(#edit:checked) #form {
 		z-index: 2;
 	}
 	
-	&:hover:after {
-		top: -20px;
-		right: -20px;
+	&:hover {
+		span {
+			display: none;
+		}
+
+		&:after {
+			top: -20px;
+			right: -20px;
+		}
 	}
 }
 
 #show_image {
 	width: 300px;
 	height: auto;
-	filter: saturate(0) sepia(0.7) contrast(0.5) brightness(1.5);
+	filter: saturate(0) sepia(0.7) contrast(0.5) brightness(1.5) blur(0.4px);
 	transition: filter var(--hoverFade);
 	border-radius: 5px;
 }
-a:hover #show_image {
-	filter: none;
+
+a#show_picture:hover {
+	&:before {
+		box-shadow: none;
+	}
+
+	#show_image {
+		filter: none;
+	}
 }
+
 #show_skills {
 	display: grid;
 	grid-template-columns: repeat(8, 1fr);
 }
 
 section {
+	&.col {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
 	&.cols {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		gap: 30px;
+		gap: 10px 30px;
 		align-items: flex-start;
+
+		h3, h4, ul {
+			  grid-column: 1 / span 2;
+		}
 	}
 }
 
@@ -328,13 +382,13 @@ div.withContent {
 	}
 }
 
-div.chooser {
+.chooser {
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
 
 	button {
-		align-self: flex-end;
+		align-self: flex-start;
 	}
 	
 	select {
@@ -490,6 +544,7 @@ dl.terms {
 		letter-spacing: 0.5px;
 		word-spacing: 1px;
 	}
+
 	dd {
 		font-family: var(--font);
 		margin: -10px 0 0 0;
@@ -575,4 +630,19 @@ footer {
 #hidden {
 	visibility: hidden;
 	position: absolute;
+}
+
+.suggestions {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	margin: 0;
+	padding: 0 0 0 20px;
+	list-style-type: square;
+	font-family: var(--font);
+	
+	li {
+		margin: 0;
+		padding: 0;
+	}
 }

@@ -64,6 +64,7 @@ button:hover {
 	color: var(--strong);
 	background: var(--hover);
 	text-decoration: none !important;
+	/* outline: none; */
 }
 .button[disabled] {
 	opacity: 0.5;
@@ -79,37 +80,57 @@ button span {
 
 a.link {
 	color: var(--body);
+
+	&:hover {
+		color: var(--strong);
+	}
 }
-a.link:hover {
-	color: var(--strong);
+
+.suggestion {
+	cursor: pointer;
+	color: var(--body);
+	text-decoration: none;
+
+	&:hover {
+		color: var(--strong);
+	}
 }
-a.info {
+
+.info {
 	color: var(--body);
 	display: flex;
 	align-items: center;
 	gap: 5px;
 	text-decoration: none;
-}
-a.info:hover {
-	color: var(--strong);
-}
-a.info:before {
-	content: "?";
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	color: var(--button);
-	border: 1px solid var(--button);
-	border-radius: 50%;
-	font-size: 13px;
-	font-weight: bold;
-	width: 16px;
-	height: 16px;
-	font-family: var(--font);
-	text-decoration: none;
-}
-a.info:hover:before {
-	background: var(--hover);
+	background: none !important;
+	padding: 0;
+	width: auto;
+	border: none;
+	display: inline-block;
+	
+	&:hover {
+		color: var(--strong);
+	}
+
+	&:before {
+		content: "?";
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: var(--button);
+		border: 1px solid var(--button);
+		border-radius: 50%;
+		font-size: 13px;
+		font-weight: bold;
+		width: 16px;
+		height: 16px;
+		font-family: var(--font);
+		text-decoration: none;
+	}
+
+	&:hover:before {
+		background: var(--hover);
+	}
 }
 
 input[type="file"] {

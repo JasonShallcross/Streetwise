@@ -53,6 +53,10 @@ body.darkmode {
   		&:after {
   			background-color: black;
   		}
+
+		span {
+			filter: invert(1);
+		}
   	}
 
   	#slots {

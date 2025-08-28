@@ -60,6 +60,9 @@
 		background: var(--tabBgActive);
 		color: var(--tabFgActive);
 		border-radius: 0 0 5px 5px;
+		display: flex;
+		flex-direction: column;
+		gap: 30px;
 
 		label:has(input[type="checkbox"]) {
 			display: none;
@@ -67,7 +70,7 @@
 
 		@media screen and (min-width: 600px) {
 			&.activePanel {
-				max-height: 999;
+				max-height: 2999;
 				padding: 10px;
 				border: 1px solid var(--tabFgActive);
 				transition: max-height 1s ease;

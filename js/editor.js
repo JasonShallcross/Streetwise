@@ -48,7 +48,6 @@ $(() => {
 
 			let $tab = $(e.target);
 			let ndx = $tab.index();
-			console.log(ndx);
 
 			$tab.addClass('activeTab').siblings().removeClass('activeTab');
 
@@ -56,11 +55,29 @@ $(() => {
 			$panel.addClass('activePanel').siblings().removeClass('activePanel');
 		});
 
+		$('#level').on('change', (e) => {
+			e.preventDefault();
+
+			calculateValues('attributes');
+			calculateValues('skills');
+			updateTalents();
+		});
+
 		$('.nameList').on('change', (e) => {
 			e.preventDefault();
 
 			let $list = $(e.target);
 			$($list.data('field')).val($list.val());
+		});
+
+		$('.talent').on('change', (e) => {
+			e.preventDefault();
+			let $select = $(e.target);
+			let $desc = $('#' + $select.prop('id') + 'Desc');
+
+			let value = $select.val();
+			let talent = value ? talents[value].replace(/\{.+\}/, '') : '';
+			$desc.html(talent);
 		});
 
 		$('.randomName').on('click', (e) => {
@@ -82,8 +99,10 @@ $(() => {
 
 			const $btn = $(e.target);
 			const $section = $btn.closest('section');
-			let total = $section.data('total');
-			let max = $section.data('max');
+
+			let total = getLevelValue('attributes.total');
+			let max   = getLevelValue('attributes.max');
+
 			let deck = [];
 
 			for (var a=0; a<attributes.length; a++) {
@@ -128,8 +147,10 @@ $(() => {
 
 			const $btn = $(e.target);
 			const $section = $btn.closest('section');
-			let total = $section.data('total');
-			let max = $section.data('max');
+
+			let total = getLevelValue('skills.total');
+			let max   = getLevelValue('skills.max');
+
 			let deck = [];
 
 			let list = Object.keys(skills);
@@ -170,10 +191,16 @@ $(() => {
 
 			let $button = $(e.target).closest('button');
 			let $field = $('#' + $button.data('field'));
+
 			let list = window[$button.data('list')];
 
+			if (!Array.isArray(list)) {
+				list = Object.keys(list);
+			}
+
 			let rnd = Math.floor(Math.random() * list.length);
-			$field.val(list[rnd]);
+
+			$field.val(list[rnd]).trigger('change');
 		});
 
 		$('#archetypeid').on('change', (e) => {
@@ -182,13 +209,22 @@ $(() => {
 			let archetype = archetypes[e.target.selectedIndex - 1];
 			updateFields(archetype);
 			updateAttribute();
+
+			let suggested = [];
+			for (var t in archetype.talents) {
+				let talent = archetype.talents[t];
+				suggested.push(`<li class="suggestion">${talent}</li>`);
+			}
+
+			$('.suggestedTalents').html(suggested.join(''));
 		});
 
 		$('table i').on('click', (e) => {
 			const $btn = $(e.target);
 			const $input = $btn.closest('tr').find('input');
 			const $section = $btn.closest('section');
-			let max = $section.data('max');
+			const section = $section.data('field');
+			let max = getLevelValue(section, 'max');
 
 			const inc = $btn.index() == 0 ? -1 : 1;
 			const value = parseInt($input.val() || 0);
@@ -196,7 +232,7 @@ $(() => {
 
 			if (result >= 0 && result <= max) {
 				$input.val(value + inc);
-				calculateValues($section[0].className);
+				calculateValues($section.data('field'));
 			}
 		});
 
@@ -213,8 +249,23 @@ $(() => {
 
 			let $button = $(e.target);
 			let title = $button.data('title') || $button.html();
-			let id = $button.data('content') || $button.attr('href');
-			let content = $(id).html();
+
+			let content = '';
+
+			if ($button.data('list')) {
+				let list = window[$button.data('list')];
+
+				content = '<dl>';
+				for (term in list) {
+					let desc = list[term].replace(/\{.+\}/, '');
+					content += `<dt>${term}</dt>`;
+					content += `<dd>${desc}</dd>`;
+				}
+				content += '</dl>';
+			} else {
+				let id = $button.data('content') || $button.attr('href');
+				content = $(id).html();
+			}
 
 			popup(title, content);
 		});
@@ -223,6 +274,7 @@ $(() => {
 			e.preventDefault();
 
 			$('#form input, #form textarea, #form select').val('');
+			$('#level').val('1');
 			$('.attributes').attr('attribute', '');
 			$('#strain_points').val('');
 			$('#wound_points').val('');
@@ -428,7 +480,7 @@ $(() => {
 			let images = [];
 			for (i=1; i<=50; i++) {
 				let num = String(i).padStart(2, '0');
-				images.push(`<img title="${num}" src="images/portraits/${gender}/${num}.jpeg">`);
+				images.push(`<span title="${num}" data-href="${gender}/${num}" style="background-image: url(images/portraits/${gender}/${num}.jpeg)"></span>`);
 			}
 
 			let content = '<div class="gallery">' + images.join("\n") + '</div>';
@@ -461,6 +513,17 @@ $(() => {
 			e.preventDefault();
 
 			cycleCharacter(+1);
+		});
+
+		$(document).on('click', '.suggestion', (e) => {
+			e.preventDefault();
+
+			let $suggestion = $(e.target);
+			let suggestion = $suggestion.text();
+
+			let field = $suggestion.closest('.suggestions').data('field');
+			console.log('editor.js; line:525; field:', field);
+			$('#' + field).val(suggestion).trigger('change');
 		});
 
 		$(document).on('click', '.character', (e) => {
@@ -502,11 +565,11 @@ $(() => {
 			popup('Delete Character?', body);
 		});
 
-		$(document).on('click', '.gallery img', (e) => {
+		$(document).on('click', '.gallery span', (e) => {
 			e.preventDefault();
 
-			var url = e.target.src;
-		    updateImage(url.slice(url.indexOf('images')));
+			var url = `images/portraits/${e.target.dataset.href}.jpeg`;
+		    updateImage(url);
 
 			closePopup();
 		});
@@ -668,6 +731,8 @@ $(() => {
 			updateSlots();
 		}
 
+		$('#show').addClass('ready');
+
 		if (streetwise.editmode) {
 			$('#edit').prop('checked', 'checked');
 		}
@@ -719,7 +784,11 @@ $(() => {
 		for (let s in skills) {
 			let tr = '<tr data-attr="' + skills[s][0] + '"><td title="' + skills[s][1] + '">' + s + ' (' + skills[s][0] + ')</td><td width="70px"><input id="skill_' + s.toLowerCase() + '" name="skill_' + s.toLowerCase() + '" value="0" readonly></td><td width="80px"><i>remove</i><i>add</i></td></tr>';
 			$(tr).appendTo('.skills table');
-		}	
+		}
+
+		for (let t in talents) {
+			$('<option value="' + t + '">' + t + '</option>').appendTo('.talent');
+		}
 	}
 
 	function fullname(firstname, lastname, nickname) {
@@ -738,6 +807,20 @@ $(() => {
 		}
 
 		return parts.join(' ');
+	}
+
+	function updateTalents() {
+		$('#archetypeid').trigger('change');
+
+		let maxTalents = getLevelValue('talents') - 1;
+
+		$('.talent').each((i, input) => {
+			let $input = $(input);
+			let $section = $input.closest('section');
+
+			$input.trigger('change');
+			$section.toggle(i <= maxTalents);
+		});
 	}
 
 	function getCharacter() {
@@ -807,7 +890,12 @@ $(() => {
 		$('#show_attributes').html(getAttributes(character));
 		$('#show_skills').html(getSkills(character));
 		$('#show_quirks').html(getQuirks(character));
+		$('#show_secrets').html(getSecrets(character));
 		$('#show_backstory').html(getBackstory(character));
+
+		setTimeout(() => {
+			updateTalents();
+		}, 10);
 
 		let $picture = $('#show_picture');
 
@@ -863,34 +951,40 @@ $(() => {
 	}
 
 	function getPowers(character) {
-		let powers = [];		
+		let powers = [];
 
-		character.talents.split(/,\s*/).forEach((talent) => {
-			let matches = (talents[talent].match(/\{(.+)\}/));
-			if (matches !== null) {
-				powers.push(matches[1]);
+		let maxTalents = getLevelValue('talents');
+		for (t=1; t<=maxTalents; t++) {
+			let talent = character['talent' + t];
+
+			if (talent) {
+				if (talents[talent]) {
+					let matches = (talents[talent].match(/\{(.+)\}/));
+					if (matches !== null) {
+						powers.push(matches[1]);
+					}
+				}
 			}
-		});
+		}
 		
 		return powers;
 	}
 
 	function getTalents(character) {
-		if (!character.talents) {
-			return '';
-		}
+		let list = [];
 
-		let list = [];		
+		let maxTalents = getLevelValue('talents');
+		for (t=1; t<=maxTalents; t++) {
+			let talent = character['talent' + t];
 
-		character.talents.split(/,\s*/).forEach((talent) => {
-			let desc = talents[talent];
-			if (desc) {
+			if (talent) {
+				let desc = talents[talent] || 'n/a';
 				desc = desc.replace(/\{.+\}/, '');
 				list.push(`<dt>${talent}:</dt><dd>${desc}</dd>`);
 			} else {
 				desc = talent;
 			}
-		});
+		}
 
 		return list.join("\n");
 	}
@@ -956,6 +1050,18 @@ $(() => {
 		return quirks;
 	}
 
+	function getSecrets(character) {
+		let secrets = '';
+
+		for (s=0; s<=2; s++) {
+			if (character['secret' + s]) {
+				secrets += '<p>' + character['secret' + s] + '</p>';
+			}
+		}
+
+		return secrets;
+	}
+
 	function getBackstory(character) {
 		let backstory = '<p>' + character.backstory.replace(/\n+/g, '</p><p>') + '</p>';
 
@@ -966,6 +1072,38 @@ $(() => {
 		}
 
 		return backstory;
+	}
+
+	function getLevel() {
+		let character = getCharacter();
+		let level = character.level;
+		if (level < 1) {
+			level = 1;
+		}
+
+		return level;
+	}
+
+	function getLevelValue(field, subfields) {
+		let level = getLevel() - 1;
+
+		if (subfields) {
+			field += '.' + subfields;
+		}
+
+		let parts = field.split('.');
+
+		let data = levels;
+
+		for (part in parts) {
+			data = data[parts[part]];
+		}
+
+		if (level > data.length) {
+			return data.pop();
+		}
+
+		return data[level];
 	}
 
 	function updateFields(data) {
@@ -990,8 +1128,8 @@ $(() => {
 	function calculateValues(section) {
 		const $section = $('.' + section);
 		let used = 0;
-		let total = $section.data('total');
-		let max   = $section.data('max');
+		let total = getLevelValue(section, 'total');
+		let max   = getLevelValue(section, 'max');
 
 		$section.find('input').each((i, input) => {
 			if (input.value !== '') {

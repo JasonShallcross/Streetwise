@@ -24,7 +24,7 @@ var archetypes = [
 		"archetypeid": "physick",
 		"archetype": "Penny Physick",
 		"attribute": "Empathy",
-		"talents": ["Poultice & Patience", "Adept Sawbones"],
+		"talents": ["Poultice & Patience", "Emergency Patch"],
 		"skills": ["Physick", "Notice", "Tinker"]
 	},
 	{

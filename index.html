@@ -21,6 +21,8 @@
 		<script type="text/javascript" src="js/config/names.js"></script>
 		<script type="text/javascript" src="js/config/panic.js"></script>
 		<script type="text/javascript" src="js/config/quirks.js"></script>
+		<script type="text/javascript" src="js/config/levels.js"></script>
+		<script type="text/javascript" src="js/config/secrets.js"></script>
 		<script type="text/javascript" src="js/config/skills.js"></script>
 		<script type="text/javascript" src="js/config/talents.js"></script>
 		<script type="text/javascript" src="js/jquery.js"></script>
@@ -50,7 +52,7 @@
 		<div id="show">
 			<h2><span id="show_fullname"></span> (<span id="show_archetype"></span>)</h2>
 			<div class="bio">
-				<a id="show_picture"><img id="show_image" title="download image"></a>
+				<a id="show_picture"><img id="show_image" title="download image"><span></span></a>
 				<div id="show_backstory" class="panel"></div>
 			</div>
 
@@ -66,6 +68,11 @@
 			<div class="withContent">
 				<h2>Quirks</h2>
 				<div id="show_quirks" class="panel"></div>
+			</div>
+
+			<div class="withContent">
+				<h2>Dark Secrets</h2>
+				<div id="show_secrets" class="panel"></div>
 			</div>
 
 			<h2>Health</h2>
@@ -114,20 +121,21 @@
 			<input type="hidden" id="id" name="id" value="">
 
 			<ul class="tabs">
-				<li class="activeTab">Name</li>
+				<li class="activeTab">Character</li>
 				<li>Role</li>
-				<li>Attributes</li>
-				<li>Skills</li>
-				<li>Quirks</li>
-				<li>Events</li>
-				<li>Backstory</li>
+				<li>Abilities</li>
+				<li>Secrets</li>
+				<li>History</li>
 				<li>Image</li>
 			</ul>
 
 			<ul class="panels">
 				<li class="activePanel">
-					<label>Name <input type="checkbox" name="editPanels" checked></label>
+					<label>Character <input type="checkbox" name="editPanels" checked></label>
+
 					<section class="cols">
+						<h3>Name</h3>
+
 						<fieldset class="twocol">	
 							<label for="firstname">First name</label>
 							<input id="firstname" name="firstname">
@@ -171,11 +179,29 @@
 							</div>
 						</div>
 					</section>
+
+					<section class="col">
+						<h3>Quirks</h3>
+
+						<fieldset class="random">
+							<label for="quirk1">Quirk 1</label>
+							<textarea id="quirk1" name="quirk1" rows="3"></textarea>
+							<button data-field="quirk1" data-list="quirks" class="minor"><i>ifl</i> Random</button>
+
+							<label for="quirk2">Quirk 2</label>
+							<textarea id="quirk2" name="quirk2" rows="3"></textarea>
+							<button data-field="quirk2" data-list="quirks" class="minor"><i>ifl</i> Random</button>
+						</fieldset>
+					</section>
+
 				</li>
 
 				<li>
 					<label>Role <input type="checkbox" name="editPanels"></label>
+
 					<section class="cols">
+						<h3>Archetype</h3>
+
 						<fieldset class="twocol">
 							<label for="archetypeid">Archetype</label>
 							<select id="archetypeid" name="archetypeid">
@@ -183,30 +209,32 @@
 							</select>
 							<input type="hidden" id="archetype" name="archetype">
 							
-							<label>Key attribute</label>
+							<label>Attribute</label>
 							<input id="attribute" name="attribute" readonly>
-
-							<label>Talents</label>
-							<input id="talents" name="talents" readonly>
 
 							<label>Skills</label>
 							<input id="skills" name="skills" readonly>
+
+							<label>Level</label>
+							<input id="level" name="level" type="number" min="1">
 						</fieldset>
 
 						<div class="chooser">
 							<button id="randomArchetype" class="minor"><i>ifl</i> Random</button>
 						</div>
 					</section>
-				</li>
 
-				<li data-tab="attributes">
 					<label>Attributes <input type="checkbox" name="editPanels"></label>
-					<section class="cols attributes" data-total="10" data-max="4">
-						<fieldset>
-							<table>
-								<tbody></tbody>
-							</table>
-						</fieldset>
+					<section class="cols attributes" data-field="attributes">
+						<h3>Attributes</h3>
+
+						<div>
+							<fieldset>
+								<table>
+									<tbody></tbody>
+								</table>
+							</fieldset>
+						</div>
 
 						<div>
 							<h3>Attribute points used: <strong class="used"></strong> of <strong class="total"></strong></h3>
@@ -220,9 +248,12 @@
 					</section>
 				</li>
 
-				<li>
-					<label>Skills <input type="checkbox" name="editPanels"></label>
-					<section class="cols skills" data-total="12" data-max="3">
+				<li data-tab="attributes">
+					<label>Abilities <input type="checkbox" name="editPanels"></label>
+
+					<section class="cols skills" data-field="skills">
+						<h3>Skills</h3>
+
 						<fieldset>
 							<table>
 								<tbody></tbody>
@@ -239,26 +270,81 @@
 							</div>
 						</div>
 					</section>
+
+					<section class="col random">
+						<h3>Talents <button data-title="Talents" data-list="talents" class="info popup"></button></h3>
+
+						<section class="cols">
+							<fieldset class="chooser">
+								<label for="talent1">Talent 1</label>
+								<select id="talent1" name="talent1" class="talent">
+									<option value="">Choose...</option>
+								</select>
+
+								<div>
+									<h4>Suggested:</h4>
+									<ul class="suggestions suggestedTalents" data-field="talent1"></ul>
+								</div>
+
+								<div class="buttons">
+									<button class="minor" data-field="talent1" data-list="talents"><i>ifl</i> Random</button>
+								</div>
+							</fieldset>
+
+							<div>
+								<p id="talent1Desc"></p>
+							</div>
+						</section>
+
+						<section class="cols">
+							<fieldset class="chooser">
+								<label for="talent2">Talent 1</label>
+								<select id="talent2" name="talent2" class="talent">
+									<option value="">Choose...</option>
+								</select>
+
+								<div class="buttons">
+									<button class="minor" data-field="talent2" data-list="talents"><i>ifl</i> Random</button>
+								</div>
+							</fieldset>
+
+							<div>
+								<p id="talent2Desc"></p>
+							</div>
+						</section>
+					</section>
 				</li>
-			
+
 				<li>
-					<label>Quirks <input type="checkbox" name="editPanels"></label>
+					<label>Secrets <input type="checkbox" name="editPanels"></label>
+
 					<section class="col">
 						<fieldset class="random">
-							<label for="quirk1">Quirk 1</label>
-							<textarea id="quirk1" name="quirk1" rows="3"></textarea>
-							<button data-field="quirk1" data-list="quirks" class="minor"><i>ifl</i> Random</button>
+							<label for="secret1">Secret 1</label>
+							<textarea id="secret1" name="secret1" rows="3"></textarea>
+							<button data-field="secret1" data-list="secrets" class="minor"><i>ifl</i> Random</button>
 
-							<label for="quirk2">Quirk 2</label>
-							<textarea id="quirk2" name="quirk2" rows="3"></textarea>
-							<button data-field="quirk2" data-list="quirks" class="minor"><i>ifl</i> Random</button>
+							<label for="secret2">Secret 2</label>
+							<textarea id="secret2" name="secret2" rows="3"></textarea>
+							<button data-field="secret2" data-list="secrets" class="minor"><i>ifl</i> Random</button>
 						</fieldset>
 					</section>
 				</li>
 
 				<li>
-					<label>Events <input type="checkbox" name="editPanels"></label>
+					<label>History <input type="checkbox" name="editPanels"></label>
+
 					<section class="col">
+						<h3>Backstory</h3>
+
+						<fieldset>
+							<textarea id="backstory" name="backstory" rows="15"></textarea>
+						</fieldset>
+					</section>
+
+					<section class="col">
+						<h3> Tragedies and Triumphs</h3>
+
 						<fieldset class="random">
 							<label for="event1">Event 1</label>
 							<textarea id="event1" name="event1" rows="3"></textarea>
@@ -276,16 +362,8 @@
 				</li>
 
 				<li>
-					<label>Backstory <input type="checkbox" name="editPanels"></label>
-					<section class="col">
-						<fieldset>
-							<textarea id="backstory" name="backstory" rows="15"></textarea>
-						</fieldset>
-					</section>
-				</li>
-
-				<li>
 					<label>Image <input type="checkbox" name="editPanels"></label>
+
 					<section class="cols">
 						<fieldset>
 							<a id="preview"></a>

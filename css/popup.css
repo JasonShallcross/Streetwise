@@ -84,6 +84,34 @@ html.popup {
 		margin-bottom: 10px;
 	}
 
+	dl {
+		display: grid;
+		flex-direction: column;
+		margin: 0;
+		gap: 15px;
+		text-align: left;
+		column-count: 2;
+		/* width: 50%; */
+		grid-template-columns: auto auto;
+		align-items: flex-start;
+		
+		dt {
+			font-weight: bold;
+			font-size: 14px;
+			margin: 0;
+			letter-spacing: 0.5px;
+			word-spacing: 1px;
+		}
+
+		dd {
+			font-family: var(--font);
+			font-size: 14px;
+			margin: 0;
+			letter-spacing: 0.5px;
+			word-spacing: 1px;
+		}
+	}
+
 	ul {
 		font-size: 14px;
 		margin: 10px 0 20px 0;
@@ -156,17 +184,21 @@ html.popup {
 		gap: 5px;
 		margin-bottom: 20px;
 	
-		img {
+		span {
+			display: block;
 			width: 200px;
-			height: auto;
+			height: 200px;
 			filter: saturate(0) sepia(0.7) contrast(0.5) brightness(1.5);
-			transition: filter .2s linear;
+			transition: filter .2s linear, background-size .2s;
 			cursor: pointer;
 			border: 1px solid var(--border);
 			border-radius: 5px;
+			background-size: 100%;
+			background-position: center center;
 		
 			&:hover {
 				filter: none;
+				background-size: 150%;
 			}
 		}
 	}
