@@ -89,9 +89,8 @@ $(() => {
 		$('#randomArchetype').on('click', (e) => {
 			e.preventDefault();
 
-			let rnd = Math.floor(Math.random() * archetypes.length);
-			let archetype = archetypes[rnd];
-			$('#archetypeid').val(archetype.archetypeid).trigger('change');
+			let archetype = chooseFromList(Object.keys(archetypes));
+			$('#archetypeid').val(archetype).trigger('change');
 		});
 
 		$('#randomAttributes').on('click', (e) => {
@@ -116,13 +115,8 @@ $(() => {
 			// ensure key attribute is at least 2
 			let archetypeId = $('#archetypeid').val();
 			if (archetypeId) {
-				let attribute = false;
-				for (var a in archetypes) {
-					let archetype = archetypes[a];
-					if (archetype.archetypeid == archetypeId) {
-						attribute = archetype.attribute.toLowerCase();
-					}
-				}
+				let archetype = archetypes[archetypeId];
+				let attribute = archetype.attribute.toLowerCase();
 
 				let $key = $('#attribute_' + attribute);
 				let value = parseInt($key.val() || 0);
@@ -206,7 +200,9 @@ $(() => {
 		$('#archetypeid').on('change', (e) => {
 			e.preventDefault();
 
-			let archetype = archetypes[e.target.selectedIndex - 1];
+			let archetypeId = $(e.target).val();
+			let archetype = archetypes[archetypeId];
+
 			updateFields(archetype);
 			updateAttribute();
 
@@ -285,14 +281,10 @@ $(() => {
 			let $form = $(e.target);
 			let creations = $('#creations').val();
 			let genders = $('#genders').val();
-			
-			$('#strain_points').val('');
-			$('#wound_points').val('');
 
 			for (var c=0; c< creations; c++) {
 				streetwise.lastId = '';
-				$('#form input, #form textarea').val('');
-				$('#form section.attributes input, #form section.skills input').val('0');
+				resetCharacter();
 
 				let gender = genders;
 				if (gender == 'both') {
@@ -311,8 +303,12 @@ $(() => {
 				$('button.randomImage[data-gender="' + gender + '"]').trigger('click');
 				
 				let character = getCharacter();
+				console.log('editor.js; line:306; character.archetype:', character.archetypeid);
+				let list = archetypes[character.archetypeid].talents;
+				character.talent1 = chooseFromList(list);
+
 				streetwise.lastId = character.id;
-				streetwise.characters[character.id] = character;			
+				streetwise.characters[character.id] = character;
 			}		
 
 			updateStorage();
@@ -763,7 +759,7 @@ $(() => {
 		}
 
 		for (let a in archetypes) {
-			$('<option value="' + archetypes[a].archetypeid + '">' + archetypes[a].archetype + '</option>').appendTo('#archetypeid');
+			$('<option value="' + a + '">' + archetypes[a].archetype + '</option>').appendTo('#archetypeid');
 		}
 
 		for (let a in attributes) {
