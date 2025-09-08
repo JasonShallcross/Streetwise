@@ -15,6 +15,7 @@
 		<link rel="stylesheet" href="css/print.css">
 		<link rel="stylesheet" href="css/dark.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons" />
 		<script type="text/javascript" src="js/config/archetypes.js"></script>
 		<script type="text/javascript" src="js/config/attributes.js"></script>
 		<script type="text/javascript" src="js/config/events.js"></script>
@@ -94,9 +95,9 @@
 
 			<div id="floater">
 				<div class="buttons tight floater">
-					<button id="prevCharacter" class="minor"><i>chevron_left</i></button>
+					<button class="prevCharacter minor"><i>chevron_left</i></button>
 					<select id="characterSwitcher"></select>
-					<button id="nextCharacter" class="minor"><i>chevron_right</i></button>
+					<button class="nextCharacter minor"><i>chevron_right</i></button>
 				</div>
 
 				<div class="buttons stretch">
@@ -119,6 +120,7 @@
 
 		<form id="form">
 			<input type="hidden" id="id" name="id" value="">
+			<input type="hidden" id="favourite" name="favourite">
 
 			<ul class="tabs">
 				<li class="activeTab">Character</li>
@@ -134,7 +136,16 @@
 					<label>Character <input type="checkbox" name="editPanels" checked></label>
 
 					<section class="cols">
-						<h3>Name</h3>
+						<fieldset class="twocol">
+							<label for="gender">Gender</label>
+
+							<select id="gender" name="gender">
+								<option>Choose...</option>
+								<option value="boy">Male</option>
+								<option value="girl">Female</option>
+							</select>
+						</fieldset>
+						<div></div>
 
 						<fieldset class="twocol">	
 							<label for="firstname">First name</label>
@@ -149,13 +160,13 @@
 
 						<div class="chooser">
 							<div class="names">
-								<select id="boysnames" class="nameList" data-field="#firstname">
+								<select id="boysnames" class="nameList" data-field="#firstname" data-gender="boys">
 									<option>Choose a boy's name...</option>
 								</select>
 
-								or
+								<span data-gender="both">or</span>
 
-								<select id="girlsnames" class="nameList" data-field="#firstname">
+								<select id="girlsnames" class="nameList" data-field="#firstname" data-gender="girls">
 									<option>Choose a girl's name...</option>
 								</select>
 							</div>
@@ -244,11 +255,26 @@
 								<button class="reset minor"><i>replay</i> Reset</button>
 								<button id="randomAttributes" class="minor"><i>ifl</i> Random</button>
 							</div>
+
+							<table class="levels">
+								<tr>
+									<td>Level</td>
+									<th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
+								</tr>
+								<tr data-config="attributes.max">
+									<td>Max</td>
+									<td></td><td></td><td></td><td></td><td></td>
+								</tr>
+								<tr data-config="attributes.total">
+									<td>Total</td>
+									<td></td><td></td><td></td><td></td><td></td>
+								</tr>
+							</table>
 						</div>
 					</section>
 				</li>
 
-				<li data-tab="attributes">
+				<li data-tab="abilities">
 					<label>Abilities <input type="checkbox" name="editPanels"></label>
 
 					<section class="cols skills" data-field="skills">
@@ -268,6 +294,21 @@
 								<button class="reset minor"><i>replay</i> Reset</button>
 								<button id="randomSkills" class="minor"><i>ifl</i> Random</button>
 							</div>
+
+							<table class="levels">
+								<tr>
+									<th>Level</th>
+									<th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
+								</tr>
+								<tr data-config="skills.max">
+									<td>Max</td>
+									<td></td><td></td><td></td><td></td><td></td>
+								</tr>
+								<tr data-config="skills.total">
+									<td>Total</td>
+									<td></td><td></td><td></td><td></td><td></td>
+								</tr>
+							</table>
 						</div>
 					</section>
 
@@ -298,10 +339,15 @@
 
 						<section class="cols">
 							<fieldset class="chooser">
-								<label for="talent2">Talent 1</label>
+								<label for="talent2">Talent 2</label>
 								<select id="talent2" name="talent2" class="talent">
 									<option value="">Choose...</option>
 								</select>
+
+								<div>
+									<h4>Suggested:</h4>
+									<ul class="suggestions suggestedTalents" data-field="talent2"></ul>
+								</div>
 
 								<div class="buttons">
 									<button class="minor" data-field="talent2" data-list="talents"><i>ifl</i> Random</button>
@@ -366,7 +412,7 @@
 
 					<section class="cols">
 						<fieldset>
-							<a id="preview"></a>
+							<a target="_blank" id="preview"></a>
 							<textarea id="image" name="image"></textarea>
 
 							<div class="small-buttons">
@@ -412,20 +458,45 @@
 
 		<form id="characters">
 			<a id="jumpChars"></a>
-			<h2>Characters</h2>
+
+			<div id="characterBar">
+				<h2>Characters</h2>
+
+				<label title="search characters"><input type="search" id="search"></label>
+				
+				<div>
+					<a id="boys" class="filterGender" title="Show boys only">man</a>
+					<a id="girls" class="filterGender" title="Show girls only">woman</a>
+				</div>
+
+				<div>
+					<a class="filterFavourites" title="Show favourites only">favorite</a>
+				</div>
+			</div>
+
 			<ol id="slots" class="characters">
 			</ol>
 
 			<div class="buttons">
-				<button class="submit" id="new"><i>draft</i> New</button>
+				<button class="submit" id="new">
+					<i>draft</i> New
+					<p>Create a new character</p>
+				</button>
+
+				<label class="button submit" for="compare">
+					<span><i>compare</i> Compare</span>
+					<input type="file" id="compare" multiple />
+					<p>Import with compare and merge</p>
+				</label>
 
 				<label class="button submit" for="import">
 					<span><i>face_up</i> Import</span>
 					<input type="file" id="import" multiple />
+					<p>Import and overwrite existing characters</p>
 				</label>
 
-				<a href="#" class="button submit" id="export" type="application/json"><i>face_down</i> Export</a>
-				<a href="#" class="button submit" id="backup" type="application/json"><i>download</i> Backup</a>
+				<a href="#" class="button submit" id="export" type="application/json"><i>face_down</i> Export<p>Export current character for sharing</p></a>
+				<a href="#" class="button submit" id="backup" type="application/json"><i>download</i> Backup<p>Export all characters</p></a>
 			</div>
 		</form>
 
