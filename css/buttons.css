@@ -18,6 +18,7 @@
 .buttons.stretch button {
 	flex-grow: 1;
 	flex-basis: 100%;
+	max-width: 200px;
 }
 
 .button,
@@ -42,11 +43,29 @@ button {
 	border-radius: 4px;
 		
 	&.submit {
+		margin: 0 2px;
 		border: 1px solid white;
 		outline: 2px solid var(--button);
+		position: relative;
+
+		p {
+			border-radius: 4px;
+			white-space: nowrap;
+			position: absolute;
+			display: none;
+			background: var(--bg);
+			font-size: 10px;
+			padding: 2px 5px;
+			bottom: -30px;
+			text-transform: initial;
+		}
 
 		&:hover {
 			outline-color: var(--button);
+
+			p {
+				display: block;
+			}
 		}
 	}
 
@@ -98,7 +117,7 @@ a.link {
 
 .info {
 	color: var(--body);
-	display: flex;
+	display: inline-flex;
 	align-items: center;
 	gap: 5px;
 	text-decoration: none;
@@ -106,7 +125,6 @@ a.link {
 	padding: 0;
 	width: auto;
 	border: none;
-	display: inline-block;
 	
 	&:hover {
 		color: var(--strong);

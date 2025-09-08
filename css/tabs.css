@@ -113,6 +113,10 @@
 					font-variant: normal;
 					font-style: normal;
 				}
+
+				strong {
+					color: var(--dark);
+				}
 			}
 
 			section {

@@ -303,7 +303,6 @@ $(() => {
 				$('button.randomImage[data-gender="' + gender + '"]').trigger('click');
 				
 				let character = getCharacter();
-				console.log('editor.js; line:306; character.archetype:', character.archetypeid);
 				let list = archetypes[character.archetypeid].talents;
 				character.talent1 = chooseFromList(list);
 
@@ -320,7 +319,7 @@ $(() => {
 		});
 
 		$('#backup').on('click', (e) => {
-			let $link = $(e.target);
+			let $link = $(e.target).closest('a');
 			let time = new Date().getTime();
 
 		    var data = new Blob([JSON.stringify(streetwise)]);
@@ -329,7 +328,7 @@ $(() => {
 		});
 
 		$('#export').on('click', (e) => {
-			let $link = $(e.target);
+			let $link = $(e.target).closest('a');
 			let character = getCharacter();
 
 		    var data = new Blob([JSON.stringify(character)]);
@@ -337,47 +336,12 @@ $(() => {
 		  	$link.attr('download', character.firstname + '-' + character.lastname + '.json');
 		});
 
+		$('#compare').on('change', (e) => {
+			importFiles(e.target.files, true);
+		});
+
 		$('#import').on('change', (e) => {
-			const files = e.target.files;
-			let imported = 0;
-			let read = 0;
-			let content = '';
-
-			for (let file of files) {
-				const reader = new FileReader();
-
-				reader.onload = () => {
-					try {
-						let json = JSON.parse(reader.result);
-						if (json.characters) {
-							for (var id in json.characters) {
-								let character = json.characters[id];
-								streetwise.characters[id] = character;
-								content += characterSummary(character).prop('outerHTML');
-								imported++;
-							}
-						} else {
-	        				let character = JSON.parse(reader.result);
-							streetwise.characters[character.id] = character;
-							content += characterSummary(character).prop('outerHTML');
-							imported++;
-						}
-    				} catch (e) {
-        				popup('Character Import', 'Error reading ' + file.name);
-    				}
-
-    				read++;
-					if (read == files.length) {
-						save('Character Import', content);
-					}
-				};
-
-				if (file.type == 'application/json') {
-  					reader.readAsText(file);
-  				} else {
-  					popup('Character Import', 'Error reading: ' + file.name + ' (' + file.type + ')');
-  				}
-    		}
+			importFiles(e.target.files, false);
 		});
 
 		$('#upload').on('change', (e) => {
@@ -490,16 +454,128 @@ $(() => {
 			loadCharacter(id);
 		});
 
-		$('#prevCharacter').on('click', (e) => {
+		$('.prevCharacter').on('click', (e) => {
 			e.preventDefault();
 
 			cycleCharacter(-1);
 		});
 
-		$('#nextCharacter').on('click', (e) => {
+		$('.nextCharacter').on('click', (e) => {
 			e.preventDefault();
 
 			cycleCharacter(+1);
+		});
+
+		$('#search').on('input', (e) => {
+			const search = e.target.value.toLowerCase();
+			const $characters = $('#slots .character');
+
+			if (search == '') {
+				$characters.show();
+			} else {
+				const words = search.split(' ');
+
+				$characters.each((i, el) => {
+					const $character = $(el);
+					const text = $character.text().toLowerCase();
+					let show = true;
+					words.forEach((word, w) => {
+						if (!text.includes(word)) {
+							show = false;
+						}
+					});
+
+					$character.toggle(show);
+				});
+			}
+		});
+
+		$('.filterFavourites').on('click', (e) => {
+			e.preventDefault();
+
+			let $button = $(e.target);
+
+			$button.toggleClass('active')
+			streetwise.favourites = $button.hasClass('active');
+
+			updateStorage();
+		});
+
+		$('.filterGender').on('click', (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+
+			let $button = $(e.target);
+
+			$button.toggleClass('active');
+			if ($button.hasClass('active')) {
+				$button.siblings().removeClass('active');
+			}
+		});
+
+		$('#slots').on('click', '.favourite', (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+
+			let $button = $(e.target);
+			let $character = $button.closest('.character');
+			let id = $character.data('id');
+
+			$button.toggleClass('favourited');
+			streetwise.characters[id].favourite = $button.hasClass('favourited');
+
+			updateStorage();
+		});
+
+		$(document).on('click', '.apply', (e) => {
+			e.preventDefault();
+
+			let $button = $(e.target);
+			let $tr = $button.closest('tr');
+			let id = $tr.data('id');
+			let prop = $tr.find('td:eq(0)').html();
+			let value = $tr.find('td:eq(2)').html();
+
+			streetwise.characters[id][prop] = value;
+			updateStorage();
+
+			if (id == streetwise.lastId) {
+				loadCharacter(id);
+			}
+			
+			$button.removeClass('apply').addClass('undo').html('Undo');
+		});
+
+		$(document).on('click', '.undo', (e) => {
+			e.preventDefault();
+
+			let $button = $(e.target);
+			let $tr = $button.closest('tr');
+			let id = $tr.data('id');
+			let prop = $tr.find('td:eq(0)').html();
+			let value = $tr.find('td:eq(1)').html();
+
+			streetwise.characters[id][prop] = value;
+			updateStorage();
+
+			if (id == streetwise.lastId) {
+				loadCharacter(id);
+			}
+			
+			$button.removeClass('undo').addClass('apply').html('Apply');
+		});
+
+		$(document).on('click', '.remove', (e) => {
+			e.preventDefault();
+
+			let $tr = $(e.target).closest('tr');
+			let $table = $(e.target).closest('table');
+			
+			if ($table.find('tr').length == 2) {
+				$table.remove();
+			} else {
+				$tr.remove();
+			}
 		});
 
 		$(document).on('click', '.suggestion', (e) => {
@@ -728,6 +804,10 @@ $(() => {
 			$('body').addClass('darkmode');
 		}
 
+		if (streetwise.favourites) {
+			$('.filterFavourites').addClass('active');
+		}
+
 		bind();
 	}
 
@@ -765,17 +845,31 @@ $(() => {
 		for (let a in attributes) {
 			let attribute = attributes[a];
 			let tr = '<tr data-attr="' + attribute + '"><td>' + attribute + '</td><td width="70px"><input id="attribute_' + attribute.toLowerCase() + '" name="attribute_' + attribute.toLowerCase() + '" value="0" readonly></td><td width="80px"><i>remove</i><i>add</i></td></tr>';
-			$(tr).appendTo('.attributes table');
+			$(tr).appendTo('.attributes table:first');
 		}
 
 		for (let s in skills) {
 			let tr = '<tr data-attr="' + skills[s][0] + '"><td title="' + skills[s][1] + '">' + s + ' (' + skills[s][0] + ')</td><td width="70px"><input id="skill_' + s.toLowerCase() + '" name="skill_' + s.toLowerCase() + '" value="0" readonly></td><td width="80px"><i>remove</i><i>add</i></td></tr>';
-			$(tr).appendTo('.skills table');
+			$(tr).appendTo('.skills table:first');
 		}
 
 		for (let t in talents) {
 			$('<option value="' + t + '">' + t + '</option>').appendTo('.talent');
 		}
+
+		$('table.levels').each((t, table) => {
+			$(table).find('tr[data-config]').each((i, tr) => {
+				let $tr = $(tr);
+				let config = $tr.data('config');
+
+				$tr.find('td:not(:first)').each((j, td) => {
+					let $td = $(td);
+					let level = $td.index();
+					const value = getLevelValue(config, undefined, level);
+					$td.html(value);
+				});
+			});
+		});
 	}
 
 	function fullname(firstname, lastname, nickname) {
@@ -826,6 +920,8 @@ $(() => {
 			character.notes = '';
 			character.inventory = [];
 		}
+
+		delete(character.editPanels);
 
 		return character;
 	}
@@ -1086,8 +1182,12 @@ $(() => {
 		return level;
 	}
 
-	function getLevelValue(field, subfields) {
-		let level = getLevel() - 1;
+	function getLevelValue(field, subfields, level) {
+		if (level === undefined) {
+			level = getLevel();
+		}
+
+		level--;
 
 		if (subfields) {
 			field += '.' + subfields;
@@ -1101,8 +1201,8 @@ $(() => {
 			data = data[parts[part]];
 		}
 
-		if (level > data.length) {
-			return data.pop();
+		if (level >= data.length) {
+			return data.slice(-1);
 		}
 
 		return data[level];
@@ -1143,11 +1243,11 @@ $(() => {
 		$section.find('.total').html(total);
 		$section.find('.max').html(max);
 
-		$section.find('table').toggleClass('maxxed', used == total);
+		$section.find('table:first').toggleClass('maxxed', used == total);
 	}
 
 	function characterSummary(character, buttons) {
-		let $item = $('<li class="character" data-id="' + character.id + '">');
+		let $item = $(`<li class="character" data-id="${character.id}" data-gender="${character.gender}">`);
 		if (character.id == streetwise.lastId) {
 			$item.addClass('active');
 		}
@@ -1165,18 +1265,28 @@ $(() => {
 
 		let $text = $('<div class="text">');
 		let $details = $('<div>');
-		$('<h3><a class="edit" href="' + character.id + '">' + name + '</a></h3>').appendTo($details);
-		$('<p>' + character.archetype + '</p>').appendTo($details);
+		$(`<h3><a class="edit" href="${character.id}">${name}</a></h3>`).appendTo($details);
+		$(`<p>${character.archetype}</p>`).appendTo($details);
 		$details.appendTo($text);
 
 		if (buttons) {
 			let $buttons = $('<div class="buttons">');
-			$('<button class="minor edit" data-href="' + character.id + '"><i>edit</i></button>').appendTo($buttons);
-			$('<button class="minor delete" data-href="' + character.id + '"><i>delete</i></button>').appendTo($buttons);
+			$(`<button class="minor edit" data-href="${character.id}"><i>edit</i></button>`).appendTo($buttons);
+			$(`<button class="minor delete" data-href="${character.id}"><i>delete</i></button>`).appendTo($buttons);
 			$buttons.appendTo($text);
 		}
 
 		$text.appendTo($item);
+
+		$('<a class="favourite' + (character.favourite ? ' favourited' : '') + '" title="toggle favourite">favorite</a>').appendTo($item);
+
+		let gender = '';
+		if (character.gender == 'boy') {
+			$('<i class="gender" title="boy">man</i>').appendTo($item);
+		}
+		if (character.gender == 'girl') {
+			$('<i class="gender" title="girl">woman</i>').appendTo($item);
+		}
 
 		return $item;
 	}
@@ -1349,6 +1459,113 @@ $(() => {
 
         $('#total').html(dice + 'd6');
         $('#result').html('?');
+	}
+
+	function compareCharacter(oldCharacter, newCharacter) {
+		let name = fullname(newCharacter.firstname, newCharacter.lastname, newCharacter.nickname);
+		console.log('editor.js; line:1466; name:', name);
+
+		if (!oldCharacter) {
+			return `<h3>${name} - Add</h3>`;
+		}
+
+		let fix = (value) => {
+			if (value === undefined) {
+				value = '';
+			}
+
+			if (typeof value == 'string') {
+				value = value.replace(/\\/g, '').replace(/&amp;/g, '&');
+			}
+
+			return value;
+		}
+
+		let content = '';
+		let differences = [];
+		let props = [...new Set([...Object.keys(oldCharacter), ...Object.keys(newCharacter)])];
+		props = props.filter(item => !['editPanels'].includes(item));
+
+		props.forEach((prop, p) => {
+			oldCharacter[prop] = fix(oldCharacter[prop]);
+			newCharacter[prop] = fix(newCharacter[prop]);
+
+			if (oldCharacter[prop].toString() != newCharacter[prop].toString()) {
+				differences.push(`<tr data-id="${newCharacter.id}"><td>${prop}</td><td>${oldCharacter[prop]}</td><td>${newCharacter[prop]}</td><td><i class="apply">check</i> <i class="remove">delete</i></td></tr>`);
+			}
+		});
+
+		if (differences.length) {
+			content += `<h3>${name} - Update</h3>`;
+			content += `<table>`;
+			content += `<colgroup><col width="15%"><col width="30%"><col width="30%"><col width="15%"></colgroup>`;
+			content += `<tr><th>Property</th><th>Old</th><th>New</th><th>Action</th></tr>`;
+			content += differences.join("\n");
+			content += `</table>`;
+		} else {
+			content += `<h3>${name} - Same</h3>`;
+		}
+
+		return content;
+	}
+
+	function importFiles(files, compareMode) {
+		let imported = 0;
+		let read = 0;
+		let content = '';
+		let title = compareMode ? 'Character Compare' : 'Character Import';
+
+		for (let file of files) {
+			const reader = new FileReader();
+
+			reader.onload = () => {
+				try {
+					let json = JSON.parse(reader.result);
+					if (json.characters) {
+						for (var id in json.characters) {
+							let character = json.characters[id];
+
+							if (compareMode) {
+								content += compareCharacter(streetwise.characters[id], character);
+							} else {
+								streetwise.characters[id] = character;
+								content += characterSummary(character).prop('outerHTML');
+							}
+
+							imported++;
+						}
+					} else {
+	        			let character = JSON.parse(reader.result);
+
+						if (compareMode) {
+							content += compareCharacter(streetwise.characters[character.id], character);
+						} else {
+							streetwise.characters[character.id] = character;
+							content += characterSummary(character).prop('outerHTML');
+						}
+
+						imported++;
+					}
+				} catch (e) {
+    				popup(title, 'Error reading ' + file.name);
+				}
+
+				read++;
+				if (read == files.length) {
+					if (compareMode) {
+						popup(title, content)
+					} else {
+						save(title, `<ul>${content}</ul>`);
+					}
+				}
+			};
+
+			if (file.type == 'application/json') {
+				reader.readAsText(file);
+			} else {
+				popup(title, 'Error reading: ' + file.name + ' (' + file.type + ')');
+			}
+		}
 	}
 
     function adjustDice(dice, addClass) {
