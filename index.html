@@ -28,6 +28,7 @@
 		<script type="text/javascript" src="js/config/talents.js"></script>
 		<script type="text/javascript" src="js/jquery.js"></script>
 		<script type="text/javascript" src="js/editor.js"></script>
+		<script type="text/javascript" src="js/gpt.js"></script>
 	</head>
 
 	<body>
@@ -127,8 +128,8 @@
 				<li>Role</li>
 				<li>Abilities</li>
 				<li>Secrets</li>
-				<li>History</li>
 				<li>Image</li>
+				<li>History</li>
 			</ul>
 
 			<ul class="panels">
@@ -378,41 +379,14 @@
 				</li>
 
 				<li>
-					<label>History <input type="checkbox" name="editPanels"></label>
-
-					<section class="col">
-						<h3>Backstory</h3>
-
-						<fieldset>
-							<textarea id="backstory" name="backstory" rows="15"></textarea>
-						</fieldset>
-					</section>
-
-					<section class="col">
-						<h3> Tragedies and Triumphs</h3>
-
-						<fieldset class="random">
-							<label for="event1">Event 1</label>
-							<textarea id="event1" name="event1" rows="3"></textarea>
-							<button data-field="event1" data-list="events" class="minor"><i>ifl</i> Random</button>
-
-							<label for="event2">Event 2</label>
-							<textarea id="event2" name="event2" rows="3"></textarea>
-							<button data-field="event2" data-list="events" class="minor"><i>ifl</i> Random</button>
-
-							<label for="event3">Event 3</label>
-							<textarea id="event3" name="event3" rows="3"></textarea>
-							<button data-field="event3" data-list="events" class="minor"><i>ifl</i> Random</button>
-						</fieldset>
-					</section>
-				</li>
-
-				<li>
 					<label>Image <input type="checkbox" name="editPanels"></label>
 
 					<section class="cols">
 						<fieldset>
-							<a target="_blank" id="preview"></a>
+							<div id="previewContainer">
+								<a target="_blank" id="preview"></a>
+							</div>
+
 							<textarea id="image" name="image"></textarea>
 
 							<div class="small-buttons">
@@ -420,8 +394,6 @@
 									<span><i>add_a_photo</i> Upload</span>
 									<input type="file" id="upload" />
 								</label>
-
-								<a target="_blank" class="button minor" href="https://perchance.org/ai-text-to-image-generator#data=uup1:902bd4fa03d73a2b159649e523ea46ea.gz"><i>open_in_new</i> Create</a>
 
 								<button class="button minor" id="remove"><i>delete</i> Remove</button>
 							</div>
@@ -448,7 +420,51 @@
 									<button class="minor randomImage" data-gender="girls"><i>ifl</i> Girls</button>
 								</div>
 							</div>
+
+							<div>
+								<h3>AI Prompt</h3>
+							    <textarea id="prompt"></textarea>
+
+								<div class="buttons stretch">
+									<button id="suggestImage" class="minor"><i>smart_toy</i> Suggest</button>
+									<button id="generateImage" class="minor"><i>smart_toy</i> Generate</button>
+								</div>
+							</div>
 						</div>
+					</section>
+				</li>
+
+				<li>
+					<label>History <input type="checkbox" name="editPanels"></label>
+
+					<section class="col">
+						<h3>Backstory</h3>
+
+						<fieldset>
+							<textarea id="backstory" name="backstory" rows="15"></textarea>
+
+							<div class="buttons right">
+								<a id="generatePersona" href="#personaPopup" class="button minor popup" data-title="AI Prompt"><i>smart_toy</i> Generate Backstory</a>
+							</div>
+						</fieldset>
+					</section>
+
+					<section class="col">
+						<h3> Tragedies and Triumphs</h3>
+
+						<fieldset class="random">
+							<label for="event1">Event 1</label>
+							<textarea id="event1" name="event1" rows="3"></textarea>
+							<button data-field="event1" data-list="events" class="minor"><i>ifl</i> Random</button>
+
+							<label for="event2">Event 2</label>
+							<textarea id="event2" name="event2" rows="3"></textarea>
+							<button data-field="event2" data-list="events" class="minor"><i>ifl</i> Random</button>
+
+							<label for="event3">Event 3</label>
+							<textarea id="event3" name="event3" rows="3"></textarea>
+							<button data-field="event3" data-list="events" class="minor"><i>ifl</i> Random</button>
+						</fieldset>
 					</section>
 				</li>
 			</ul>
@@ -552,6 +568,13 @@
 
 				<div class="buttons right">
 					<button id="updateInventory" class="minor"><i>save</i> Save</button>
+				</div>
+			</div>
+
+			<div id="personaPopup">
+				<textarea class="nobar" id="persona" name="notes" cols="50" rows="15"></textarea>
+				<div class="buttons right">
+					<button id="updateBackstory" class="minor"><i>smart_toy</i> Generate</button>
 				</div>
 			</div>
 

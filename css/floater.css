@@ -46,6 +46,11 @@
 		
 		.buttons.stretch {
 			flex-direction: column;
+
+			button,
+			.button {
+				max-width: none;
+			}
 		}
 
 		.floater {

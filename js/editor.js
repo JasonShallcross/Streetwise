@@ -290,6 +290,9 @@ $(() => {
 				if (gender == 'both') {
 					gender = chooseFromList(['boys', 'girls']);
 				}
+
+				$('#gender').val(gender.replace('s', ''));
+
 				randomName(gender);
 
 				$('#randomArchetype').trigger('click');
@@ -398,7 +401,7 @@ $(() => {
 		$('#overlay button.close').on('click', (e) => {
 			e.preventDefault();
 
-			closePopup();;
+			closePopup();
 		});
 
 		$('#wound_points').on('input', (e) => {
@@ -527,6 +530,56 @@ $(() => {
 			updateStorage();
 		});
 
+		$('#suggestImage').on('click', (e) => {
+			e.preventDefault();
+
+			let prompt = getPersona('vintage black and white portrait of a {gender} street urchin from victorian london called {fullname}, wearing grubby clothes.');
+			$('#prompt').val(prompt);
+		});
+
+		$('#generateImage').on('click', (e) => {
+			e.preventDefault();
+			e.stopPropagation(true);
+
+			if (!inBudget(4)) {
+				return;
+			}
+
+			const $button = $(e.target).closest('button');
+			$button.addClass('busy')[0].disabled = true;
+
+			let $preview = $('#previewContainer');
+			$preview.addClass('busy');
+
+			const prompt = $('#prompt').val();
+
+			GPT.generateImage(prompt, (image) => {
+				$button.removeClass('busy')[0].disabled = false;
+				$preview.removeClass('busy');
+
+				if (image) {
+					convertPng(image, (jpg) => {
+						updateImage(jpg);
+					});
+
+				} else {
+					alert('generation failed');
+				}
+			});
+		});
+
+		$('#generatePersona').on('click', (e) => {
+			e.preventDefault();
+
+			if (!inBudget(1)) {
+				return;
+			}
+
+			let persona = getPersona('Write a short backstory for a {gender} victorian street urchin called {fullname}.');
+
+			$('#persona').html(persona);
+		});
+
 		$(document).on('click', '.apply', (e) => {
 			e.preventDefault();
 
@@ -648,6 +701,34 @@ $(() => {
 		    updateImage(url);
 
 			closePopup();
+		});
+
+		$(document).on('click', '#updateBackstory', (e) => {
+			e.preventDefault();
+
+			const $button = $(e.target).closest('button');
+			$button.addClass('busy')[0].disabled = true;
+
+			const $prompt = $('#persona');
+			let prompt = $prompt.val();
+			$prompt[0].disabled = true;
+
+			if (image) {
+				prompt += ' Also use the reference image supplied to describe their appearance.';
+			}
+
+			GPT.generateText(prompt, $('#image').val(), (text) => {
+				$button.removeClass('busy')[0].disabled = false;
+				$prompt[0].disabled = false;
+
+				if (text) {
+					$('#backstory').val(text);
+				} else {
+					alert('generation failed');
+				}
+
+				closePopup();
+			});
 		});
 
 		$(document).on('click', '#updateNotes', (e) => {
@@ -904,6 +985,86 @@ $(() => {
 		});
 	}
 
+	function getDate() {
+		const d = new Date();
+		const dd = String(d.getDate()).padStart(2, '0');
+		const mm = String(d.getMonth() + 1).padStart(2, '0');
+		const yy = String(d.getFullYear()).slice(-2);
+		
+		return `${dd}${mm}${yy}`;
+	}
+
+	function inBudget(cost) {
+		let date = getDate();
+
+		if (!streetwise.budget || streetwise.budget.date != date) {
+			streetwise.budget = {
+				date: date,
+				spend: 0,
+			};
+		}
+
+		if (streetwise.budget.spend + cost > 40) {
+			popup('AI Budget', 'Sorry, you have used all your AI budget for today.');
+			return false;
+		}
+
+		streetwise.budget.spend += cost;
+		updateStorage();
+
+		return true;		
+	}
+
+	function getPersona(template) {
+		let genders = {
+			'boy': 'male',
+			'girl': 'female',
+		};
+
+		let data = {
+			'fullname': fullname($('#firstname').val(), $('#lastname').val(), $('#nickname').val()),
+			'gender': genders[$('#gender').val()] || '',
+		};
+
+		let points = [template];
+
+		let stats = [];
+		attributes.forEach((attribute) => {
+			stats[attribute] = parseInt($('#attribute_' + attribute.toLowerCase()).val() || 0);
+		});
+
+		stats[$('#attribute').val()]++;
+
+		let amounts = ['not', 'not very', 'quite', 'very', 'extremely', 'super'];
+
+		points.push('They are ' + amounts[stats['Strength']] + ' strong.');
+		points.push('They are ' + amounts[stats['Agility']] + ' agile.');
+		points.push('They are ' + amounts[stats['Wits']] + ' intelligent.');
+		points.push('They are ' + amounts[stats['Empathy']] + ' caring.');
+
+		let abilities = [];
+		for (let skill in skills) {
+			let score = parseInt($('#skill_' + skill.toLowerCase()).val() || 0);
+			if (score > 1) {
+				abilities.push(skills[skill][1].toLowerCase());
+			}
+		}
+
+		if (abilities.length > 0) {
+			points.push('They are skilled at ' + abilities.join(', ') + '.');
+		}
+
+		let persona = points.join(' ');
+
+		for (d in data) {
+			persona = persona.replace('{' + d +'}', data[d]);
+		}
+
+		persona = persona.replace(/ {2,}/, ' ');
+
+		return persona;
+	}
+
 	function getCharacter() {
 		let character = Object.fromEntries(new FormData(document.getElementById('form')));
 
@@ -935,7 +1096,7 @@ $(() => {
 	}
 
 	function resetCharacter() {
-		$('#form input, #form textarea, #form select').val('');
+		$('#form input, #form textarea:not(#prompt), #form select').val('');
 		$('#level').val('1');
 		$('.attributes').attr('attribute', '');
 		$('#strain_points').val('');
@@ -1007,34 +1168,52 @@ $(() => {
 		}
 	}
 
+	function convertPng(png, callback) {
+		const img = new Image();
+
+		img.src = "data:image/png;base64," + png;
+
+		img.onload = () => {
+			const canvas = document.createElement('canvas');
+			canvas.width = img.width;
+			canvas.height = img.height;
+
+			const ctx = canvas.getContext('2d');
+			ctx.drawImage(img, 0, 0);
+
+			const jpg = canvas.toDataURL('image/jpeg', 0.3);
+
+			callback(jpg);
+		};
+	}
+
 	function getImageUrl(image) {
-		let url = image;
-		if (url.indexOf('portraits') == -1) {
-			const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
-				const byteCharacters = atob(b64Data);
-				const byteArrays = [];
+		if (image.indexOf('portraits') > -1) {
+			return image;
+		}
 
-				for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-					const slice = byteCharacters.slice(offset, offset + sliceSize);
+		const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
+			const byteCharacters = atob(b64Data);
+			const byteArrays = [];
 
-					const byteNumbers = new Array(slice.length);
-					for (let i = 0; i < slice.length; i++) {
-						byteNumbers[i] = slice.charCodeAt(i);
-					}
+			for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+				const slice = byteCharacters.slice(offset, offset + sliceSize);
 
-					const byteArray = new Uint8Array(byteNumbers);
-					byteArrays.push(byteArray);
+				const byteNumbers = new Array(slice.length);
+				for (let i = 0; i < slice.length; i++) {
+					byteNumbers[i] = slice.charCodeAt(i);
 				}
 
-				const blob = new Blob(byteArrays, {type: contentType});
-				return blob;
+				const byteArray = new Uint8Array(byteNumbers);
+				byteArrays.push(byteArray);
 			}
 
-			const blob = b64toBlob(image.replace('data:image/jpeg;base64,', ''), 'image/jpeg');
-			url = URL.createObjectURL(blob);
-	    }
+			const blob = new Blob(byteArrays, {type: contentType});
+			return blob;
+		}
 
-	    return url;
+		const blob = b64toBlob(image.replace('data:image/jpeg;base64,', ''), 'image/jpeg');
+		return URL.createObjectURL(blob);
 	}
 
 	function updateAttribute() {
@@ -1356,7 +1535,7 @@ $(() => {
 					$input.val(value);
 				}
 			})
-		},10);
+		}, 10);
 	}
 
 	function closePopup() {
@@ -1463,22 +1642,9 @@ $(() => {
 
 	function compareCharacter(oldCharacter, newCharacter) {
 		let name = fullname(newCharacter.firstname, newCharacter.lastname, newCharacter.nickname);
-		console.log('editor.js; line:1466; name:', name);
 
 		if (!oldCharacter) {
 			return `<h3>${name} - Add</h3>`;
-		}
-
-		let fix = (value) => {
-			if (value === undefined) {
-				value = '';
-			}
-
-			if (typeof value == 'string') {
-				value = value.replace(/\\/g, '').replace(/&amp;/g, '&');
-			}
-
-			return value;
 		}
 
 		let content = '';
@@ -1487,8 +1653,13 @@ $(() => {
 		props = props.filter(item => !['editPanels'].includes(item));
 
 		props.forEach((prop, p) => {
-			oldCharacter[prop] = fix(oldCharacter[prop]);
-			newCharacter[prop] = fix(newCharacter[prop]);
+			if (newCharacter[prop] === undefined) {
+				newCharacter[prop] = '';
+			}
+			
+			if (typeof newCharacter[prop] == 'string') {
+				newCharacter[prop] = newCharacter[prop].replace(/\\/g, '').replace(/&amp;/g, '&');
+			}
 
 			if (oldCharacter[prop].toString() != newCharacter[prop].toString()) {
 				differences.push(`<tr data-id="${newCharacter.id}"><td>${prop}</td><td>${oldCharacter[prop]}</td><td>${newCharacter[prop]}</td><td><i class="apply">check</i> <i class="remove">delete</i></td></tr>`);

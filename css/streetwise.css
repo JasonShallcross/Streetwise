@@ -516,6 +516,12 @@ label:has(input[type="checkbox"]) {
 
 textarea {
 }
+textarea#prompt {
+	display: block;
+	width: 100%;
+	height: 100px;
+	margin-bottom: 5px;
+}
 
 table td {
 	font-weight: bold;
@@ -595,6 +601,20 @@ strong {
 	font-weight: bold;
 }
 
+#previewContainer {
+	margin-bottom: 10px;
+	background: var(--tabBgActive);
+}
+#previewContainer.busy {
+	background: var(--tabBgActive);
+
+	#preview {
+		background: center url("../images/loader.gif") !important;
+		filter: saturate(0);
+		opacity: 0.3;
+	}
+}
+
 #preview {
 	max-width: 400px;
 	aspect-ratio: 1;
@@ -602,11 +622,11 @@ strong {
 	background-size: cover;
 	border: 1px solid var(--border);
 	border-radius: 5px;
-	margin-bottom: 10px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	cursor: pointer;
+	transition: opacity 1s;
 }
 #preview.noimage:before {
 	content: "person";

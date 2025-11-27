@@ -164,4 +164,10 @@ input[type="file"] {
 .small-buttons {
 	display: flex;
 	gap: 30px;
+	justify-content: space-between;
+}
+
+button.busy {
+	cursor: wait;
+	opacity: .5;
 }
