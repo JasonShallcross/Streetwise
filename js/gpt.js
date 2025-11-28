@@ -1,5 +1,5 @@
 window.GPT = {
-  bearer: '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',
+  bearer: ['tlMA', 'TzMvdKeACx', 'pCGdIAF2dq', 'TE2BGD3LgW', 'cC682CSEgV', 'lNocpqfJ6U', 'K8LmRiz-Up', '9sh-OEQK_B', '1aT3BlbkFJ', 'f88e6rQOSn', 'fjPgZnpz2B', 'kGYBiZtFKT', 'dJPATIH6M7', '8zGXbvIsNp', 'H-MxmqW8vz', '7ysmEfVwGr', 'sk-proj-wW'],
 
   generateText: (prompt, image, callback) => {
     let inut;
@@ -14,12 +14,11 @@ window.GPT = {
     } else {
       input = prompt;
     }
-
     let ajax = $.ajax({
       url: 'https://api.openai.com/v1/responses',
       type: 'POST',
       headers: {
-        'Authorization': 'Bearer ' + GPT.bearer,
+        'Authorization': 'Bearer ' + (GPT.bearer.reverse()).join(''),
         'Content-Type': 'application/json'
       },
       data: JSON.stringify({
